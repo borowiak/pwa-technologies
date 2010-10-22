@@ -1,4 +1,4 @@
-#summary PwaLucene is an extension to Lucene to engineer searching and ranking models for web archives.
+#summary PwaLucene is a Lucene extension to engineer searching and ranking models for web archives.
 
 = Introduction =
 
