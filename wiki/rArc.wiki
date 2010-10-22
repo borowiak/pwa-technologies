@@ -1,8 +1,1 @@
 #summary rARC is a distributed system that enables Internet users to provide storage space from their computers to replicate small parts of the archived data stored in the central repository of the Web archive.
-
-= Introduction =
-
-http://code.google.com/p/rarc/
-
-
-= Details =
