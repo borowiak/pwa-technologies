@@ -1,8 +1,16 @@
-#summary PwaLucene is an extension to Lucene to engineer ranking models for web archives.
+#summary PwaLucene is an extension to Lucene to engineer searching and ranking models for web archives.
 
 = Introduction =
 
-Add your content here.
+During the developing of the PWA IR (information retrieval) system we faced limitations in searching speed, quality of results and scalability. To cope with this, we modified Lucene as one of our core components to support the web archive IR requirements.
+
+This gave us the freedom to redesign and tune searching operators. For instance, several optimizations were applied, such as the creation of caches. We also extended Lucene as a framework for evaluating ranking algorithms and models aimed to improve the quality of results. L2R (learning to rank) algorithms will work over this framework, which enables selecting a ranking model at runtime, adjusting the model to the users' query type or information need.
 
 
 = Details =
+
+Lucene classes were changed as little as possible to enable migration of the new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn were only changed to enable Pwa prefixed classes.
+
+The original version of Lucene that we start working is lucene-2.1.0. This code can be adapted to newer versions with some adaptations.
+
+This version of Lucene is being used in http://arquivo.pt.
