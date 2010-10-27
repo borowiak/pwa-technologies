@@ -11,6 +11,6 @@ This gave us the freedom to redesign and tune searching operators. For instance,
 
 Lucene classes were changed as little as possible to enable migration of the new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn were only changed to enable Pwa prefixed classes.
 
-The original version of Lucene that we start working is lucene-2.1.0. This code can be adapted to newer versions with some adaptations.
+The original version of Lucene that we started working is lucene-2.1.0. 
 
-This version of Lucene is being used in http://arquivo.pt.
+This version of Lucene is being used at http://arquivo.pt.
