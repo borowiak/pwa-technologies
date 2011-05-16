@@ -21,6 +21,6 @@ This version of Lucene is being used at http://arquivo.pt.
 Hadoop's branch-0.14: <br>
  svn co http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.14 hadoop <br>
  cd hadoop <br>
- ant
- ant jar
+ ant <br>
+ ant jar <br>
  mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar
