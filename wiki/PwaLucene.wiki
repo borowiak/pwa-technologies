@@ -18,7 +18,7 @@ This version of Lucene is being used at http://arquivo.pt.
 
 = Dependencies =
 
-Hadoop's branch-0.14: <br>
+Hadoop's branch-0.14:
  svn co http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.14 hadoop <br>
  cd hadoop <br>
  ant <br>
