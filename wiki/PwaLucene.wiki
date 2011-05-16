@@ -9,7 +9,7 @@ This gave us the freedom to redesign and tune searching operators. For instance,
 
 = Details =
 
-Lucene classes were changed as little as possible to enable migration of the new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn were only changed to enable Pwa prefixed classes.
+Lucene classes were changed as little as possible to enable migration of new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn repository were only changed to enable Pwa prefixed classes to work.
 
 The original version of Lucene that we extended is lucene-2.1.0. 
 
