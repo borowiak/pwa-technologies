@@ -7,13 +7,13 @@ Maven 2.x:
  * add bin directory to PATH
 Apache Ant:
  * yum install ant
- (see more at http://ant.apache.org/manual/install.html)
+ * (see more at http://ant.apache.org/manual/install.html)
 install Subversion
  * yum install subversion
- (see more at http://subversion.apache.org/packages.html)
+ * (see more at http://subversion.apache.org/packages.html)
 Java SE 6.x (at least)
  * export JAVA_HOME=/usr/java/default
- (see more at http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+ * (see more at http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 
 = Step-by-step =
@@ -24,10 +24,10 @@ Java SE 6.x (at least)
  * `ant` <br>
  * `ant jar` <br>
  * `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
- (this version of Hadoop should be used for mapreduce processing)
-* Install PwaLucene
+ This version of Hadoop must be used for all mapreduce processing.
+* Install PwaLucene:
  * `cd PwaLucene` 
  * `mvn install`
-* Install PwaArchiveAccess
+* Install PwaArchiveAccess:
  * `cd PwaArchive-access` 
  * `mvn install`
