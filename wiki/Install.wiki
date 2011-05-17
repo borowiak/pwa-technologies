@@ -25,7 +25,7 @@ Install Hadoop:
  * `ant` <br>
  * `ant jar` <br>
  * `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
- This version of Hadoop must be used for all mapreduce processing.
+ This version of Hadoop (http://hadoop.apache.org/) must be used for all mapreduce processing.
 Checkout PwaLucene + PwaArchiveAccess:
  * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/ pwa-technologies`
 Install PwaLucene:
