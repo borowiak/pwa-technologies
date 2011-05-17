@@ -13,7 +13,7 @@ Lucene classes were changed as little as possible to enable migration of new cod
 
 The original version of Lucene that we extended is lucene-2.1.0. 
 
-This version of Lucene is being used at http://arquivo.pt.
+This version is being used at http://arquivo.pt.
 
 
 = Dependencies =
