@@ -9,16 +9,3 @@ Nutchwax, Nutch and Wayback’s code were adapted to the web archive IR requirem
 This code is integrated with our Lucene extension, PwaLucene.
 
 This version is being used at http://arquivo.pt.
-
-
-= Details =
-
-Hadoop's branch-0.14:
- * `svn co http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.14 hadoop` 
- * `cd hadoop` 
- * `ant` <br>
- * `ant jar` <br>
- * `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
- (this version of Hadoop should be used for mapreduce processing)
-
-PwaLucene
