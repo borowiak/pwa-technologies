@@ -18,16 +18,19 @@ Java SE 6.x (at least)
 
 = Step-by-step =
 
-Install Hadoop (branch-0.14):
+Checkout Hadoop (branch-0.14):
  * `svn co http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.14 hadoop` 
+Install Hadoop:
  * `cd hadoop` 
  * `ant` <br>
  * `ant jar` <br>
  * `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
  This version of Hadoop must be used for all mapreduce processing.
+Checkout project:
+ * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/ pwa-technologies`
 Install PwaLucene:
- * `cd PwaLucene` 
+ * `cd pwa-technologies/PwaLucene` 
  * `mvn install`
 Install PwaArchiveAccess:
- * `cd PwaArchive-access` 
+ * `cd pwa-technologies/PwaArchive-access` 
  * `mvn install`
