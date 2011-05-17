@@ -35,3 +35,11 @@ Install PwaLucene:
 Install PwaArchiveAccess:
  * `cd pwa-technologies/PwaArchive-access` 
  * `mvn install`
+
+
+= Others =
+
+Symbolic link of nutch for nutch-trec:
+ * `cd pwa-technologies/PwaArchive-access` 
+ * `ln -s  ../../projects/nutchwax/nutchwax-thirdparty/nutch/ projects/nutch-trec/`
+ (only necessary if you will use the TREC datasets for tests)
