@@ -14,7 +14,8 @@ install Subversion
 Java SE 6.x (at least)
  * export JAVA_HOME=/usr/java/default
  * (see more at http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-
+Apache Tomcat (5.5 at least):
+ * (see http://tomcat.apache.org/download-55.cgi)
 
 = Step-by-step =
 
