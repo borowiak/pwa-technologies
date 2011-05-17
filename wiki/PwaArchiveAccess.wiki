@@ -21,4 +21,4 @@ Hadoop's branch-0.14:
     `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
 
 PwaLucene:
-  
+  see https://code.google.com/p/pwa-technologies/wiki/PwaLucene
