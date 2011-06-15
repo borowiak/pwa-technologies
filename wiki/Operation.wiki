@@ -1,0 +1,14 @@
+#summary Procedure for the indexing of a collection of arc files
+#labels Featured
+
+= Introduction =
+
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
