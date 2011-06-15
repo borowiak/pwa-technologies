@@ -1,4 +1,4 @@
-#summary Instructions to install the Portuguese Web Archive's IR system.
+#summary Instructions to compile the Portuguese Web Archive's IR system.
 
 = Requirements =
 
