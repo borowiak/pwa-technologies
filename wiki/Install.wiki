@@ -1,4 +1,4 @@
-#summary Instructions to compile the Portuguese Web Archive's IR system.
+#summary Install the product from pwa
 
 = Requirements =
 
