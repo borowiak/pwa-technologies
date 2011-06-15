@@ -1,0 +1,46 @@
+#summary Instructions to compile the Portuguese Web Archive's IR system.
+#labels Phase-Implementation,Featured
+
+= Requirements =
+
+Maven 2.x:
+ * download from http://maven.apache.org/download.html
+ * add bin directory to PATH
+Apache Ant:
+ * yum install ant
+ * (see more at http://ant.apache.org/manual/install.html)
+install Subversion:
+ * yum install subversion
+ * (see more at http://subversion.apache.org/packages.html)
+Java SE 6.x (at least):
+ * export JAVA_HOME=/usr/java/default
+ * (see more at http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+Apache Tomcat (5.5 at least):
+ * (see http://tomcat.apache.org/download-55.cgi)
+
+= Step-by-step =
+
+Checkout Hadoop (branch-0.14):
+ * `svn co http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.14 hadoop` 
+Install Hadoop:
+ * `cd hadoop` 
+ * `ant` <br>
+ * `ant jar` <br>
+ * `mvn install:install-file -DgroupId=org.apache -DartifactId=hadoop -Dversion=0.14.5-dev-core -Dpackaging=jar -Dfile=build/hadoop-0.14.5-dev-core.jar`
+ This version of Hadoop (http://hadoop.apache.org/) must be used for all mapreduce processing.
+Checkout PwaLucene + PwaArchiveAccess:
+ * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/ pwa-technologies`
+Install PwaLucene:
+ * `cd pwa-technologies/PwaLucene` 
+ * `mvn install`
+Install PwaArchiveAccess:
+ * `cd pwa-technologies/PwaArchive-access` 
+ * `mvn install`
+
+
+= Others =
+
+Symbolic link of nutch for nutch-trec:
+ * `cd pwa-technologies/PwaArchive-access` 
+ * `ln -s  ../../projects/nutchwax/nutchwax-thirdparty/nutch/ projects/nutch-trec/`
+ This is only necessary if you will use the TREC datasets for tests.
