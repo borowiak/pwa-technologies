@@ -1,14 +1,47 @@
 #summary Procedure for the indexing of a collection of arc files
 #labels Featured
 
-= Introduction =
+The indexing process is where you turn a number of different arc files with a number of pages into a searchable index.
 
+= Procedure =
+For this procedures the hadoop cluster should be [Install installed] and started (${HADOOP_HOME}/bin/start-all.sh).
+Steps for indexing a data collection:
+  # Make get the arc files to index available to the master server, the best way is by http.
+  # Create arc list:
+{{{
+find [FOLDER_WITH_ARC_FILES] -type f -name '*.arc.gz' -printf "http://master.example.com/files/[COLLECTION]/%P\n" > [FILE_DESTINATION]
+}}}
+  # copy arc list to HDFS:
+{{{
+${HADOOP_HOME}/bin/hadoop fs -mkdir inputs
+${HADOOP_HOME}/bin/hadoop fs -put arcs.txt inputs/
+}}}
+  # index all
+  # Sort Indexes with IndexSorter;
+  # Pruning Indexes;
+  # Create Cache;
+  # Stopwords;
+  # Create file /data/outputs/index/blacklist.cache;
+  # Tuning memory for Index
+  # Run in the machine with arcproxy or change arcproxy locationdb 
 
+cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=/shareT2/sfontes/wayback_lib \
+/opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
 
+   1. Blacklist;
+   2. test collection in p14.arquivo.pt:8080/nutchwax
+   3. Create disk with size for index+arcs+etc+(some Free space).
+   4. if collection has many arc files, move arcs to a tree directory for performance
+   5. Calculate MD5 for partition 
 
-= Details =
+echo -e "Create md5 file\n$(date)" >>time;find -type f -exec md5sum {} \;>> checksums_collection.md5; date >> time
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+   1. Change permissions for the partition 
+
+find /awpdata -type f -exec chmod 440 {} \;
+find /awpdata -type d -exec chmod 550 {} \;
+
+   1. Create selenuim tests for this particular collection
+   2. Add new collection to experimental
+   3. Add new collection to cluster of archive.pt 
+
