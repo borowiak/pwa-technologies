@@ -98,26 +98,19 @@ cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=/share
 {{{
 cat ficheiro | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 "
 }}}
-  # Create a blacklist in ../index/blacklist.cache of all 404 pages from redirects:
+  # Process to create a blacklist of documents not redirecting properly. It uses a log file from the crawler software, the file is a text file with URLs that did not returned HTTP OK. The format is:
+{{{
+ 404 http://614.pt/robots.txt
+ 404 http://8mm.weblog.com.pt/robots.txt
+}}}
+the parameters for the utility are: [index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]
+If the errorsFile parameter is not added, then all documents from the index will be tested.
+`Note:` the program will test the URLs http://hostname/wayback/wayback/id?index?, where index must be 0.
+
+Documents can be excluded manually by adding their ids to the blacklist of the specific index.
+
+Command:
 {{{
 echo -e "Blacklist\n$(date)" >>time;java -classpath /shareT2/versions/pwalucene-1.0.0.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/arcs/outputsIAall/index \
  http://t2.tomba.fccn.pt:8080/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
-parameters: [index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]
-errors.url is a text file with URLs that returned HTTP errors. This data is from crawler. The format is:
- 404 http://614.pt/robots.txt
- 404 http://8mm.weblog.com.pt/robots.txt
-If this parameter is not added, then all documents will be tested.
-IMPORTANT: the program will test the URLs http://t2.tomba.fccn.pt:8080/wayback/wayback/id?index?, where index must be 0
-
-Documents can be excluded manually by adding their ids to the blacklist of the specific index:
-
-Each entry on the ${SCRIPTS_DIR}/search-servers.txt file corresponds to an incremental index id. The first entry corresponds to index id 0, the second to index id 1 and so on. For instance, for the ${SCRIPTS_DIR}/search-servers.txt file:
- t3.tomba.fccn.pt 21111 /data/arcs/outputsIA/index
- t2.tomba.fccn.pt 21111 /data/arcs/outputsRoteiro/index
-the index id 0 corresponds to the index /data/arcs/outputsIA/index on the t3 machine and the index id 1 to the index /data/arcs/outputsRoteiro/index on the t2 machine.   
-See the document id and index id on its URL listed on the results page of the nutchwax or wayback interface. For instance, the URL http://t2.tomba.fccn.pt/wayback/wayback/id70581index0 has the document id 70581 and the index id 0.
-Add the documument id to the ../index/blacklist.cache file of the index refering to the index id.
-Restart the nutchwax server (see [1]).
-Test by searching the document excluded.
-
-  # Create disk with size for index+arcs+etc+(some Free space).
+}}}
