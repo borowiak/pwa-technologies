@@ -1,7 +1,7 @@
 #summary Instructions to compile the Portuguese Web Archive's IR system.
 #labels Phase-Implementation,Featured
 
-This code was tested in Red Hat Enterprise Linux 5.
+This code was developed and tested in the Linux environment (Red Hat Enterprise Linux 5).
 
 = Requirements =
 
