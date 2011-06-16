@@ -16,32 +16,108 @@ find [FOLDER_WITH_ARC_FILES] -type f -name '*.arc.gz' -printf "http://master.exa
 ${HADOOP_HOME}/bin/hadoop fs -mkdir inputs
 ${HADOOP_HOME}/bin/hadoop fs -put arcs.txt inputs/
 }}}
-  # index all
-  # Sort Indexes with IndexSorter;
-  # Pruning Indexes;
-  # Create Cache;
-  # Stopwords;
-  # Create file /data/outputs/index/blacklist.cache;
-  # Tuning memory for Index
+  # Parse arcs files to create segments, this process creates the `segments` directory on the HDFS. Erase it if you need to repeat the process:
+{{{
+echo -e "Import\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar import inputs outputs COLLECTION; date >>time
+}}}
+  # *Note:* Some verifications that can be done using hadoop logs from all machines, and the total of Exceptions should be less than 1% of the total number of documents:
+{{{
+grep -r 'IllegalCharsetNameException' ${HADOOP_HOME}/logs/* | awk {'print $6'} | sort -u
+grep -r 'parser not found for' ${HADOOP_HOME}/logs/* | awk {'print $15'} | sort -u
+grep -r 'Error parsing' ${HADOOP_HOME}/logs/* | awk {'print $7'} | sort | uniq -c | sort -n -r
+}}}
+  # Update dbs with recent imports, this process creates the `crawldb` directory on the HDFS. Erase it if you need to repeat the process:
+{{{
+echo -e "Update\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar update outputs ; date >>time 
+}}}
+  # Invert links (create structure outlink->inlinks), this process creates the `linkdb` directory on the HDFS. Erase it if you need to repeat the process:
+{{{
+echo -e "Invert\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar invert outputs ; date >>time 
+}}}
+  # Create indexes, this process creates the `indexes` directory on the HDFS. Erase it if you need to repeat the process:
+{{{
+echo -e "Index\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar index outputs; date 
+}}}
+  # Merge indexes partitions into one:
+{{{
+echo -e "Merge Indexes\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar merge outputs; date >>time 
+It creates the index directory on the HDFS. Erase it if you need to repeat the process.
+}}}
+  # Get data and indexes from HDFS:
+{{{
+echo -e "copyFromHDFS\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs /data/outputs; date >>time 
+}}}
+  # After getting the index to a particular machnie, sort indexes with IndexSorter:
+{{{
+echo -e "IndexSorter\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.nutch.indexer.IndexSorterArquivoWeb /data/outputs/outputsIA; date >>time 
+mv index index-ORIGINAL
+mv index-sorted index
+}}}
+  # Pruning Indexes, the posting lists of the five fields (content, title, anchor, url and host) are pruned. All documents on the posting lists of mime types not searchable are discarded. Fields stored not on index can also be discarded using the "-del" option followed by the field names. Execute the command without parameters to see the help description. Execute the following command to prune the index on directory $INDEX_DIR, that will be stored on directory $INDEX_DIR_OUT.
+{{{
+echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath $SCRIPTS_DIR/pwalucene-1.0.0.jar org.apache.lucene.pruning.PruningTool -impl arquivo -in /data/outputs/outputsRoteiro2/index -out /data/outputs/outputsRoteiro2/indexOUT -del pagerank:pPsv,outlinks:pPsv -t 1;date >>time;
+mv $INDEX_DIR $INDEX_DIR_OTHER_NAME
+mv $INDEX_DIR_OUT $INDEX_DIR
+}}}
+  # Create cache that indicates if pages have a new version, the file `versions.cache` will be created inside `/data/arcs/outputsIA/index/` :
+{{{
+echo -e "CreateCache\n$(date)" >>time;java -classpath /shareT2/versions/pwalucene-1.0.0.jar org.apache.lucene.search.caches.PwaVersionsCache create \
+/data/outputs/outputsIA/index ; date >> time 
+}}}
+  # Copy versions.cache file to HDFS in a directory named "cache" and execute the process in hadoop:
+{{{
+${HADOOP_HOME}/bin/hadoop fs -mkdir outputs/cache
+${HADOOP_HOME}/bin/hadoop fs -put /data/arcs/outputsIA/index/versions.cache outputs/cache
+echo -e "CreateCache_hadoop\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class org.archive.access.nutch.jobs.NutchwaxCache outputs/cache/ outputs/cache2/; date>>time 
+echo -e "CreateCache_fromhdfs\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs/cache2/part-00000 /data/arcs/outputsIA/index/;date>>time
+rm /data/arcs/outputsIA/index/versions.cache
+mv /data/arcs/outputsIA/index/part-00000 /data/arcs/outputsIA/index/versions.cache
+}}}
+  # Stopwords, the searching system ignores all stopwords in queries. Stopwords are defined in the stopwords.cache file inside the index directory. The format of the file is a stopword per line, e.g.:
+{{{
+a
+in
+de
+...
+}}}
+  # Create file /data/outputs/index/blacklist.cache:
+{{{
+touch /data/outputs/index/blacklist.cache
+}}}
+  # Tuning memory for Index, the quantaty of memory RAM for the hadoop search servers, define the enviroment variable `HADOOP_HEAPSIZE` sets the memory of the JVM (Xmx parameter). The entry "export HADOOP_HEAPSIZE=12000" (Xmx=12 000 MB) should be set in file ${HADOOP_FOR_NUTCH_SERVERS_CONF_DIR}/hadoop-env.sh. The HADOOP_HEAPSIZE should be proportional to the size of the collection:
+{{{
+HADOOP_HEAPSIZE (in GB) = DOCS/7
+Example:
+  * For a collection of 130 Million documents the RAM memory whould be 19 GB, ´HADOOP_HEAPSIZE=19000´
+}}}
   # Run in the machine with arcproxy or change arcproxy locationdb 
+{{{
+cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=/shareT2/sfontes/wayback_lib /opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+}}}
+  # Create a list of errors from a crawl log
+{{{
+cat ficheiro | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 "
+}}}
+  # Create a blacklist in ../index/blacklist.cache of all 404 pages from redirects:
+{{{
+echo -e "Blacklist\n$(date)" >>time;java -classpath /shareT2/versions/pwalucene-1.0.0.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/arcs/outputsIAall/index \
+ http://t2.tomba.fccn.pt:8080/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
+parameters: [index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]
+errors.url is a text file with URLs that returned HTTP errors. This data is from crawler. The format is:
+ 404 http://614.pt/robots.txt
+ 404 http://8mm.weblog.com.pt/robots.txt
+If this parameter is not added, then all documents will be tested.
+IMPORTANT: the program will test the URLs http://t2.tomba.fccn.pt:8080/wayback/wayback/id?index?, where index must be 0
 
-cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=/shareT2/sfontes/wayback_lib \
-/opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+Documents can be excluded manually by adding their ids to the blacklist of the specific index:
 
-   1. Blacklist;
-   2. test collection in p14.arquivo.pt:8080/nutchwax
-   3. Create disk with size for index+arcs+etc+(some Free space).
-   4. if collection has many arc files, move arcs to a tree directory for performance
-   5. Calculate MD5 for partition 
+Each entry on the ${SCRIPTS_DIR}/search-servers.txt file corresponds to an incremental index id. The first entry corresponds to index id 0, the second to index id 1 and so on. For instance, for the ${SCRIPTS_DIR}/search-servers.txt file:
+ t3.tomba.fccn.pt 21111 /data/arcs/outputsIA/index
+ t2.tomba.fccn.pt 21111 /data/arcs/outputsRoteiro/index
+the index id 0 corresponds to the index /data/arcs/outputsIA/index on the t3 machine and the index id 1 to the index /data/arcs/outputsRoteiro/index on the t2 machine.   
+See the document id and index id on its URL listed on the results page of the nutchwax or wayback interface. For instance, the URL http://t2.tomba.fccn.pt/wayback/wayback/id70581index0 has the document id 70581 and the index id 0.
+Add the documument id to the ../index/blacklist.cache file of the index refering to the index id.
+Restart the nutchwax server (see [1]).
+Test by searching the document excluded.
 
-echo -e "Create md5 file\n$(date)" >>time;find -type f -exec md5sum {} \;>> checksums_collection.md5; date >> time
-
-   1. Change permissions for the partition 
-
-find /awpdata -type f -exec chmod 440 {} \;
-find /awpdata -type d -exec chmod 550 {} \;
-
-   1. Create selenuim tests for this particular collection
-   2. Add new collection to experimental
-   3. Add new collection to cluster of archive.pt 
-
+  # Create disk with size for index+arcs+etc+(some Free space).
