@@ -1,6 +1,8 @@
 #summary Instructions to compile the Portuguese Web Archive's IR system.
 #labels Phase-Implementation,Featured
 
+This code was tested in Red Hat Enterprise Linux 5.
+
 = Requirements =
 
 Maven 2.x:
