@@ -149,32 +149,73 @@ SYSFONTACM="iso15"
   * Install apache tomcat 5.5.25 [http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.tar.gz]
   * Get the compilation result of hadoop 0.14.4 instructions in [Compile]
 
-===Configure nutchwax webapp===
+===Configure nutchwax Web application===
 
 Set ${CATALINA_HOME}/webapps/nutchwax/WEB-INF/classes/hadoop-site.xml with:
 {{{
 <name>searcher.dir</name>
-<value>/home/nutchwax/scripts</value>
+<value>/opt/searcher/scripts</value>
 ...
 <name>wax.host</name>
 <value>t4.tomba.fccn.pt:8080/wayback/wayback</value>
 }}}
-Create at directory /home/nutchwax/scripts a file search-servers.txt where the nutch servers are running:
+The directory /opt/searcher/scripts should have a file named `search-servers.txt` where the nutch servers are running:
+{{{
   t7.tomba.fccn.pt 21111
   t3.tomba.fccn.pt 21111
+}}}
+===Configure wayback Web application===
+Update `${CATALINA_HOME}/webapps/wayback/WEB-INF/wayback.xml` file:
+  * The `resourceIndex` maps the arc name and an URL for the arc it self, normally the URL of the arc is served by an http server. The configuration should refer the arcproxy that knows where all the arc files exist.
+  * The `remotecollection` is the location of the search for an url. It should be configured with the nutchwax search.
+  * The `uriConverter` is used to reply the url to be accessed.
+{{{
+...
+<property name="resourceStore">
+<bean class="org.archive.wayback.resourcestore.Http11ResourceStore">
+<property name="urlPrefix" value="http://127.0.0.1:8080/arcproxy/arcproxy/" />
+...
+<property name="resourceIndex">
+<bean class="org.archive.wayback.resourceindex.NutchResourceIndex" init-method="init">
+<property name="searchUrlBase" value="http://127.0.0.1:8080/nutchwax/opensearch" />
+...
+<property name="uriConverter">
+<bean class="org.archive.wayback.archivalurl.ArchivalUrlResultURIConverter">
+<property name="replayURIPrefix" value="http://MACHINE:8080/wayback/wayback/" />
+...
+}}}
 
-Configure wayback webapp:
-
-Update ${CATALINA_HOME}/webapps/wayback/WEB-INF/wayback.xml file:
- change hosts to the right one: at tags resourceIndex and remotecollection
-
-Configure arcproxy webapp:
+===Configure arcproxy Web application===
 
 Update ${CATALINA_HOME}/webapps/arcproxy/WEB-INF/wayback.xml file:
- only to change port or berkeley db location, if desired
+  * Change the `bdbPath`, `bdbName` and `logPath` to the parameters to your desire, the directories should be writable.
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
 
+<!--
+    The following 3 beans are required when using the ArcProxy for providing 
+    HTTP 1.1 remote access to ARC files distributed across multiple computers 
+    or directories.
+-->
+ 
+	<bean id="filelocationdb" class="org.archive.wayback.resourcestore.http.FileLocationDB"
+		init-method="init">
+		<property name="bdbPath" value="/opt/searcher/arcproxy" />
+		<property name="bdbName" value="arquivo" />
+		<property name="logPath" value="/opt/searcher/arcproxy/tmp_arc-db.log" />
+	</bean>
 
+	<bean name="8080:arcproxy" class="org.archive.wayback.resourcestore.http.ArcProxyServlet">
+		<property name="locationDB" ref="filelocationdb" />
+	</bean>
+	<bean name="8080:locationdb" class="org.archive.wayback.resourcestore.http.FileLocationDBServlet">
+		<property name="locationDB" ref="filelocationdb" />
+	</bean>
 
+</beans>
+}}}
 
 
 
