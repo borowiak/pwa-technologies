@@ -92,7 +92,7 @@ Example:
 }}}
   # Run in the machine with arcproxy or change arcproxy locationdb 
 {{{
-cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=/shareT2/sfontes/wayback_lib /opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib /opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
 }}}
   # Create a list of errors from a crawl log
 {{{
