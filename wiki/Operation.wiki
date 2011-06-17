@@ -43,7 +43,7 @@ echo -e "Index\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nu
 echo -e "Merge Indexes\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar merge outputs; date >>time 
 It creates the index directory on the HDFS. Erase it if you need to repeat the process.
 }}}
-  # Get data and indexes from HDFS:
+  # Get indexes from HDFS:
 {{{
 echo -e "copyFromHDFS\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs /data/outputs; date >>time 
 }}}
