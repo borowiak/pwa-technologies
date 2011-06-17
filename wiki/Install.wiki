@@ -144,3 +144,39 @@ SYSFONTACM="iso15"
 
 
 ==Install search system==
+
+===Requirements===
+  * Install apache tomcat 5.5.25 [http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.tar.gz]
+  * Get the compilation result of hadoop 0.14.4 instructions in [Compile]
+
+===Configure nutchwax webapp===
+
+Set ${CATALINA_HOME}/webapps/nutchwax/WEB-INF/classes/hadoop-site.xml with:
+{{{
+<name>searcher.dir</name>
+<value>/home/nutchwax/scripts</value>
+...
+<name>wax.host</name>
+<value>t4.tomba.fccn.pt:8080/wayback/wayback</value>
+}}}
+Create at directory /home/nutchwax/scripts a file search-servers.txt where the nutch servers are running:
+  t7.tomba.fccn.pt 21111
+  t3.tomba.fccn.pt 21111
+
+Configure wayback webapp:
+
+Update ${CATALINA_HOME}/webapps/wayback/WEB-INF/wayback.xml file:
+ change hosts to the right one: at tags resourceIndex and remotecollection
+
+Configure arcproxy webapp:
+
+Update ${CATALINA_HOME}/webapps/arcproxy/WEB-INF/wayback.xml file:
+ only to change port or berkeley db location, if desired
+
+
+
+
+
+
+
+
