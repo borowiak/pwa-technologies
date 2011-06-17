@@ -149,6 +149,9 @@ SYSFONTACM="iso15"
   * Install apache tomcat 5.5.25 [http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.tar.gz]
   * Get the compilation result of hadoop 0.14.4 instructions in [Compile]
 
+===Install tomcat===
+  * To install and configure tomcat this [http://tomcat.apache.org/tomcat-5.5-doc/setup.html documentation] should be followed.
+
 ===Configure nutchwax Web application===
 
 Set ${CATALINA_HOME}/webapps/nutchwax/WEB-INF/classes/hadoop-site.xml with:
@@ -217,6 +220,16 @@ Update ${CATALINA_HOME}/webapps/arcproxy/WEB-INF/wayback.xml file:
 </beans>
 }}}
 
+===Configure browser Web application===
+
+==Install Search System==
+
+For this you have to use the jar and the hadoop folder after [Compile] has been run.
+
+  * Copy the folder of hadoop to the server that will serve the collection. For each collection you will need a new copy of this folder.
+  * Get the scripts from `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/scripts`
+  * Define a `COLLECTIONS_DIR` with the folder of the location of the file `search-servers.txt`.
+  * Define a 
 
 
 
