@@ -55,13 +55,13 @@ mv index-sorted index
 }}}
   # Pruning Indexes, the posting lists of the five fields (content, title, anchor, url and host) are pruned. All documents on the posting lists of mime types not searchable are discarded. Fields stored not on index can also be discarded using the "-del" option followed by the field names. Execute the command without parameters to see the help description. Execute the following command to prune the index on directory $INDEX_DIR, that will be stored on directory $INDEX_DIR_OUT.
 {{{
-echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath $SCRIPTS_DIR/pwalucene-1.0.0.jar org.apache.lucene.pruning.PruningTool -impl arquivo -in /data/outputs/outputsRoteiro2/index -out /data/outputs/outputsRoteiro2/indexOUT -del pagerank:pPsv,outlinks:pPsv -t 1;date >>time;
+echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.pruning.PruningTool -impl arquivo -in /data/outputs/outputsRoteiro2/index -out /data/outputs/outputsRoteiro2/indexOUT -del pagerank:pPsv,outlinks:pPsv -t 1;date >>time;
 mv $INDEX_DIR $INDEX_DIR_OTHER_NAME
 mv $INDEX_DIR_OUT $INDEX_DIR
 }}}
   # Create cache that indicates if pages have a new version, the file `versions.cache` will be created inside `/data/arcs/outputsIA/index/` :
 {{{
-echo -e "CreateCache\n$(date)" >>time;java -classpath /shareT2/versions/pwalucene-1.0.0.jar org.apache.lucene.search.caches.PwaVersionsCache create \
+echo -e "CreateCache\n$(date)" >>time;java -classpath PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaVersionsCache create \
 /data/outputs/outputsIA/index ; date >> time 
 }}}
   # Copy versions.cache file to HDFS in a directory named "cache" and execute the process in hadoop:
@@ -92,7 +92,7 @@ Example:
 }}}
   # Run in the machine with arcproxy or change arcproxy locationdb 
 {{{
-cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib /opt/searcher/scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+cat arc_file.txt | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
 }}}
   # Create a list of errors from a crawl log
 {{{
@@ -111,7 +111,7 @@ Documents can be excluded manually by adding their ids to the blacklist of the s
 
 Command:
 {{{
-echo -e "Blacklist\n$(date)" >>time;java -classpath /shareT2/versions/pwalucene-1.0.0.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/arcs/outputsIAall/index \
+echo -e "Blacklist\n$(date)" >>time;java -classpath PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/arcs/outputsIAall/index \
  http://t2.tomba.fccn.pt:8080/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
 }}}
 
