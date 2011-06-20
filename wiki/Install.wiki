@@ -132,8 +132,8 @@ ${HADOOP_HOME}/bin/stop-all.sh
 There is a need to change some parameters for the servers. Because the hadoop system opens a large number of files there is a need to add 2 lines to the file `/etc/security/limits.conf`:
 {{{
 ...
-hard nofile 65000
-soft nofile 30000
+* hard nofile 65000
+* soft nofile 30000
 ...
 }}}
 
