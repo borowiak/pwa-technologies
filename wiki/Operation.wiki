@@ -103,7 +103,7 @@ cat ficheiro | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\
  404 http://614.pt/robots.txt
  404 http://8mm.weblog.com.pt/robots.txt
 }}}
-the parameters for the utility are: [index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]
+the parameters for the utility are: `[index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]`
 If the errorsFile parameter is not added, then all documents from the index will be tested.
 `Note:` the program will test the URLs http://hostname/wayback/wayback/id?index?, where index must be 0.
 
