@@ -112,7 +112,7 @@ Documents can be excluded manually by adding their ids to the blacklist of the s
 Command:
 {{{
 echo -e "Blacklist\n$(date)" >>time;java -classpath PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/arcs/outputsIAall/index \
- http://t2.tomba.fccn.pt:8080/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
+ http://hostname/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
 }}}
 
-Indexing is know done. 
+Indexing Finished, update the search-servers.txt with the correct hostname, server and directories.
