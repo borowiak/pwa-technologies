@@ -265,10 +265,7 @@ For this you need to have the jar and the hadoop folder after [Compile] has been
   * Copy the folder of hadoop to the server that will serve the collection. For each collection you will need a new copy of this folder.
   * Get the scripts from `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/scripts`
   * Define a `COLLECTIONS_DIR` with the folder of the location of the file `search-servers.txt`.
-  * The file search-servers.txt should have the following definition:
+  * The file `search-servers.txt` should have the following definition, 1 line per collection:
 {{{
-1 line per collection,
 hostname  port_for_server folder_of_hadoop_server folder_for_outputs
 }}}
-
-
