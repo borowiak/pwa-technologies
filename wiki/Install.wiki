@@ -164,12 +164,12 @@ Set ${CATALINA_HOME}/webapps/nutchwax/WEB-INF/classes/hadoop-site.xml with:
 <value>/opt/searcher/scripts</value>
 ...
 <name>wax.host</name>
-<value>t4.tomba.fccn.pt:8080/wayback/wayback</value>
+<value>example.com:8080/wayback/wayback</value>
 }}}
 The directory /opt/searcher/scripts should have a file named `search-servers.txt` where the nutch servers are running:
 {{{
-  t7.tomba.fccn.pt 21111
-  t3.tomba.fccn.pt 21111
+  example.com 21111
+  example.com 21112
 }}}
 ===Configure wayback Web application===
 Update `${CATALINA_HOME}/webapps/wayback/WEB-INF/wayback.xml` file:
