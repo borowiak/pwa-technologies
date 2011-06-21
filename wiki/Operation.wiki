@@ -93,11 +93,11 @@ HADOOP_HEAPSIZE (in GB) = DOCS/7
 Example:
   * For a collection of 130 Million documents the RAM memory whould be 19 GB, ´HADOOP_HEAPSIZE=19000´
 }}}
-  # Run in the machine with arcproxy or change arcproxy locationdb 
+  # Run in the machine with arcproxy or change arcproxy locationdb, the directory `pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib` has to be available to the command.
 {{{
-cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib scripts/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib ${SCRIPTS_DIR}/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
 }}}
-  # Update the file search-servers.txt with the correct hostname, server, the directory for hadoop server and the directory for the index `/data/outputs`.
+  # Update the file search-servers.txt with the correct hostname, server, the directory for hadoop server(`/opt/searcher/collections/test_collection_hadoop`)  and the directory for the index `/data/outputs`.
   # Start search servers has indicated in [Install].
   # Create a list of errors from a crawl log of Heritrix crawler.
 {{{
