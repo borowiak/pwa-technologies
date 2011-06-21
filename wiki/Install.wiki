@@ -23,7 +23,7 @@ Has a base configuration the Portuguese Web Archive assumes the following direct
              /hadoop -> hadoop for processing the arc files
              /logs -> Logs from the hadoop search servers
              /run -> directory to hold the pid files
-             /scripts -> scripts for the starting
+             /scripts -> scripts for starting applications
 }}}
 
 Starting up a cluster:
