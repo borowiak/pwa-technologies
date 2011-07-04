@@ -174,10 +174,10 @@ LANG="pt_PT.ISO-8859-1"
   * Install apache tomcat 5.5.25 [http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.tar.gz]
   * Get the compilation result of Hadoop 0.14.4 instructions in [Compile]
   * The files are going to be called, for simplification purposes:     
-    * nutchwax.jar -> `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar`
-    * nutchwax.war -> `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-webapp/target/nutchwax-webapp-0.11.0-SNAPSHOT.war`
-    * wayback.war -> `pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1.war`
-    * pwalucene.jar -> `pwa-technologies/PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar`
+    * nutchwax.jar: `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar`
+    * nutchwax.war: `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-webapp/target/nutchwax-webapp-0.11.0-SNAPSHOT.war`
+    * wayback.war: `pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1.war`
+    * pwalucene.jar: `pwa-technologies/PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar`
 
 ===Install tomcat===
   * To install and configure tomcat this [http://tomcat.apache.org/tomcat-5.5-doc/setup.html documentation] should be followed.
