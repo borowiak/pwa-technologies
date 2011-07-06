@@ -94,18 +94,23 @@ Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ p
   ** accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
    host all all 0.0.0.0/0 md5
   ** set conf - /usr/local/pgsql/data/postgresql.conf
+   {{
    listen_addresses = '*'
    port = 5432
+   }}
   ** see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
 
   ** test query in database:
-   java -classpath pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar:~/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar org.archive.access.nutch.jobs.sql.SqlSearcher [database.connection] [database.user] [database.password] [URL] [timestamp]
-  e.g. //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
-
+   {{
+   java -classpath pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar:~/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar org.archive.access.nutch.jobs.sql.SqlSearcher _database.connection_ _database.user_ _database.password_ _URL_ _timestamp_
+   e.g. //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
+   }}
 
 NOTE: if postgres requires a superuser to create the function, then you should:
- su 
- su postgres
- psql
+ * su 
+ * su postgres
+ * psql
+ {{{
  ALTER USER nutchwax WITH CREATEUSER CREATEDB;
  \du
+ }}}
