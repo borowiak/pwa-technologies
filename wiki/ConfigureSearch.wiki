@@ -114,10 +114,10 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    }}}
 
  * If postgres requires a superuser to create the before_insert() function, then you should:
- ** su 
- ** su postgres
- ** psql
- {{{
- ALTER USER nutchwax WITH CREATEUSER CREATEDB;
- \du
- }}}
+  ** su 
+  ** su postgres
+  ** psql
+     {{{
+     ALTER USER nutchwax WITH CREATEUSER CREATEDB;
+     \du
+     }}}
