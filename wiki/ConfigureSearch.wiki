@@ -7,12 +7,12 @@ The configuration must be done before compiling, since the configuration files w
 
 Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.xml:
 
- * Change property _collection.type_: for the type of collection for indexing. This has implications mostly during the linkdb and index phases. There are three types of collections:
+ * Change property _collection.type_ according to the type of collection for indexing. This has implications mostly during the LinkDb and Index phases. There are three types of collections:
   ** normal - collection from one crawl. It will be handled as one snapshot, where a version is identified by a URL.
   ** multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and day.
   ** trec - collection from TREC (Text REtrieval Conference)
 
- * If selecting _multiple_ then database parameters must be configured to create virtual snapshots:
+ * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots by closeness of the timestamps:
   ** Change property _database.conection_ (database connection): 
      e.g. //t2.tomba.fccn.pt/nutchwax
   ** Change property _database.username_ (database username): 
@@ -21,16 +21,16 @@ Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.
      e.g. xxxxx
 
 
-Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ property:
+Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type_ property:
 
  * Create database for the first time using it:
   **createdb nutchwax
-  **ALTER USER nutchwax WITH PASSWORD 'nutchx!';
+  **ALTER USER nutchwax WITH PASSWORD 'xxxxxx';
 
  * Login in database:
   ** psql
 
- * Configure Table and client:
+ * Create table and trigger:
   {{{
   DROP table files cascade;
   SET client_encoding TO 'LATIN1';
@@ -68,8 +68,8 @@ Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ p
   }}}
 
  * Extract metadata from ARC files:
-  ** arcreader.sh /data/arcs/COLLECTION /data/arcs/statsCOLLECTION.csv 
-  ** ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class pt.arquivoweb.ia.UrlNormalizer /data/arcs/statsCOLLECTION.csv /data/arcs/statsNormalized.csv 6 1 
+  ** arcreader.sh /_directoryArcs_/_collection_ /_directoryArcs_/stats.csv 
+  ** ${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1 
 
  * Load metadata into database:
   {{{
