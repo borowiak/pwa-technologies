@@ -89,7 +89,9 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   }}}
 
 
- * Test only if problems occur:
+== Errors and debugging ==
+
+ * Test database:
   ** test postmaster 
    psql -h t7.tomba.fccn.pt -d nutchwax
   ** run postmaster 
@@ -98,7 +100,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    service postgresql start
   ** accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
    host all all 0.0.0.0/0 md5
-  ** set conf - /usr/local/pgsql/data/postgresql.conf
+  ** set /usr/local/pgsql/data/postgresql.conf:
    {{{
    listen_addresses = '*'
    port = 5432
@@ -111,7 +113,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    e.g. org.archive.access.nutch.jobs.sql.SqlSearcher //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
    }}}
 
- NOTE: if postgres requires a superuser to create the before_insert() function, then you should:
+ * If postgres requires a superuser to create the before_insert() function, then you should:
  ** su 
  ** su postgres
  ** psql
