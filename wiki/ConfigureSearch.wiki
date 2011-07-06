@@ -12,6 +12,9 @@ Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default
   ** multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and day.
   ** trec - collection from TREC (Text REtrieval Conference)
 
+ * If _normal_ or _trec_ are selected then *exit this page*.
+ NOTE: you can change the values of the other properties if necessary. 
+
  * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots by closeness of the timestamps:
   ** Change property _database.conection_ (e.g. //t2.tomba.fccn.pt/nutchwax)
   ** Change property _database.username_ (e.g. nutchwax)
@@ -87,7 +90,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   }}}
 
 
- * Tests only if problems occur:
+ * Test only if problems occur:
   ** test postmaster 
    psql -h t7.tomba.fccn.pt -d nutchwax
   ** run postmaster 
@@ -103,19 +106,17 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    }}}
   ** see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
 
-  ** test query in database:
+  ** Query database just for debugging:
    {{{
    java -classpath pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar:~/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar org.archive.access.nutch.jobs.sql.SqlSearcher [database.connection] [database.user] [database.password] [URL] [timestamp]
    e.g. org.archive.access.nutch.jobs.sql.SqlSearcher //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
    }}}
 
-NOTE: if postgres requires a superuser to create the before_insert() function, then you should:
- * su 
- * su postgres
- * psql
+ NOTE: if postgres requires a superuser to create the before_insert() function, then you should:
+ ** su 
+ ** su postgres
+ ** psql
  {{{
  ALTER USER nutchwax WITH CREATEUSER CREATEDB;
  \du
  }}}
-
-NOTE: you can change the values of the other properties if necessary.
