@@ -85,21 +85,22 @@ Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ p
 
 
  * Tests only if problems occur:
- # test postmaster 
- psql -h t7.tomba.fccn.pt -d nutchwax
- # run postmaster 
- su 
- service postgresql stop
- service postgresql start
- # accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
- host all all 0.0.0.0/0 md5
- # set conf - /usr/local/pgsql/data/postgresql.conf
-  listen_addresses = '*'
-  port = 5432
- # see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
+  ** test postmaster 
+   psql -h t7.tomba.fccn.pt -d nutchwax
+  ** run postmaster 
+   su 
+   service postgresql stop
+   service postgresql start
+  ** accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
+   host all all 0.0.0.0/0 md5
+  ** set conf - /usr/local/pgsql/data/postgresql.conf
+   listen_addresses = '*'
+   port = 5432
+  ** see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
 
- # test query in DB
- java -classpath /home/nutchwax/workspace/ArquivoWebUtils/target/arquivowebutils-1.0.0.jar:/home/nutchwax/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar pt.arquivoweb.ia.SqlSearcher //t7.tomba.fccn.pt/nutchwax nutchwax nutchx! http://jn.sapo.pt/robots.txt "20070831100222"
+  ** test query in database:
+   java -classpath pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar:~/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar org.archive.access.nutch.jobs.sql.SqlSearcher [database.connection] [database.user] [database.password] [URL] [timestamp]
+  e.g. //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
 
 
 NOTE: if postgres requires a superuser to create the function, then you should:
