@@ -64,8 +64,14 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
     FOR EACH ROW EXECUTE PROCEDURE before_insert();
   }}}
 
+ * Install heritrix-1.12.1 because of libraries to extract meta-data:
+  ** download [https://pwa-technologies.googlecode.com/files/heritrix-1.12.1.zip heritrix-1.12.1.zip]
+  ** unzip it to a _heritrixDirectory_ directory
+  ** export HERITRIX_HOME=_heritrixDirectory_ (e.g. /opt/searcher/heritrix-1.12.1)
+  ** export WAYBACK_HOME=_waybackDirectoryInTomcat_ (e.g. /opt/searcher/apache-tomcat-5.5.25/webapps/wayback/WEB-INF/lib)
+  
  * Extract metadata from ARC files:
-  ** `arcreader.sh /_directoryArcs_/_collection_ /_directoryArcs_/stats.csv`
+  ** `${HERITRIX_HOME}/src/scripts/arcreader.sh /_directoryArcs_ /_directoryArcs_/stats.csv`
   ** `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1` 
 
  * Load metadata into database:
