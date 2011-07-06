@@ -117,7 +117,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   ** su 
   ** su postgres
   ** psql
-     {{{
-     ALTER USER nutchwax WITH CREATEUSER CREATEDB;
-     \du
-     }}}
+   {{{
+   ALTER USER nutchwax WITH CREATEUSER CREATEDB;
+   \du
+   }}}
