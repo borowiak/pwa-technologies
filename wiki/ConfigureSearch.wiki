@@ -71,7 +71,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   ** unzip it to a _heritrixDirectory_ directory
   ** export HERITRIX_HOME=_heritrixDirectory_ (e.g. /opt/searcher/heritrix-1.12.1)
   ** export WAYBACK_HOME=_waybackDirectoryInTomcat_ (e.g. /opt/searcher/apache-tomcat-5.5.25/webapps/wayback/WEB-INF/lib)
-  *** You need to have the wayback.war uncompressed into Tomcat's webapps directory - see [https://code.google.com/p/pwa-technologies/wiki/Install#Configure_wayback_Web_application]
+   ** You need to have the wayback.war uncompressed into Tomcat's webapps directory - see [https://code.google.com/p/pwa-technologies/wiki/Install#Configure_wayback_Web_application]
   
  * Extract metadata from ARC files:
   ** `${HERITRIX_HOME}/src/scripts/arcreader.sh /_directoryArcs_ /_directoryArcs_/stats.csv`
