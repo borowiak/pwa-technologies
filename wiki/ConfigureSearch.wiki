@@ -1,11 +1,11 @@
-#summary Configure indexing and searching parameters:
+#summary Configure indexing parameters:
 
 
-The configiration must be done before compiling, since the configuration files will be inside the JAR files.
+The configuration must be done before compiling, since the configuration files will be inside the JAR files.
 
 == Step-by-step ==
 
-Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.xml
+Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.xml:
 
  * Change property _collection.type_: for the type of collection for indexing. This has implications mostly during the linkdb and index phases. There are three types of collections:
   ** normal - collection from one crawl. It will be handled as one snapshot, where a version is identified by a URL.
@@ -19,3 +19,86 @@ Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.
      e.g. nutchwax
   ** Change property _database.password_ (database password): 
      e.g. xxxxx
+
+
+Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ property:
+
+ *First time using:
+  **Create database:
+    createdb nutchwax
+    ALTER USER nutchwax WITH PASSWORD 'nutchx!';
+
+ * Login DB:
+  ** psql
+
+ * Configure Table and client:
+  DROP table files cascade;
+  SET client_encoding TO 'LATIN1';
+
+  CREATE LANGUAGE plpgsql;
+  CREATE OR REPLACE FUNCTION before_insert() RETURNS trigger AS '
+  DECLARE
+   n integer;
+  BEGIN
+   IF tg_op = ''INSERT'' THEN
+     select count(*) into n
+      from files
+      where date=new.date and url=new.url;  
+      IF n > 0 THEN
+        RETURN NULL;
+      ELSE
+        RETURN new;	
+      END IF;   
+   END IF;
+  END
+  ' LANGUAGE plpgsql;
+ 
+
+  create table files
+      (date TIMESTAMP, 
+       url VARCHAR(4000),
+       type VARCHAR(100),
+       status INTEGER,
+       size INTEGER NOT NULL,
+       arcname VARCHAR(100) NOT NULL,
+       PRIMARY KEY (url,date));
+
+  CREATE TRIGGER before_insert_trigger BEFORE INSERT ON files
+   FOR EACH ROW EXECUTE PROCEDURE before_insert();
+
+ * Extract metadata from arcs and load DB:
+  arcreader.sh /data/arcs/COLLECTION /data/arcs/statsCOLLECTION.csv 
+  ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class pt.arquivoweb.ia.UrlNormalizer /data/arcs/statsCOLLECTION.csv /data/arcs/statsNormalized.csv 6 1 
+
+  \COPY files FROM '/data/arcs/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
+
+ * Create indexes:
+  CREATE INDEX type_index ON files(type);
+  CREATE INDEX status_index ON files(status);
+  CREATE INDEX url_index ON files USING hash(url);
+
+
+ * Tests only if problems occur:
+ # test postmaster 
+ psql -h t7.tomba.fccn.pt -d nutchwax
+ # run postmaster 
+ su 
+ service postgresql stop
+ service postgresql start
+ # accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
+ host all all 0.0.0.0/0 md5
+ # set conf - /usr/local/pgsql/data/postgresql.conf
+  listen_addresses = '*'
+  port = 5432
+ # see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
+
+ # test query in DB
+ java -classpath /home/nutchwax/workspace/ArquivoWebUtils/target/arquivowebutils-1.0.0.jar:/home/nutchwax/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar pt.arquivoweb.ia.SqlSearcher //t7.tomba.fccn.pt/nutchwax nutchwax nutchx! http://jn.sapo.pt/robots.txt "20070831100222"
+
+
+NOTE: if postgres requires a superuser to create the function, then you should:
+ su 
+ su postgres
+ psql
+ ALTER USER nutchwax WITH CREATEUSER CREATEDB;
+ \du
