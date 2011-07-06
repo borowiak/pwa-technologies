@@ -1,0 +1,21 @@
+#summary Configure indexing and searching parameters:
+
+
+The configiration must be done before compiling, since the configuration files will be inside the JAR files.
+
+== Step-by-step ==
+
+Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.xml
+
+ * Change property _collection.type_: for the type of collection for indexing. This has implications mostly during the linkdb and index phases. There are three types of collections:
+  ** normal - collection from one crawl. It will be handled as one snapshot, where a version is identified by a URL.
+  ** multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and day.
+  ** trec - collection from TREC (Text REtrieval Conference)
+
+ * If selecting _multiple_ then database parameters must be configured to create virtual snapshots:
+  ** Change property _database.conection_ (database connection): 
+     e.g. //t2.tomba.fccn.pt/nutchwax
+  ** Change property _database.username_ (database username): 
+     e.g. nutchwax
+  ** Change property _database.password_ (database password): 
+     e.g. xxxxx
