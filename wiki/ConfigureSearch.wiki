@@ -13,12 +13,9 @@ Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default
   ** trec - collection from TREC (Text REtrieval Conference)
 
  * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots by closeness of the timestamps:
-  ** Change property _database.conection_ (database connection): 
-     e.g. //t2.tomba.fccn.pt/nutchwax
-  ** Change property _database.username_ (database username): 
-     e.g. nutchwax
-  ** Change property _database.password_ (database password): 
-     e.g. xxxxx
+  ** Change property _database.conection_ (e.g. //t2.tomba.fccn.pt/nutchwax)
+  ** Change property _database.username_ (e.g. nutchwax)
+  ** Change property _database.password_ (e.g. xxxxx)
 
 
 Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type_ property:
@@ -68,8 +65,8 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   }}}
 
  * Extract metadata from ARC files:
-  ** arcreader.sh /_directoryArcs_/_collection_ /_directoryArcs_/stats.csv 
-  ** ${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1 
+  ** `arcreader.sh /_directoryArcs_/_collection_ /_directoryArcs_/stats.csv`
+  ** `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1` 
 
  * Load metadata into database:
   {{{
