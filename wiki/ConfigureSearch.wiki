@@ -23,15 +23,15 @@ Edit file pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.
 
 Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ property:
 
- *First time using:
-  **Create database:
-    createdb nutchwax
-    ALTER USER nutchwax WITH PASSWORD 'nutchx!';
+ * Create database for the first time using it:
+  **createdb nutchwax
+  **ALTER USER nutchwax WITH PASSWORD 'nutchx!';
 
- * Login DB:
+ * Login in database:
   ** psql
 
  * Configure Table and client:
+  {{{
   DROP table files cascade;
   SET client_encoding TO 'LATIN1';
 
@@ -63,19 +63,25 @@ Prepare a PostgreSQL database if selecting _multiple_ in the _collection.type_ p
        arcname VARCHAR(100) NOT NULL,
        PRIMARY KEY (url,date));
 
-  CREATE TRIGGER before_insert_trigger BEFORE INSERT ON files
-   FOR EACH ROW EXECUTE PROCEDURE before_insert();
+   CREATE TRIGGER before_insert_trigger BEFORE INSERT ON files
+    FOR EACH ROW EXECUTE PROCEDURE before_insert();
+  }}}
 
- * Extract metadata from arcs and load DB:
-  arcreader.sh /data/arcs/COLLECTION /data/arcs/statsCOLLECTION.csv 
-  ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class pt.arquivoweb.ia.UrlNormalizer /data/arcs/statsCOLLECTION.csv /data/arcs/statsNormalized.csv 6 1 
+ * Extract metadata from ARC files:
+  ** arcreader.sh /data/arcs/COLLECTION /data/arcs/statsCOLLECTION.csv 
+  ** ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class pt.arquivoweb.ia.UrlNormalizer /data/arcs/statsCOLLECTION.csv /data/arcs/statsNormalized.csv 6 1 
 
+ * Load metadata into database:
+  {{{
   \COPY files FROM '/data/arcs/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
+  }}}
 
  * Create indexes:
+  {{{
   CREATE INDEX type_index ON files(type);
   CREATE INDEX status_index ON files(status);
   CREATE INDEX url_index ON files USING hash(url);
+  }}}
 
 
  * Tests only if problems occur:
