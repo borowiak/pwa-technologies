@@ -52,7 +52,6 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    END IF;
   END
   ' LANGUAGE plpgsql;
- 
 
   create table files
       (date TIMESTAMP, 
