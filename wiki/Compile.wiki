@@ -38,7 +38,8 @@ Install PwaLucene:
 Install PwaArchiveAccess:
  * `cd pwa-technologies/PwaArchive-access` 
  * `mvn install`
- * [https://code.google.com/p/pwa-technologies/wiki/ConfigureSearch?ts=1310028662&updated=ConfigureSearch Configure] `(if necessary, then repeat this command: mvn install)`
+ * [https://code.google.com/p/pwa-technologies/wiki/ConfigureSearch?ts=1310028662&updated=ConfigureSearch configure] `(if necessary)`
+ * `mvn install (only if configuration changed)` 
 
 The JAR and WAR files are available in:
  * `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar`
