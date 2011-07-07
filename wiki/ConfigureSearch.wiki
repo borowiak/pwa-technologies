@@ -1,7 +1,7 @@
 #summary Configure indexing parameters:
 
 
-The configuration must be done before compiling, since the configuration files will be inside the JAR files. This follows the same logic of Nutchwax.
+The configuration must be followed by compiling, since the configuration files will be inside the JAR files. This follows the same logic of Nutchwax.
 
 == Step-by-step ==
 
@@ -71,7 +71,6 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   ** unzip it to a _heritrixDirectory_ directory
   ** export HERITRIX_HOME=_heritrixDirectory_ (e.g. /opt/searcher/heritrix-1.12.1)
   ** export WAYBACK_HOME=_waybackDirectoryInTomcat_ (e.g. /opt/searcher/pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib/)
-   ** NOTE: You need to compile once to create the wayback-webapp/target directory]
   
  * Extract metadata from ARC files:
   ** `${HERITRIX_HOME}/src/scripts/arcreader.sh /_directoryArcs_ /_directoryArcs_/stats.csv`
