@@ -96,20 +96,22 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   ** `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar version` 
 
  * Test database:
-  ** test postmaster 
+  ** test postmaster: 
    psql -h t7.tomba.fccn.pt -d nutchwax
-  ** run postmaster 
+  ** run postmaster: 
    su 
    service postgresql stop
    service postgresql start
   ** accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
+   {{{
    host all all 0.0.0.0/0 md5
+   }}}
   ** set /usr/local/pgsql/data/postgresql.conf:
    {{{
    listen_addresses = '*'
    port = 5432
    }}}
-  ** see http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
+  See http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
 
   ** Query database just for debugging:
    {{{
