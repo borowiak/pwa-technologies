@@ -79,7 +79,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
 
  * Load metadata into database:
   {{{
-  \COPY files FROM '/data/arcs/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
+  \COPY files FROM '/_directoryArcs_/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
   }}}
 
  * Create indexes:
