@@ -38,7 +38,7 @@ Install PwaLucene:
 Install PwaArchiveAccess:
  * `cd pwa-technologies/PwaArchive-access` 
  * `mvn install`
- * `[https://code.google.com/p/pwa-technologies/wiki/ConfigureSearch?ts=1310028662&updated=ConfigureSearch Configure] (if necessary)`
+ * [https://code.google.com/p/pwa-technologies/wiki/ConfigureSearch?ts=1310028662&updated=ConfigureSearch Configure] `(if necessary)`
  * `mvn install`
 
 The JAR and WAR files are available in:
