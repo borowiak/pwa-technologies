@@ -70,8 +70,8 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
  * Install heritrix-1.12.1 because of libraries to extract meta-data:
   ** download [https://pwa-technologies.googlecode.com/files/heritrix-1.12.1.zip heritrix-1.12.1.zip]
   ** unzip it to a _heritrixDirectory_ directory
-  ** export HERITRIX_HOME=_heritrixDirectory_ (e.g. /opt/searcher/heritrix-1.12.1)
-  ** export WAYBACK_HOME=_waybackDirectoryInTomcat_ (e.g. /opt/searcher/pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib/)
+  ** export HERITRIX_HOME=_heritrixDirectory_ (e.g. `/opt/searcher/heritrix-1.12.1`)
+  ** export WAYBACK_HOME=_waybackDirectory_ (e.g. `/opt/searcher/pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib/`)
   
  * Extract metadata from ARC files:
   ** `${HERITRIX_HOME}/src/scripts/arcreader.sh /_directoryArcs_ /_directoryArcs_/stats.csv`
