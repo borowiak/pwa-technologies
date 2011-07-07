@@ -9,7 +9,7 @@ Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default
 
  * Change property _collection.type_ according to the type of collection for indexing. This has implications mostly during the Linkdb and Index phases. There are three types of collections:
   ** normal - collection from one crawl. It will be handled as one snapshot, where a version is identified by a URL.
-  ** multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and day.
+  ** multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and a day.
   ** trec - collection from TREC (Text REtrieval Conference)
 
  * If _normal_ or _trec_ are selected then *exit this page*.
