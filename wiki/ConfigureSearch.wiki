@@ -20,7 +20,7 @@ Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default
   ** Change property _database.conection_ (e.g. //t2.tomba.fccn.pt/nutchwax)
   ** Change property _database.username_ (e.g. nutchwax)
   ** Change property _database.password_ (e.g. xxxxx)
- Virtual snapshots guarantee that versions of documents link only to versions of other documents with the closeness timestamp. This is a requirement for link-based algorithms, such as PageRank, to work well.
+ Virtual snapshots guarantee that versions of documents link only to versions of other documents with the closeness timestamp. This is a requirement for link-based algorithms, such as Pagerank, to work well.
 
 Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type_ property:
 
