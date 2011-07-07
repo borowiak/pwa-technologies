@@ -102,7 +102,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    su 
    service postgresql stop
    service postgresql start
-  ** accessing remotly to postgresql - add to file /data/postgres/data/pg_hba.conf
+  ** accessing remotly to postgresql - add to file /data/postgres:/data/pg_hba.conf
    {{{
    host all all 0.0.0.0/0 md5
    }}}
@@ -111,7 +111,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
    listen_addresses = '*'
    port = 5432
    }}}
-  See http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info
+  See http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info.
 
   ** Query database just for debugging:
    {{{
