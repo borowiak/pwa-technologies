@@ -1,7 +1,8 @@
 #summary Configure indexing parameters:
 
 
-The configuration must be followed by compiling, since the configuration files will be inside the JAR files. This follows the same logic of Nutchwax.
+Following the same logic of Nutchwax, the configuration files will be inside the JAR files, which requires that after changing configuration you must compile again.
+
 
 == Step-by-step ==
 
@@ -15,11 +16,11 @@ Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default
  * If _normal_ or _trec_ are selected then *exit this page*.
  NOTE: you can change the values of the other properties if necessary. 
 
- * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots by closeness of the timestamps:
+ * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots:
   ** Change property _database.conection_ (e.g. //t2.tomba.fccn.pt/nutchwax)
   ** Change property _database.username_ (e.g. nutchwax)
   ** Change property _database.password_ (e.g. xxxxx)
-
+ Virtual snapshots guarantee that versions of documents link only to versions of other documents with the closeness timestamp. This is a requirement for link-based algorithms, such as PageRank, to work well.
 
 Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type_ property:
 
