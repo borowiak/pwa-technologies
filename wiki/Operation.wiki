@@ -64,8 +64,7 @@ mv $INDEX_DIR_OUT $INDEX_DIR
 }}}
   # Create cache that indicates if pages have a new version, the file `versions.cache` will be created inside `/data/outputs/index`:
 {{{
-echo -e "CreateCache\n$(date)" >>time;java -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaVersionsCache create \
-/data/outputs/outputsIA/index ; date >> time 
+echo -e "CreateCache\n$(date)" >>time;java -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaVersionsCache create /data/outputs/index ; date >> time 
 }}}
   # Copy versions.cache file to HDFS in a directory named "cache" and execute the process in hadoop:
 {{{
