@@ -73,7 +73,7 @@ ${HADOOP_HOME}/bin/hadoop fs -put /data/outputs/index/versions.cache outputs/cac
 echo -e "CreateCache_hadoop\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class org.archive.access.nutch.jobs.NutchwaxCache outputs/cache/ outputs/cache2/; date>>time 
 echo -e "CreateCache_fromhdfs\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs/cache2/part-00000 /data/outputs/index/;date>>time
 rm /data/outputs/index/versions.cache
-mv /data/outputs/index/part-00000 /data/arcs/outputs/index/versions.cache
+mv /data/outputs/index/part-00000 /data/outputs/index/versions.cache
 }}}
   # Stopwords, the searching system ignores all stopwords in queries. Stopwords are defined in the stopwords.cache file inside the index directory. The format of the file is a stopword per line, e.g. There is a file in the `SCRIPTS_DIR` with the pwa stopwords file:
 {{{
