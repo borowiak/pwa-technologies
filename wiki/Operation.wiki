@@ -97,7 +97,7 @@ Example:
 cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib ${SCRIPTS_DIR}/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
 }}}
   # Update the file search-servers.txt with the correct hostname, server, the directory for hadoop server(`/opt/searcher/collections/test_collection_hadoop`)  and the directory for the index `/data/outputs`.
-  # Start search servers has indicated in [Install].
+  # Start search servers as indicated in [Install].
   # Create a list of errors from a crawl log of Heritrix crawler.
 {{{
 cat ficheiro | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 "
