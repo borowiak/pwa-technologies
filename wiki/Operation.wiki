@@ -102,7 +102,7 @@ cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_H
 {{{
 cat crawl.log | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 "
 }}}
-  # Process to create a blacklist of documents not redirecting properly. It uses a log file from the crawler software, the file is a text file with URLs that did not returned HTTP OK. The format is:
+  # Process to create a blacklist of documents not redirecting properly. It uses a log file from the crawler software, the file is a text file with URLs that did not return HTTP OK. The format is:
 {{{
  404 http://614.pt/robots.txt
  404 http://8mm.weblog.com.pt/robots.txt
