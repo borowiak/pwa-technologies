@@ -78,6 +78,7 @@ Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type
   ** `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1` 
 
  * Load metadata into database:
+  ** psql
   {{{
   \COPY files FROM '/_directoryArcs_/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
   }}}
