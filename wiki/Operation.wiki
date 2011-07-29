@@ -56,8 +56,8 @@ mv index-sorted index
 }}}
   # Pruning Indexes, the posting lists of the five fields (content, title, anchor, url and host) are pruned. All documents on the posting lists of mime types not searchable are discarded. Fields stored not on index can also be discarded using the "-del" option followed by the field names. Execute the command without parameters to see the help description. Execute the following command to prune the index on directory $INDEX_DIR, that will be stored on directory $INDEX_DIR_OUT.
 {{{
-INDEX_DIR=/data/outputs/index
-INDEX_DIR_OUT/data/outputs/index-PRUNNING
+export INDEX_DIR=/data/outputs/index
+export INDEX_DIR_OUT=/data/outputs/index-PRUNNING
 echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.pruning.PruningTool -impl arquivo -in $INDEX_DIR -out $INDEX_DIR_OUT -del pagerank:pPsv,outlinks:pPsv -t 1;date >>time;
 mv $INDEX_DIR /data/outputs/index-SORTED
 mv $INDEX_DIR_OUT $INDEX_DIR
