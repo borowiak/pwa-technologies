@@ -297,7 +297,7 @@ Then creating a file web.xml in the WEB-INF directory.
 </web-app>
 }}}
 
-==Install Search System==
+==Start Search System==
 
 For this you need to have the nutchwax.jar and the Hadoop folder after [Compile] has been run.
 
