@@ -100,7 +100,7 @@ cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_H
   # Start search servers as indicated in [Install].
   # Create a list of errors from a crawl log of Heritrix crawler.
 {{{
-cat crawl.log | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 "
+cat crawl.log | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 " > errors.urls
 }}}
   # Process to create a blacklist of documents not redirecting properly. It uses a log file from the crawler software, the file is a text file with URLs that did not return HTTP OK. The format is:
 {{{
