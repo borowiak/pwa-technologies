@@ -37,7 +37,7 @@ echo -e "Invert\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/n
 }}}
   # Create indexes. This process creates the `indexes` directory on the HDFS, erase it if you need to repeat the process:
 {{{
-echo -e "Index\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar index outputs; date 
+echo -e "Index\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar index outputs; date >>time 
 }}}
   # Merge indexes partitions into one. This process creates the `index` directory on the HDFS, erase it if you need to repeat the process:
 {{{
