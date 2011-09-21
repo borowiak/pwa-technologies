@@ -1,0 +1,14 @@
+#summary List of projects and software related to the development of the Portuguese Web Archive search engine
+
+= Related projects and software =
+
+This page list several projects and software developed by or relevant to the Portuguese Web Archive.
+
+== Software developed by the Portuguese Web Archive ==
+  * [http://code.google.com/p/httrack2arc/ HTTrack2Arc] — is a tool that converts HTTrack crawls(http://www.httrack.com/) to ARC files, the file format used by the Internet Archive.
+  * [http://code.google.com/p/roteiro2arc/ Roteiro2Arc] — is a tool that converts to Internet Archive ARC files the local archive of the Portuguese Web present in the CD-ROM featured with the book "Novo Roteiro Prático da Internet" by José Magalhães. 
+
+
+
+== Other relevant projects and software ==
+  * [http://archive-access.sourceforge.net/index.html Archive-Access ]
