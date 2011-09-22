@@ -1,0 +1,76 @@
+#summary This page describes the main features and improvements of the Portuguese Web Archive search engine.
+
+= Main Features =
+
+Add your content here.
+
+The PWA search engine is a public service at http://archive.pt and a
+research platform for web archiving. As it predecessor Nutch, it runs over
+Hadoop clusters for distributed computing following the map-reduce paradigm.
+Its major features include full-text search, URL search, phrase search,
+faceted search (date, format, site), and sorting by relevance and date.
+
+The PWA search engine is a research platform for Web archiving.
+The software is based on Nutchwax 0.11.0 and Wayback 1.2.1 and also use Hadoop clusters for distributed computing following the map-reduce paradigm.
+
+The principal Features of the PWA search engine are:
+
+  * Full-text search
+  * URL search
+  * Phrase search
+  * Faceted search (date, format, site)
+  * Sorting by relevance and date.
+  * Able to gracefully handle +180M documents spanning through several years.
+  * A full-text search user interface designed for Web archives
+
+During the developing of the PWA IR (information retrieval) system we faced
+limitations in searching speed, quality of results, scalability and
+usability, that we needed to solve.
+ 
+ 
+The improvements of the PWA search engine over the original code are:
+
+  * improved response speed
+  * added cache mechanisms for highly requested data at runtime
+  * added distributed and replicated indexes to parallelize load and scale-out the system.
+  * improved search results' quality
+  * added new ranking algorithms, including time-aware algorithms
+  * improved the usability and readability of the interface, specially the search result page
+  * improved the search interface to allow users to do time restrictions on searches
+  * added detection of URL on full-text search for contextual search results
+  * implemented several optimizations and removed bottlenecks
+
+This list should grow as we further improve our software.
+
+
+== Detailed Improvements ==
+This section further details the improvements previously cited.They are divided according to our three main development axis: performance, quality of results, and UI/Usability.
+
+=== Performance ===
+Several performance improvements were needed to achieve our objective of >90% queries returned in <5 seconds.
+
+  * pruning indexes to reduce their size and sorting them by an importance measure to return good results without needing to read the full index entries (i.e. posting lists).
+  * adding cache mechanisms for highly requested data at runtime, such as documents’ timestamps or index statistics. 
+  * distributing and replicating indexes in multiple servers to parallelize load and scale-out the system.
+
+=== Quality of Results ===
+  * engineering new ranking algorithms, including time-aware algorithms.
+  * logging users' search behaviors and patterns. More at {{{[1]}}}
+and {{{[2]}}}.
+
+=== User Interface/Usability ===
+Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The original interface was severely lacking on needed features and was confusion to users. Thus, significant changes and adjustements were needed, such as:
+
+  * improved the search interface to allow users to do time restrictions on searches using both text fields or datepickers widgets. Restricting date ranges on the original interface required an understanding of the inner working of the search engine.
+  * customized jQuery's datepicker to work as users expected for Web archive use cases.
+  * added detection of URL on full-text search for contextual search results. This way we can use a single text field for search queries. The search engine sorts URL from and presents the relevant search result page for each case.
+  * merged the Nutchwax(full-text search) and Wayback(URL search) interfaces so text and URL search have a consistent design.
+  * changed the layout of the search result page so it has a more familiar structure based on current search engine and has a similar look and feel.
+  * improved readability and usability of the search result page by changing several aspects such as: typeface, font size, color, etc..
+  * optimized the search engines pages design so they are smaller in size and load quickier.
+  * fixed some problems of the top banner on archived pages where the archived page styling interfered with the banner styling.
+
+----
+
+  # Miguel Costa, Mário J. Silva, Characterizing Search Behavior in Web Archives, Temporal Web Analytics Workshop, 2011.
+  # Miguel Costa, Mário J. Silva, Understanding the Information Needs of Web Archive Users, 10th International Web Archiving Workshop, 2010.
