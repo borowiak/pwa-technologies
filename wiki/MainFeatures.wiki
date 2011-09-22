@@ -56,8 +56,13 @@ Several performance improvements were needed to achieve our objective of >90% qu
   * logging users' search behaviors and patterns. More at {{{[1]}}} and {{{[2]}}}.
 
 === User Interface/Usability ===
-Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The original interface was severely lacking on needed features and was confusion to users. Thus, significant changes and adjustements were needed, such as:
+Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The results obtained through usability tests performed by an HCIM research group (http://hcim.di.fc.ul.pt/wiki/Main_Page) showed that the system achieved an overall average user satisfaction of 70%. 
 
+The original interface was severely lacking on needed features and was confusion to users. Thus, significant changes and adjustements were needed, such as:
+
+  * advanced search
+  * bilingual support (in Portuguese and English).
+  * search suggestions/corrections.  
   * improved the search interface to allow users to do time restrictions on searches using both text fields or datepickers widgets. Restricting date ranges on the original interface required an understanding of the inner working of the search engine.
   * customized jQuery's datepicker to work as users expected for Web archive use cases.
   * added detection of URL on full-text search for contextual search results. This way we can use a single text field for search queries. The search engine sorts URL from and presents the relevant search result page for each case.
@@ -66,7 +71,7 @@ Several usability analysis and tests were conducted to drive the development of 
   * improved readability and usability of the search result page by changing several aspects such as: typeface, font size, color, etc..
   * optimized the search engines pages design so they are smaller in size and load quickier.
   * fixed some problems of the top banner on archived pages where the archived page styling interfered with the banner styling.
-  * bilingual support (in Portuguese and English).
+
 
 ----
 
