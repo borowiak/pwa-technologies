@@ -56,7 +56,7 @@ Several performance improvements were needed to achieve our objective of >90% qu
   * logging users' search behaviors and patterns. More at {{{[1]}}} and {{{[2]}}}.
 
 === User Interface/Usability ===
-Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The results obtained through the tests performed by the HCIM research group (http://hcim.di.fc.ul.pt/wiki/Main_Page) showed that the system achieved an overall average user satisfaction of 70%. 
+Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The results obtained through the tests performed by the [http://hcim.di.fc.ul.pt/wiki/Main_Page HCIM research group] showed that the system achieved an overall average user satisfaction of 70%. 
 
 The original interface was lacking needed features and was confusion to our users. Thus, changes and adjustments were performed, such as:
 
@@ -72,7 +72,6 @@ The original interface was lacking needed features and was confusion to our user
   * optimization the search engines pages design so they are smaller in size and load quicker.
   * fix problems of the top banner on archived pages where the archived page styling interfered with the banner styling.
 
+=== References ===
 
-----
-
-Check our [publications page http://sobre.arquivo.pt/about-the-archive/publications]
+Check our [http://sobre.arquivo.pt/about-the-archive/publications publications page]
