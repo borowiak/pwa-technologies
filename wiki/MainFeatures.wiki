@@ -53,7 +53,7 @@ Several performance improvements were needed to achieve our objective of >90% qu
 
 === Quality of Results ===
   * engineering new ranking algorithms, including time-aware algorithms.
-  * logging users' search behaviors and patterns. More at {{{[1]}}} and {{{[2]}}}.
+  * logging users' search behaviors and patterns. .
 
 === User Interface/Usability ===
 Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The results obtained through the tests performed by the [http://hcim.di.fc.ul.pt/wiki/Main_Page HCIM research group] showed that the system achieved an overall average user satisfaction of 70%. 
