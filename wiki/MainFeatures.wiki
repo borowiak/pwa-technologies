@@ -66,6 +66,7 @@ Several usability analysis and tests were conducted to drive the development of 
   * improved readability and usability of the search result page by changing several aspects such as: typeface, font size, color, etc..
   * optimized the search engines pages design so they are smaller in size and load quickier.
   * fixed some problems of the top banner on archived pages where the archived page styling interfered with the banner styling.
+  * bilingual support (in Portuguese and English).
 
 ----
 
