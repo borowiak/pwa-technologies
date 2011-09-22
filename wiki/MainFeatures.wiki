@@ -53,8 +53,7 @@ Several performance improvements were needed to achieve our objective of >90% qu
 
 === Quality of Results ===
   * engineering new ranking algorithms, including time-aware algorithms.
-  * logging users' search behaviors and patterns. More at {{{[1]}}}
-and {{{[2]}}}.
+  * logging users' search behaviors and patterns. More at {{{[1]}}} and {{{[2]}}}.
 
 === User Interface/Usability ===
 Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The original interface was severely lacking on needed features and was confusion to users. Thus, significant changes and adjustements were needed, such as:
