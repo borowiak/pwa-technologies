@@ -2,8 +2,6 @@
 
 = Main Features =
 
-Add your content here.
-
 The PWA search engine is a public service at http://archive.pt and a
 research platform for web archiving. As it predecessor Nutch, it runs over
 Hadoop clusters for distributed computing following the map-reduce paradigm.
