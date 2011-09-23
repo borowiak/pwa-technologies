@@ -50,10 +50,11 @@ Several performance improvements were needed to achieve our objective of >90% qu
   * pruning indexes to reduce their size and sorting them by an importance measure to return good results without needing to read the full index entries (i.e. posting lists).
   * adding cache mechanisms for highly requested data at runtime, such as documents’ timestamps or index statistics. 
   * distributing and replicating indexes in multiple servers to parallelize load and scale-out the system.
+  * redution of communication by aggregating requests
 
 === Quality of Results ===
-  * engineering new ranking algorithms, including time-aware algorithms.
-  * logging users' search behaviors and patterns. .
+  * engineering new ranking algorithms.
+  * logging and mining of users' search behaviors and patterns.
 
 === User Interface/Usability ===
 Several usability analysis and tests were conducted to drive the development of the PWA search engine user interface. The results obtained through the tests performed by the [http://hcim.di.fc.ul.pt/wiki/Main_Page HCIM research group] showed that the system achieved an overall average user satisfaction of 70%. 
