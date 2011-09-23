@@ -54,6 +54,7 @@ Several performance improvements were needed to achieve our objective of >90% qu
 
 === Quality of Results ===
   * engineering new ranking algorithms.
+  * enabling to choose the ranking model at runtime.
   * logging and mining of users' search behaviors and patterns.
 
 === User Interface/Usability ===
