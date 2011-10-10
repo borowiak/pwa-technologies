@@ -16,16 +16,17 @@ The `OpenSearch Description Document` at XXX describes the public interface and 
 = Query =
 
 The `OpenSearch URL` must contain the query and search parameters. 
+
 Parameters:
-query={search terms} : query terms URL-encoded.
-hitsPerPage={1 to 100} : number of results requested.
-dtstart={} & dtend={}: start and end dates to restrict search. It follow the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps].
+* query={search terms} : query terms URL-encoded.
+* hitsPerPage={1 to 100} : number of results requested.
+* dtstart={} & dtend={}: start and end dates to restrict search. It follow the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps].
 
 Examples of queries:
 
-http://archive.pt/opensearch?query=test 
-http://archive.pt/opensearch?query=test&hitsPerPage=100 
-http://archive.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
+* http://archive.pt/opensearch?query=test 
+* http://archive.pt/opensearch?query=test&hitsPerPage=100 
+* http://archive.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
 
 See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
 
