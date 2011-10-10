@@ -6,9 +6,9 @@ The Portuguese Web Archive provides an interface for users and tools to easily q
 
 = Details =
 
-The PWA interface follows the OpenSearch 1.1 (Draft 5) namespace defined at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5.
+The PWA interface follows the `OpenSearch 1.1 (Draft 5) namespace` defined at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5.
 
-It also follows the OpenSearch Time extension (Draft 1) namespace at http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1 that describes how to set temporal search parameters. 
+It also follows the `OpenSearch Time extension (Draft 1) namespace` at http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1 that describes how to set temporal search parameters. 
 
 
 
@@ -17,7 +17,7 @@ The OpenSearch description document at XXX describes the public interface and ho
 
 = Query =
 
-The OpenSearch URL must contain the query and search parameters. 
+The `OpenSearch URL` must contain the query and search parameters. 
 Parameters:
 query={search terms} : query terms URL-encoded.
 hitsPerPage={1 to 100} : number of results requested.
@@ -34,8 +34,7 @@ See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Dr
 
 = Response =
 
-The OpenSearch response fields are described at:
-http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements
+The `OpenSearch` response fields are described at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements.
 
 The PWA response fields are described at:
 http://archive.pt/pwa.xsd
