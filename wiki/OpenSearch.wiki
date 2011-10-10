@@ -15,9 +15,9 @@ It also follows the OpenSearch Time extension (Draft 1) namespace at http://www.
 
 The OpenSearch description document at XXX describes the public interface and how the search client should make search requests.
 
-== Query
+= Query =
 
-The OpenSearch URL contains the query and the search parameters. 
+The OpenSearch URL must contain the query and search parameters. 
 Parameters:
 query={search terms} : query terms URL-encoded.
 hitsPerPage={1 to 100} : number of results requested.
@@ -26,21 +26,21 @@ dtstart={} & dtend={}: start and end dates to restrict search. It follow the [RF
 Examples of queries:
 
 http://archive.pt/opensearch?query=test 
-http://archive.pt/opensearch?query=test&hitsPerPage=10 
+http://archive.pt/opensearch?query=test&hitsPerPage=100 
 http://archive.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
 
 See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
 
 
-== Response
+= Response =
 
-Describes the OpenSearch response fields:
+The OpenSearch response fields are described at:
 http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements
 
-Describes the PWA response fields:
-http://t3.tomba.fccn.pt:8080/nutchwax/pwa.xsd
+The PWA response fields are described at:
+http://archive.pt/pwa.xsd
 
-Example:
+Example of a response:
 {{{
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://archive.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
