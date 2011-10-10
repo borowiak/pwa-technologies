@@ -10,10 +10,8 @@ The PWA interface follows the `OpenSearch 1.1 (Draft 5) namespace` defined at ht
 
 It also follows the `OpenSearch Time extension (Draft 1) namespace` at http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1 that describes how to set temporal search parameters. 
 
+The `OpenSearch Description Document` at XXX describes the public interface and how the search client should make search requests.
 
-
-
-The OpenSearch description document at XXX describes the public interface and how the search client should make search requests.
 
 = Query =
 
@@ -21,7 +19,7 @@ The `OpenSearch URL` must contain the query and search parameters.
 Parameters:
 query={search terms} : query terms URL-encoded.
 hitsPerPage={1 to 100} : number of results requested.
-dtstart={} & dtend={}: start and end dates to restrict search. It follow the [RFC-3339 - Date and Time on the Internet: Timestamps http://www.ietf.org/rfc/rfc3339.txt].
+dtstart={} & dtend={}: start and end dates to restrict search. It follow the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps].
 
 Examples of queries:
 
@@ -36,8 +34,8 @@ See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Dr
 
 The `OpenSearch` response fields are described at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements.
 
-The PWA response fields are described at:
-http://archive.pt/pwa.xsd
+The `PWA` response fields are described at
+http://archive.pt/pwa.xsd.
 
 Example of a response:
 {{{
