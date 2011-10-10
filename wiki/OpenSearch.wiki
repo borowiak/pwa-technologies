@@ -16,7 +16,21 @@ It also follows the OpenSearch Time extension (Draft 1) namespace at http://www.
 The OpenSearch description document at XXX describes the public interface and how the search client should make search requests.
 
 == Query
-URL template syntax 
+
+The OpenSearch URL contains the query and the search parameters. 
+Parameters:
+query={search terms} : query terms URL-encoded.
+hitsPerPage={1 to 100} : number of results requested.
+dtstart={} & dtend={}: start and end dates to restrict search. It follow the [RFC-3339 - Date and Time on the Internet: Timestamps http://www.ietf.org/rfc/rfc3339.txt].
+
+Examples of queries:
+
+http://archive.pt/opensearch?query=test 
+http://archive.pt/opensearch?query=test&hitsPerPage=10 
+http://archive.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
+
+See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
+
 
 == Response
 
@@ -31,15 +45,14 @@ Example:
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://archive.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
 <channel>
- <title>PWA Search Engine: teste date:20000101163957-20000103233957</title>
- <description>PWA search results for query: teste date:20000101163957-20000103233957</description>
+ <title>PWA Search Engine: test date:20000101163957-20000103233957</title>
+ <description>PWA search results for query: test date:20000101163957-20000103233957</description>
  <opensearch:totalResults>1</opensearch:totalResults>
  <opensearch:startIndex>0</opensearch:startIndex>
  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
  <opensearch:Query role="request" searchTerms="teste date:20000101163957-20000103233957" startPage="1"/>
  <item>
   <pwa:title>EXPRESSO - «Assumi um desvio social-democrata»</pwa:title>
-
   <pwa:link>http://www.expresso.pt/ed1364/p061.asp?ls</pwa:link>
   <pwa:id>19420800</pwa:id>
   <pwa:index>0</pwa:index>
