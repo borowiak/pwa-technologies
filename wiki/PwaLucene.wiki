@@ -14,7 +14,7 @@ This extension developed in the Java Programming Language can be used as a searc
 
 Lucene classes were changed as little as possible to enable migration of new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn repository were only changed to enable Pwa prefixed classes to work.
 
-The index structure was changed to include fields size. Several ranking functions were added, such as query-dependent, query-independent and time-aware.
+Several ranking functions were added, such as query-dependent, query-independent and time-aware. To support these additional ranking functions the index structure was changed, such as including fields size, and caches were built to store new statistics and metadata. Thus, the users can select a set of functions and their relative weights to produce a combined score that will reflect the documents' relevance for their specific problem.
 
 The original version of Lucene that we extended is lucene-2.1.0. 
 
