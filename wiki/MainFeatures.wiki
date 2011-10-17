@@ -54,8 +54,8 @@ Several performance improvements were needed to achieve our objective of >90% qu
   * direct access to archived documents by encapsulating index information in URLs.
 
 === Quality of Results ===
-  * engineering new ranking algorithms.
-  * enabling to choose the ranking model at runtime.
+  * engineering new ranking algorithms - query-term based, term-distance based, URL based, web-graph based.
+  * enabling to choose the ranking model at runtime or configurable in XML.
   * logging and mining of users' search behaviors and patterns.
 
 === User Interface/Usability ===
