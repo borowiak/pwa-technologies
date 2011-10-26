@@ -10,7 +10,7 @@ The PWA interface follows the `OpenSearch 1.1 (Draft 5) namespace` defined at ht
 
 It also follows the `OpenSearch Time extension (Draft 1) namespace` at http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1 that describes how to set temporal search parameters. 
 
-The `OpenSearch Description Document` at http://archive.pt/opensearch.jsp describes the public interface and how the search client should make search requests.
+The `OpenSearch Description Document` at http://arquivo.pt/opensearch.jsp describes the public interface and how the search client should make search requests.
 
 
 = Query =
@@ -24,9 +24,9 @@ Parameters:
 
 Examples of queries:
 
- * http://archive.pt/opensearch?query=test 
- * http://archive.pt/opensearch?query=test&hitsPerPage=100 
- * http://archive.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
+ * http://arquivo.pt/opensearch?query=test 
+ * http://arquivo.pt/opensearch?query=test&hitsPerPage=100 
+ * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
 
 See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
 
@@ -36,12 +36,12 @@ See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Dr
 The `OpenSearch` response fields are described at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements.
 
 The `PWA` response fields are described at
-http://archive.pt/pwa.xsd.
+http://arquivo.pt/pwa.xsd.
 
 Example of a response:
 {{{
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://archive.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
+<rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://arquivo.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
 <channel>
  <title>PWA Search Engine: test date:20000101163957-20000103233957</title>
  <description>PWA search results for query: test date:20000101163957-20000103233957</description>
