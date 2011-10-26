@@ -52,7 +52,7 @@ Example of a response:
  <opensearch:Query role="request" searchTerms="test" startPage="1"/>
  <item>
   <title>Test</title>
-  <link>http://teste.arquivo.pt/test-deploy_wayback/wayback/id73835index0</link>
+  <link>http://arquivo.pt/wayback/id73835index0</link>
   <source url="http://www.wea.mankato.mn.us/index.html">Original URL of Test</source>
   <pwa:id>73835</pwa:id>
   <pwa:index>0</pwa:index>
@@ -64,7 +64,7 @@ Example of a response:
  </item>
  <item>
   <title>Imagiware Test Page</title>
-  <link>http://teste.arquivo.pt/test-deploy_wayback/wayback/id10644index0</link>
+  <link>http://arquivo.pt/wayback/id10644index0</link>
   <source url="http://www.airworld.com/index.html">Original URL of Imagiware Test Page</source>
   <pwa:id>10644</pwa:id>
   <pwa:index>0</pwa:index>
