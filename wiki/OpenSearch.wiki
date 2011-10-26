@@ -43,20 +43,34 @@ Example of a response:
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://arquivo.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
 <channel>
- <title>PWA Search Engine: test date:20000101163957-20000103233957</title>
- <description>PWA search results for query: test date:20000101163957-20000103233957</description>
- <opensearch:totalResults>1</opensearch:totalResults>
+ <title>PWA Search Engine</title>
+ <description>PWA search results for query: test</description>
+ <link>http://archive.pt</link>
+ <opensearch:totalResults>464</opensearch:totalResults>
  <opensearch:startIndex>0</opensearch:startIndex>
  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
- <opensearch:Query role="request" searchTerms="teste date:20000101163957-20000103233957" startPage="1"/>
+ <opensearch:Query role="request" searchTerms="test" startPage="1"/>
  <item>
-  <pwa:title>EXPRESSO - «Assumi um desvio social-democrata»</pwa:title>
-  <pwa:link>http://www.expresso.pt/ed1364/p061.asp?ls</pwa:link>
-  <pwa:id>19420800</pwa:id>
+  <title>Test</title>
+  <link>http://teste.arquivo.pt/test-deploy_wayback/wayback/id73835index0</link>
+  <source url="http://www.wea.mankato.mn.us/index.html">Original URL of Test</source>
+  <pwa:id>73835</pwa:id>
   <pwa:index>0</pwa:index>
-  <pwa:digest>b1d6bfe07544c5bc0e4454039e8da472</pwa:digest>
-  <pwa:tstamp>20000103210849000</pwa:tstamp>
-  <pwa:contentLength>28611</pwa:contentLength>
+  <pwa:digest>8c3378cc3abd6a750b44243f0f767ce0</pwa:digest>
+  <pwa:tstamp>19961013152110000</pwa:tstamp>
+  <pwa:contentLength>564</pwa:contentLength>
+  <pwa:primaryType>text</pwa:primaryType>
+  <pwa:subType>html</pwa:subType>
+ </item>
+ <item>
+  <title>Imagiware Test Page</title>
+  <link>http://teste.arquivo.pt/test-deploy_wayback/wayback/id10644index0</link>
+  <source url="http://www.airworld.com/index.html">Original URL of Imagiware Test Page</source>
+  <pwa:id>10644</pwa:id>
+  <pwa:index>0</pwa:index>
+  <pwa:digest>62887122d99a780280b38ec2abf79ee3</pwa:digest>
+  <pwa:tstamp>19961013151426000</pwa:tstamp>
+  <pwa:contentLength>358</pwa:contentLength>
   <pwa:primaryType>text</pwa:primaryType>
   <pwa:subType>html</pwa:subType>
  </item>
