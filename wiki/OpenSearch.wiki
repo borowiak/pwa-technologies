@@ -20,7 +20,7 @@ The `OpenSearch URL` must contain the query and search parameters.
 Parameters:
  * query={search terms} : query terms URL-encoded. (required)
  * hitsPerPage={1 to 100} : maximum number of results requested. (optional)
- * dtstart={} & dtend={}: start and end dates to restrict search. It follows the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps]. Both parameters must be set. (optional)
+ * dtstart={} & dtend={}: start and end dates to restrict search. It follows the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps]. Both dates must be set. (optional)
 
 Examples of queries:
 
