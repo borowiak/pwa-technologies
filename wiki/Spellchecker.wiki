@@ -1,4 +1,4 @@
-#summary Portuguese Web ARchive's spellchecker.
+#summary Portuguese Web Archive's spellchecker.
 
 = Introduction =
 
