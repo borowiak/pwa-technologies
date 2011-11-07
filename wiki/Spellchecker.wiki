@@ -4,6 +4,6 @@
 
 Misspellings lead IR systems to provide bad results without users even realizing their mistake. Users assume lack of quality in the system, which decreases their satisfaction and return. We detected this problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated in our user interface the one that provided the best results.
 
-The following text describes the methodology applied to select the best algorithm for spell checking in web archives and the results obtained.
+The following report describes the methodology applied to select the best algorithm for spell checking in web archives and the results obtained.
 
 The datasets (in Portuguese) used can be downloaded from [http://www.linguateca.pt/Repositorio/CorrOrtog/].
