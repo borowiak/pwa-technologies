@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Misspellings lead IR systems to provide bad results without users even realizing their mistake. Users assume a lack of quality in the system, which decreases their satisfaction and returning. We detected the misspelling problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated in our user interface the solution that provided the best results.
+Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and returning. We detected the misspelling problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated the solution that provided the best results in our user interface.
 
 The following technical report describes the adopted methodology, the obtained results and the chosen solution.
 
