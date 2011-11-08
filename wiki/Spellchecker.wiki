@@ -13,11 +13,10 @@ The datasets (in Portuguese) used can be downloaded from [http://www.linguateca.
 = Step-by-step =
 
 Checkout PwaSpellchecker:
- * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/ pwa-technologies`
+ * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/pwa-technologies`
 Install PwaSpellchecker:
  * `cd pwa-technologies/PwaSpellchecker` 
  * `mvn install`
 
 The WAR file is available in:
- * `pwa-technologies/PwaSpellchecker/
-PwaArchive-access/projects/nutchwax/nutchwax-job/target/pwaspellchecker-1.0.0.war`
+ * `pwa-technologies/PwaSpellchecker/PwaArchive-access/projects/nutchwax/nutchwax-job/target/pwaspellchecker-1.0.0.war`
