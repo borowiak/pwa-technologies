@@ -1,5 +1,5 @@
 #summary Portuguese Web Archive's spellchecker.
-#labels spellchecker,suggestion
+#labels spellchecker,querysuggestion
 
 = Introduction =
 
