@@ -19,4 +19,4 @@ Install PwaSpellchecker:
  * `mvn install`
 
 The WAR file is available in:
- * `pwa-technologies/PwaSpellchecker/PwaArchive-access/projects/nutchwax/nutchwax-job/target/pwaspellchecker-1.0.0.war`
+ * `pwa-technologies/PwaSpellchecker/target/pwaspellchecker-1.0.0.war`
