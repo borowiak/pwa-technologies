@@ -8,3 +8,16 @@ Misspellings lead IR systems to provide bad results without users even realizing
 The following technical report describes the adopted methodology, the obtained results and the chosen solution.
 
 The datasets (in Portuguese) used can be downloaded from [http://www.linguateca.pt/Repositorio/CorrOrtog/].
+
+
+= Step-by-step =
+
+Checkout PwaSpellchecker:
+ * `svn checkout http://pwa-technologies.googlecode.com/svn/trunk/ pwa-technologies`
+Install PwaSpellchecker:
+ * `cd pwa-technologies/PwaSpellchecker` 
+ * `mvn install`
+
+The WAR file is available in:
+ * `pwa-technologies/PwaSpellchecker/
+PwaArchive-access/projects/nutchwax/nutchwax-job/target/pwaspellchecker-1.0.0.war`
