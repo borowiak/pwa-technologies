@@ -62,19 +62,6 @@ echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath ${SCRIPTS_DIR
 mv $INDEX_DIR /data/outputs/index-SORTED
 mv $INDEX_DIR_OUT $INDEX_DIR
 }}}
-  # Create cache that indicates if pages have a new version, the file `versions.cache` will be created inside `/data/outputs/index`:
-{{{
-echo -e "CreateCache\n$(date)" >>time;java -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaVersionsCache create /data/outputs/index ; date >> time 
-}}}
-  # Copy versions.cache file to HDFS in a directory named "cache" and execute the process in hadoop:
-{{{
-${HADOOP_HOME}/bin/hadoop fs -mkdir outputs/cache
-${HADOOP_HOME}/bin/hadoop fs -put /data/outputs/index/versions.cache outputs/cache
-echo -e "CreateCache_hadoop\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class org.archive.access.nutch.jobs.NutchwaxCache outputs/cache/ outputs/cache2/; date>>time 
-echo -e "CreateCache_fromhdfs\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs/cache2/part-00000 /data/outputs/index/;date>>time
-rm /data/outputs/index/versions.cache
-mv /data/outputs/index/part-00000 /data/outputs/index/versions.cache
-}}}
   # Stopwords, the searching system ignores all stopwords in queries. Stopwords are defined in the stopwords.cache file inside the index directory. The format of the file is a stopword per line, e.g. There is a file in the `SCRIPTS_DIR` with the pwa stopwords file:
 {{{
 a
