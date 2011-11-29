@@ -1,4 +1,4 @@
-#summary Portuguese Web Archive's spellchecker.
+#summary Portuguese Web Archive's spelling suggester.
 #labels spellchecker,query-suggestion
 
 = Introduction =
