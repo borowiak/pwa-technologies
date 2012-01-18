@@ -3,9 +3,9 @@
 
 = Introduction =
 
-Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and likelihood of returning to the system. We detected the misspelling problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated the solution that provided the best results in our user interface. Read more at [Query Suggestion for Web Archive Search http://sobre.arquivo.pt/about-the-archive/query-suggestion-for-web-archive-search].
+Misspellings lead IR systems to provide bad results without users even realizing their mistakes. Users assume that the system lacks quality, which decreases their satisfaction and likelihood of returning to the system. We detected the misspelling problem in the Portuguese Web Archive. Hence, we analyzed existing solutions for spelling suggestion and integrated the solution that provided the best results in our user interface.
 
-The following technical report describes the adopted methodology, the obtained results and the chosen solution.
+The following technical report [http://sobre.arquivo.pt/about-the-archive/query-suggestion-for-web-archive-search Query Suggestion for Web Archive Search] describes the adopted methodology, the obtained results and the chosen solution.
 
 The datasets (in Portuguese) used can be downloaded from [http://www.linguateca.pt/Repositorio/CorrOrtog/].
 
