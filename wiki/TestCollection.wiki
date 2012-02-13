@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Test collection for WAIR research.
 
 = Introduction =
 
@@ -25,7 +25,7 @@ This corpus includes all type of media formats (e.g. text, image, video and audi
 IR tasks with dierent goals in mind.
 
 
-== Obtaining a Copy of the PWACollection test collection ==
+=== Obtaining a Copy of the PWACollection test collection ===
 
 The PWACollection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] for research purposes only. A dataset may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation, and paying a fee that covers the cost of distributing the dataset.
 
@@ -34,9 +34,12 @@ Please contact saw@asa.fccn.pt for further information.
 
 = Topics =
 
-
+Navigational topics
+Infomational topics
 
 = Relevance Judgments =
 
-Manuallly assessed qrels
-Automaticlly assessed qrels
+Manuallly assessed qrels for navigational topics 
+Automatically assessed qrels for navigational topics
+Manuallly assessed qrels for informational topics 
+Automatically assessed qrels for informational topics
