@@ -38,11 +38,16 @@ Please contact miguel.costa@fccn.pt for further information.
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=topics.xml&can=2&q= Navigational topics.]
  * Infomational topics.
 
+
 = Relevance Judgments =
 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
 
+
+= Evaluation =
+
+Results can be computed with the [trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community, since the test collection follows the TREC file formats. 
 
 
 Information about the methodology used to create the PWA9609 collection will be published soon.
