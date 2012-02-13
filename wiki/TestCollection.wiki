@@ -11,7 +11,7 @@ If you are experimenting with WAIR systems and you are interested in their desig
 
 The corpus is composed by 6 collections of the Portuguese web, broadly considered the web subset of interest to the Portuguese. These collections are indexed and searchable through the public access given by the Portuguese Web Archive (PWA) at http://archive.pt.
 
-In total, the corpus contain 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table.
+In total, the corpus contain 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table, showing a significant heterogeneity in size, age and type. 
 
 || *#* || Years || *Documents (K)* || *Size (GB)* || *Description* ||
 || 1 || 1996 || 75 || 0,316 || selective crawl of most popular sites ||
