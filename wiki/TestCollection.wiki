@@ -47,7 +47,9 @@ Please contact miguel.costa@fccn.pt for further information.
 
 = Evaluation =
 
-Results can be computed with the [trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community, since the test collection follows the TREC file formats. 
+Results can be computed with the [http://trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community, since the test collection follows the TREC file formats. 
 
+
+= Other =
 
 Information about the methodology used to create the PWA9609 collection will be published soon.
