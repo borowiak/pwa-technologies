@@ -5,7 +5,7 @@
 The PWACollection was created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' versions encountered in a real search environment; (2) a set of topics describing users' information
 needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relevance of each document retrieved for each topic. 
 
-If you are experimenting with WAIR systems and you are interested in their design and evaluation, then this collection can be useful for you.
+If you are experimenting with WAIR systems and you are interested in their design and evaluation, then this collection can be useful.
 
 = Corpus =
 
