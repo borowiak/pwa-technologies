@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The PWACollection was created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' versions encountered in a real search environment; (2) a set of topics describing users' information
+The PWA9609 test collection was created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' versions encountered in a real search environment; (2) a set of topics describing users' information
 needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relevance of each document retrieved for each topic. 
 
 If you are experimenting with WAIR systems and you are interested in their design and evaluation, then this collection can be useful.
@@ -28,7 +28,7 @@ IR tasks with dierent goals in mind.
 
 === Obtaining a Copy of the PWACollection test collection ===
 
-The PWACollection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. A dataset may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation, and paying a fee that covers the cost of distributing the dataset.
+The PWA9609 test collection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. The collection may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation, and paying a fee that covers the distribution cost.
 
 Please contact miguel.costa@fccn.pt for further information.
 
@@ -42,3 +42,7 @@ Please contact miguel.costa@fccn.pt for further information.
 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
+
+
+
+Information about the methodology used to create the PWA9609 collection will be published soon.
