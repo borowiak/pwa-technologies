@@ -39,5 +39,5 @@ Please contact saw@asa.fccn.pt for further information.
 
 = Relevance Judgments =
 
-* [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
-* [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
+ * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
+ * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
