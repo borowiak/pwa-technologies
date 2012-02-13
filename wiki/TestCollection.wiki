@@ -34,8 +34,8 @@ Please contact saw@asa.fccn.pt for further information.
 
 = Topics =
 
-* [http://code.google.com/p/pwa-technologies/downloads/detail?name=topics.xml&can=2&q= Navigational topics.]
-* Infomational topics.
+ * [http://code.google.com/p/pwa-technologies/downloads/detail?name=topics.xml&can=2&q= Navigational topics.]
+ * Infomational topics.
 
 = Relevance Judgments =
 
