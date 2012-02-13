@@ -10,21 +10,12 @@ needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relev
 
 The corpus consists of 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in ARC format (8.9 TB uncompressed). These versions are mainly from the Portuguese web and are searchable in http://archive.pt. The corpus' main characteristics are detailed in the following table.
 
-
-{|border="1" cellpadding="5"
-|-
-! scope="col" | Heading for column 1
-! scope="col" | Heading for column 2
-! scope="col" | Heading for column 3
-|-
-|text for row 1, column 1
-|text for row 1, column 2
-|text for row 1, column 3
-|-
-|text for row 2, column 1
-|text for row 2, column 2
-|text for row 2, column 3
-|}
+|| *Year* || *Temperature (low)* || *Temperature (high)* ||
+|| 1900 || -10 || 25 ||
+|| 1910 || -15 || 30 ||
+|| 1920 || -10 || 32 ||
+|| 1930 || _N/A_ || _N/A_ ||
+|| 1940 || -2 || 40 ||
 
 
 However, we believe that this collection can be used to tune the WAIR technology handling other national webs, since many characteristics are shared across countries. 
