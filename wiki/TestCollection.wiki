@@ -1,0 +1,31 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+The PWACollection was created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' version encountered in a real search environment; (2) a set of topics describing users' information
+needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relevance of each document retrieved for each topic. 
+
+
+= Corpus =
+
+The corpus consists of 255 million web pages' versions collected between 1996 and 2009. These versions are mainly from the Portuguese web and are searchable in http://archive.pt.
+
+The corpus' main characteristics are detailed in the following table.
+
+
+
+However, we believe that this collection can be used to tune the WAIR technology handling other national webs, since many characteristics are shared across countries. 
+
+Although a national web, such as the Portuguese, may present some specic characteristics, there are many characteristics shared across countries. Therefore, 
+
+= Topics =
+
+= Relevance Judgments =
+
+Manuallly assessed qrels
+Automaticlly assessed qrels
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
