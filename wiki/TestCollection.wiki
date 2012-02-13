@@ -14,7 +14,7 @@ The corpus is composed by 6 collections of the Portuguese web, broadly considere
 In total, the corpus contain 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table, showing a significant heterogeneity in size, age and type. 
 
 || *#* || Years || *Documents (K)* || *Size (GB)* || *Description* ||
-|| 1 || 1996 || 75 || 0,316 || selective crawl of most popular sites ||
+|| 1 || 1996 || 75 || 0.316 || selective crawl of most popular sites ||
 || 2 ||1996 - 2000 || 5,047 || 48 || broad crawls periodically made by the Internet Archive ||
 || 3 || 2000 - 2008 || 118,842 || 1900 || broad crawls periodically made by the Internet Archive ||
 || 4 || 2004 - 2006 || 14,374 || 165 || selective crawls made by the Portuguese National Library ||
