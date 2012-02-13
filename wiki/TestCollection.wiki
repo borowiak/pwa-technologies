@@ -8,10 +8,23 @@ needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relev
 
 = Corpus =
 
-The corpus consists of 255 million web pages' versions collected between 1996 and 2009. These versions are mainly from the Portuguese web and are searchable in http://archive.pt.
+The corpus consists of 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in ARC format (8.9 TB uncompressed). These versions are mainly from the Portuguese web and are searchable in http://archive.pt. The corpus' main characteristics are detailed in the following table.
 
-The corpus' main characteristics are detailed in the following table.
 
+{|border="1" cellpadding="5"
+|-
+! scope="col" | Heading for column 1
+! scope="col" | Heading for column 2
+! scope="col" | Heading for column 3
+|-
+|text for row 1, column 1
+|text for row 1, column 2
+|text for row 1, column 3
+|-
+|text for row 2, column 1
+|text for row 2, column 2
+|text for row 2, column 3
+|}
 
 
 However, we believe that this collection can be used to tune the WAIR technology handling other national webs, since many characteristics are shared across countries. 
