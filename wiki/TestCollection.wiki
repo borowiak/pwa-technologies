@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The PWACollection was created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' version encountered in a real search environment; (2) a set of topics describing users' information
+The PWACollection created to support research on web archive information retrieval (WAIS). It is composed by three parts: (1) a corpus representative of the documents' version encountered in a real search environment; (2) a set of topics describing users' information
 needs; and (3) relevance judgments (a.k.a. qrels) indicating the degree of relevance of each document retrieved for each topic. 
 
 
@@ -23,6 +23,13 @@ In total, the corpus contain 255 million web pages' versions collected between 1
 
 This corpus includes all type of media formats (e.g. text, image, video and audio) and genres (e.g. news, blogs, wikis) to support future
 IR tasks with dierent goals in mind.
+
+
+== Obtaining a Copy of the PWACollection test collection ==
+
+The PWACollection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] for research purposes only. A dataset may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation, and paying a fee that covers the cost of distributing the dataset.
+
+Please contact saw@asa.fccn.pt for further information.
 
 
 = Topics =
