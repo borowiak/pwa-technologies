@@ -11,7 +11,7 @@ If you are experimenting with WAIR systems and you are interested in their desig
 
 The corpus is composed by 6 collections of the Portuguese web, broadly considered the web subset of interest to the Portuguese. These collections are indexed and searchable through the public access given by the Portuguese Web Archive (PWA) at http://archive.pt.
 
-In total, the corpus contain 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table, showing a significant heterogeneity in size, age and type. 
+In total, the corpus contains 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table, showing a significant heterogeneity in size, age and type. 
 
 || *#* || Years || *Documents (K)* || *Size (GB)* || *Description* ||
 || 1 || 1996 || 75 || 0.316 || selective crawl of most popular sites ||
@@ -22,13 +22,13 @@ In total, the corpus contain 255 million web pages' versions collected between 1
 || 6 || 2009 || 68,776 || 2500 || exhaustive crawl of mostly the .pt domain ||
 || || *TOTAL* || *255,832* || *6213* ||
 
-This corpus includes all type of media formats (e.g. text, image, video and audio) and genres (e.g. news, blogs, wikis) to support future
-IR tasks with dierent goals in mind.
+This corpus includes all types of media formats (e.g. text, image, video and audio) and genres (e.g. news, blogs, wikis) to support future
+IR tasks with different goals in mind.
 
 
 === Obtaining a Copy of the PWA9609 test collection ===
 
-The PWA9609 test collection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. The collection may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation, and paying a fee that covers the distribution cost.
+The PWA9609 test collection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. The collection may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation and paying a fee that covers the distribution cost.
 
 Please contact miguel.costa@fccn.pt for further information.
 
@@ -50,6 +50,6 @@ Please contact miguel.costa@fccn.pt for further information.
 Results can be computed with the [http://trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community, since the test collection follows the TREC file formats. 
 
 
-= Other =
+= Other Issues =
 
 Information about the methodology used to create the PWA9609 collection will be published soon.
