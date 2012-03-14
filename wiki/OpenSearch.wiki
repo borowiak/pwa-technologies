@@ -26,7 +26,8 @@ Examples of queries:
 
  * http://arquivo.pt/opensearch?query=test 
  * http://arquivo.pt/opensearch?query=test&hitsPerPage=100 
- * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-0000&dtend=2003-01-03T23:39:57-0000
+ * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-00:00&dtend=2003-01-03T23:39:57-00:00
+ * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57Z&dtend=2003-01-03T23:39:57Z
 
 See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
 
