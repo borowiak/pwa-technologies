@@ -13,14 +13,14 @@ The corpus is composed by 6 collections of the Portuguese web, broadly considere
 
 In total, the corpus contains 255 million web pages' versions collected between 1996 and 2009. It amounts 6.2TB compressed in [http://en.wikipedia.org/wiki/ARC_%28file_format%29 ARC file format] (8.9 TB uncompressed). The corpus' main characteristics are detailed in the following table, showing a significant heterogeneity in age, size and type. 
 
-|| *#* || Years || *Documents (K)* || *Size (GB)* || *Description* ||
+|| *#* || *Years* || *Documents (K)* || *Size (GB)* || *Description* ||
 || 1 || 1996 || 75 || 0.316 || selective crawl of most popular sites ||
-|| 2 ||1996 - 2000 || 5,047 || 48 || broad crawls periodically made by the Internet Archive ||
-|| 3 || 2000 - 2008 || 118,842 || 1900 || broad crawls periodically made by the Internet Archive ||
-|| 4 || 2004 - 2006 || 14,374 || 165 || selective crawls made by the Portuguese National Library ||
-|| 5 || 2008 || 48,718 || 1600 || [http://sobre.arquivo.pt/sobre-o-arquivo/an-updated-portrait-of-the-portuguese-web exhaustive crawl of mostly the .pt domain] ||
-|| 6 || 2009 || 68,776 || 2500 || exhaustive crawl of mostly the .pt domain ||
-|| || *TOTAL* || *255,832* || *6213* ||
+|| 2 ||1996 - 2000 || 5 047 || 48 || broad crawls periodically made by the Internet Archive ||
+|| 3 || 2000 - 2008 || 118 842 || 1 900 || broad crawls periodically made by the Internet Archive ||
+|| 4 || 2004 - 2006 || 14 374 || 165 || selective crawls made by the Portuguese National Library ||
+|| 5 || 2008 || 48 718 || 1 600 || [http://sobre.arquivo.pt/sobre-o-arquivo/an-updated-portrait-of-the-portuguese-web exhaustive crawl of mostly the .pt domain] ||
+|| 6 || 2009 || 68 776 || 2 500 || exhaustive crawl of mostly the .pt domain ||
+|| || *TOTAL* || *255 832* || *6 213* ||
 
 This corpus includes all types of media formats (e.g. text, image, video and audio) and genres (e.g. news, blogs, wikis) to support future
 IR tasks with different goals in mind.
@@ -44,7 +44,7 @@ Please contact miguel.costa@fccn.pt for further information.
 || *Grade* || *Very relevant* || *Relevant* || *Not relevant* ||
 || manual || 69 || 91 || 1 819 ||
 || automatic || 5 168 || 5 571 || 257 083 ||
-|| Total || 5 237 || 5 662 || 258 902 ||
+|| *TOTAL* || *5 237* || *5 662* || *258 902* ||
 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
