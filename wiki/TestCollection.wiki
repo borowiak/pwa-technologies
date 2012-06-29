@@ -41,6 +41,11 @@ Please contact miguel.costa@fccn.pt for further information.
 
 = Relevance Judgments =
 
+|| *Grade* || *Very relevant* || *Relevant* || *Not relevant* ||
+|| manual || 69 || 91 || 1 819 ||
+|| automatic || 5 168 || 5 571 || 257 083 ||
+|| Total || 5 237 || 5 662 || 258 902 ||
+
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.manual&can=2&q= Manuallly assessed qrels.] 
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
 
