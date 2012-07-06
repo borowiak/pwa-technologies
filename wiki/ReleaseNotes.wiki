@@ -1,0 +1,133 @@
+#summary Release Notes for project
+#labels Featured
+
+=2011.7.29 (r151)=
+
+===New:===
+  * Import of the Portuguese Web Archive code
+  * Added resource files and management scripts
+
+===Change:===
+  * Added info to the project configuration files
+  * Fix an overwrite with old configuration files and compiling the project.
+
+===Removed:===
+  * Deprecated classes and libraries
+
+=2011.10.11 (r191)=
+
+===New:===
+  * Added OpenSearch auto-discovery by browsers (issue 1).
+  * Added XML Schema for the PWA namespace.
+
+===Changes:===
+  * Updated OpenSearch code to spec 1.1.
+  * Added OpenSearch Time extension namespace.
+  * Added RFC3339 to opensearch time extension.
+  * Remove old and commented code of the opensearch service.
+  * OpenSearch bug fixes.
+  * Read global parameters for the ranking algorithms instead of those being hard-coded
+  * Update the OpenSearch description to allow the OpenSearch time extension for RSS+XML (issue 2).
+
+=2011.10.13 (r192)=
+
+===Changes:===
+  * Fix unescaped ampersand and wrong MIME-type for the OpenSearch RSS
+
+=2011.10.20 (r199)=
+
+===Changes:===
+  * Switch old MCTES logo for the temporary logo of the MEC(Portuguese Ministry of
+Science, Technology and Higher Education).
+
+=2011.12.06 (r207)=
+
+===Changes:===
+  * Fixed several problems in the opensearch response that were not respecting 
+the specification.
+  * PWA xsd, for opensearch, changed.
+
+
+=2012.1.2 (r337)=
+
+===New:===
+  * New graphical layout
+  * Added several new term-based and temporal ranking features (BM25, TFxIDF, PageRank, URLDepth, Age, BoostNewer, BoostOlder, URLSlash, BoostNewerOlder, LuceneSimilarity, MinSpan, LinInlinks, NumberVersions, SPanVersions, TimePointDivergence)
+  * Added memcached/membase support for global data sharing between all collections.
+  * Added the code of the spellchecker(PwaSpellchecker)
+
+===Changes:===
+  * A wrong date was being displayed for search results.
+  * Fixed cases where specific types of queries changed the language of the UI.
+  * Fixed several issues where the UI language reverted to the default language.
+  * Fix XHTML validation errors on several pages.
+  * Lucene and Nutch similarity function normalized with an exponential decay.
+  * Ranking functions updated in configuration file.
+  * Fix integer concatenation of floats division on the scorer.
+  * Several bugfixes on ranking features and algorithms.
+  * Caches for URL version and flags of new version were removed.
+  * Change spellchecker to use Hunspell instead of Aspell.
+  * Changes and updated in the footer and sponsors.
+  * Force the request encoding before it is read/used.
+  * Deprecating taglibs-i18n on the OpenSearch JSP in favor of taglibs-fmt.
+  * Fixed missing dependencies.
+  * I18n updates and fixes.
+  * Several UI fixes.
+  * Some code refactoring.
+  * other bugfixes .
+
+===Removed:===
+  * Removed unused code.
+  * Remove non-working wayback and spellchecker configurations.
+  * Removed lucene cache. It has not been used.
+  * Removed old parameter "search.max.hits" in favor of "max.fulltext.matches.ranked".
+
+=2012.1.5 (r345)=
+
+===New:===
+  * Added the code of the "PwaProcessor" project. This project facilitates the processing of archived files in the ARC format.
+
+===Changes:===
+  * The grid of versions on the history page was incorrectly being filled.
+  * One of the i18n files wasn't being called.
+  * Remove old, uneeded UI files.
+  * One of the i18n files wasn't being called.
+
+=2012.1.10 (r346)=
+
+===Changes:===
+  * Fixed a problem where queries with quotes returned zero results.
+
+=2012.3.16 (r399)=
+
+===New:===
+  * "PwaLogsMiner" project added. This code is used for processing the access logs
+  * Apply TFxIDF and BM25 functions over all index fields.
+  * Added a new temporal feature for the ranking algorithm. It uses the number of versions and time span between changed versions.
+
+===Changes:===
+  * Changed the threshold for the minimum number of terms that occur only in the anchor field when matching a document.
+  * Adding dependencies no longer available on repositories.
+  * Updated the Portuguese texts to respect the new Portuguese Ortographic Agreement.
+  * Increased the number of matched documents returned by Nutch to 2K.
+  * Several bugfixes in the TFxIDF code.
+  * Uped the number of anchor terms used by the ranking algorithm.
+  * Fixed the project building that failed due to missing libs and classes.
+  * Created an in-project maven repository to handle deprecated/old dependencies.
+  * Index servers response timeout set to 60 seconds.
+  * The memcache timeout set to 5 seconds.
+  * Updated information and resources links for project resources in Maven file.
+  * Other fixes.
+
+===Removed:===
+  * Remove the WERA sub-project. We don't use it and seems deprecated.
+
+=2012.3.20 (r400)=
+
+===Changes:===
+  * Added information for testing
+
+=2012.3.30 (r401)=
+
+===Changes:===
+  * A wrong configuration was presenting the result page as the intro page.
