@@ -14,6 +14,7 @@
 ===Removed:===
   * Deprecated classes and libraries
 
+<br>
 =2011.10.11 (r191)=
 
 ===New:===
@@ -29,17 +30,20 @@
   * Read global parameters for the ranking algorithms instead of those being hard-coded
   * Update the OpenSearch description to allow the OpenSearch time extension for RSS+XML (issue 2).
 
+<br>
 =2011.10.13 (r192)=
 
 ===Changes:===
   * Fix unescaped ampersand and wrong MIME-type for the OpenSearch RSS
 
+<br>
 =2011.10.20 (r199)=
 
 ===Changes:===
   * Switch old MCTES logo for the temporary logo of the MEC(Portuguese Ministry of
 Science, Technology and Higher Education).
 
+<br>
 =2011.12.06 (r207)=
 
 ===Changes:===
@@ -47,7 +51,7 @@ Science, Technology and Higher Education).
 the specification.
   * PWA xsd, for opensearch, changed.
 
-
+<br>
 =2012.1.2 (r337)=
 
 ===New:===
@@ -82,6 +86,7 @@ the specification.
   * Removed lucene cache. It has not been used.
   * Removed old parameter "search.max.hits" in favor of "max.fulltext.matches.ranked".
 
+<br>
 =2012.1.5 (r345)=
 
 ===New:===
@@ -93,6 +98,7 @@ the specification.
   * Remove old, uneeded UI files.
   * One of the i18n files wasn't being called.
 
+<br>
 =2012.1.10 (r346)=
 
 ===Changes:===
@@ -122,11 +128,13 @@ the specification.
 ===Removed:===
   * Remove the WERA sub-project. We don't use it and seems deprecated.
 
+<br>
 =2012.3.20 (r400)=
 
 ===Changes:===
   * Added information for testing
 
+<br>
 =2012.3.30 (r401)=
 
 ===Changes:===
