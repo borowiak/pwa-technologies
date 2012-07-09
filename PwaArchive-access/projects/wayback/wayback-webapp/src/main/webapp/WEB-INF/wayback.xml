@@ -28,7 +28,6 @@
     			<property name="captureJsp" value="/jsp/innerCalendarResults.jsp" />
     		</bean>
 	</property>
-
    	<property name="replay">
       		<bean class="org.archive.wayback.archivalurl.ArchivalUrlReplayDispatcher">
         		<property name="serverSideRendering" value="false" />
@@ -37,7 +36,6 @@
             			<value>/replay/ArchiveComment.jsp</value>
             			<value>/replay/ClientSideJSInsert.jsp</value>
             			<value>/replay/Disclaimer.jsp</value>
-                        <value>/replay/analytics.jsp</value>
           		</list>
         		</property>
       		</bean>
@@ -62,7 +60,6 @@
     			<property name="captureJsp" value="/jsp/innerCalendarResults.jsp" />
     		</bean>
 	</property>
-
    	<property name="replay">
       		<bean class="org.archive.wayback.archivalurl.ArchivalUrlReplayDispatcher">
         		<property name="serverSideRendering" value="false" />
@@ -71,7 +68,6 @@
             			<value>/replay/ArchiveComment.jsp</value>
             			<value>/replay/ClientSideJSInsert.jsp</value>
             			<value>/replay/Disclaimer.jsp</value>
-                        <value>/replay/analytics.jsp</value>
           		</list>
         		</property>
       		</bean>

@@ -78,11 +78,7 @@ class LuceneQueryOptimizer {
         timeCounter++;
         try {
           Thread.sleep(tick);
-        } 
-        catch (InterruptedException ie) 
-        {
-        	// ignore
-        };
+        } catch (InterruptedException ie) {};
       }
     }
   }
@@ -94,10 +90,10 @@ class LuceneQueryOptimizer {
     }
   }
   
+
   private static class TimeExceeded extends RuntimeException {
     public long maxTime;
     private int maxDoc;
-    
     public TimeExceeded(long maxTime, int maxDoc) {
       super("Exceeded search time: " + maxTime + " ms.");
       this.maxTime = maxTime;
@@ -105,7 +101,6 @@ class LuceneQueryOptimizer {
     }
   }
 
-  
   private static class LimitedCollector extends TopDocCollector {
     private int maxHits;
     private int maxTicks;
@@ -113,7 +108,8 @@ class LuceneQueryOptimizer {
     private TimerThread timer;
     private int curTicks;
 
-    public LimitedCollector(int numHits, int maxHits, int maxTicks, TimerThread timer, boolean reverse) {
+    public LimitedCollector(int numHits, int maxHits, int maxTicks,
+            TimerThread timer, boolean reverse) {
       super(numHits, reverse);
       this.maxHits = maxHits;
       this.maxTicks = maxTicks;
@@ -137,16 +133,14 @@ class LuceneQueryOptimizer {
       }
       super.collect(doc, score);
     }
-  }  
-  
-  private static class LimitExceeded extends RuntimeException {
+  }  private static class LimitExceeded extends RuntimeException {
     private int maxDoc;
     public LimitExceeded(int maxDoc) { this.maxDoc = maxDoc; }    
   }
   
-  
+  private LinkedHashMap cache;                   // an LRU cache of QueryFilter
   private float threshold;
-  private int maxFulltextMatchesRanked;
+  private int searcherMaxHits;
   private int tickLength;
   private int maxTickCount;  
   private int timeoutResponse;
@@ -164,40 +158,103 @@ class LuceneQueryOptimizer {
    */
   public LuceneQueryOptimizer(Configuration conf) {
     final int cacheSize = conf.getInt("searcher.filter.cache.size", 16);
-    this.threshold = conf.getFloat("searcher.filter.cache.threshold", 0.05f);       
+    this.threshold = conf.getFloat("searcher.filter.cache.threshold",
+        0.05f);
+    this.searcherMaxHits = conf.getInt("searcher.max.hits", -1);
+    this.cache = new LinkedHashMap(cacheSize, 0.75f, true) {
+      protected boolean removeEldestEntry(Map.Entry eldest) {
+        return size() > cacheSize; // limit size of cache
+      }
+    };
     this.tickLength = conf.getInt("searcher.max.time.tick_length", 200);
     this.maxTickCount = conf.getInt("searcher.max.time.tick_count", -1);
-    this.maxFulltextMatchesRanked = conf.getInt(Global.MAX_FULLTEXT_MATCHES_RANKED, -1);
     this.timeoutResponse = conf.getInt(Global.TIMEOUT_INDEX_SERVERS_RESPONSE, -1);
     if (timeoutResponse>0) { 
     	this.maxTickCount=timeoutResponse;
     	this.tickLength=1000;
     }       
     if (this.maxTickCount > 0) {
-    	initTimerThread(this.tickLength);
-    }       
+      initTimerThread(this.tickLength);
+    }
+    
+    this.cacheType = conf.get(Global.CACHE_TYPE);
   }
 
-  public TopDocs optimize(BooleanQuery original, Searcher searcher, int numHits, String sortField, boolean reverse) throws IOException {
+  public TopDocs optimize(BooleanQuery original,
+                          Searcher searcher, int numHits,
+                          String sortField, boolean reverse)
+    throws IOException {
+
     BooleanQuery query = new BooleanQuery(); 
-    Filter filter = null;
+    
+    BooleanQuery cacheQuery = new BooleanQuery();
+    BooleanQuery filterQuery = new BooleanQuery();
+    ArrayList filters = new ArrayList();
 
     BooleanClause[] clauses = original.getClauses();
     for (int i = 0; i < clauses.length; i++) {
       BooleanClause c = clauses[i];
-      if (c.isRequired() && c.getQuery().getBoost() == 0.0f) {   // boost is zero
+      if (c.isRequired()                          // required
+          && c.getQuery().getBoost() == 0.0f) {   // boost is zero
 
-    	  	if (c.getQuery() instanceof TermQuery     // TermQuery
-    	  			&& (searcher.docFreq(((TermQuery)c.getQuery()).getTerm()) / (float)searcher.maxDoc()) < threshold) { // beneath threshold
-    	  		query.add(c);                          
-    	  	}          
-    	  	else if (c.getQuery() instanceof RangeQuery) { // RangeQuery        
-    	  		query.add(c);     	  		
-    	  	}       
+        if (c.getQuery() instanceof TermQuery     // TermQuery
+            && (searcher.docFreq(((TermQuery)c.getQuery()).getTerm())
+                / (float)searcher.maxDoc()) < threshold) { // beneath threshold
+          query.add(c);                           // don't filterize
+          continue;
+        }
+          
+        if (c.getQuery() instanceof RangeQuery) { // RangeQuery
+         /* TODO MC - handled by ArquivoWebDateRangeCacheFilter class	
+          RangeQuery range = (RangeQuery)c.getQuery();
+          boolean inclusive = range.isInclusive();// convert to RangeFilter
+          Term lower = range.getLowerTerm();
+          Term upper = range.getUpperTerm();
+          filters.add(new RangeFilter(lower!=null?lower.field():upper.field(),
+                                      lower != null ? lower.text() : null,
+                                      upper != null ? upper.text() : null,
+                                      inclusive, inclusive));
+          cacheQuery.add(c.getQuery(), BooleanClause.Occur.MUST); // cache it
+         */
+        	
+          query.add(c); // TODO MC - added for ArquivoWebScorer class to receive it 
+          continue;
+        }       
+
+        // all other query types
+        filterQuery.add(c.getQuery(), BooleanClause.Occur.MUST);  // filter it
+        cacheQuery.add(c.getQuery(), BooleanClause.Occur.MUST);   // cache it        
+        continue;
       }
-      else {
-    	  query.add(c);                               // query it
-      }
+
+      query.add(c);                               // query it
+    }
+
+    Filter filter = null;
+    if (cacheType.equals(Global.CACHE_TYPE_CACHED)) {    	
+    	if (cacheQuery.getClauses().length != 0) {
+    		synchronized (cache) {                      // check cache
+    			filter = (Filter)cache.get(cacheQuery);
+    		}
+    		if (filter == null) {                       // miss
+    			if (filterQuery.getClauses().length != 0) // add filterQuery to filters
+    				filters.add(new QueryFilter(filterQuery));
+
+    			if (filters.size() == 1) {                // convert filters to filter
+    				filter = (Filter)filters.get(0);
+    			} else {
+    				filter = new ChainedFilter((Filter[])filters.toArray
+                                     (new Filter[filters.size()]),
+                                     ChainedFilter.AND);
+    			}
+    			if (!(filter instanceof QueryFilter))     // make sure bits are cached
+    				filter = new CachingWrapperFilter(filter);
+        
+    			synchronized (cache) {
+    				cache.put(cacheQuery, filter);          // cache the filter
+    			}
+    		}        
+    	}    
     }
     
     query.setFunctions(original.getFunctions());  
@@ -206,15 +263,17 @@ class LuceneQueryOptimizer {
     }
     
     // print query
-    LOG.info("Query:"+query.toString());   
+    LOG.debug("Query:"+query.toString());   
     
+    //if (sortField == null && !reverse) {
+
     // no hit limit
-    if (this.maxFulltextMatchesRanked <= 0 && timerThread == null)  {
+    if (this.searcherMaxHits <= 0 && timerThread == null)  {
     	return searcher.search(query, filter, numHits);
     }
 
     // hits limited in time or in count -- use a LimitedCollector
-    LimitedCollector collector = new LimitedCollector(numHits, maxFulltextMatchesRanked, maxTickCount, timerThread, (sortField!=null) ? !reverse : reverse);
+    LimitedCollector collector = new LimitedCollector(numHits, searcherMaxHits, maxTickCount, timerThread, (sortField!=null) ? !reverse : reverse);
     LimitExceeded exceeded = null;
     TimeExceeded timeExceeded = null;
     try {
@@ -228,22 +287,32 @@ class LuceneQueryOptimizer {
     }
     TopDocs results = collector.topDocs();
     if (exceeded != null) {                     // limit was exceeded
-    	results.totalHits = (int)(results.totalHits*(searcher.maxDoc()/(float)exceeded.maxDoc)); // estimate totalHits
+    	results.totalHits = (int)                 // must estimate totalHits
+    	(results.totalHits*(searcher.maxDoc()/(float)exceeded.maxDoc));
     } 
     else if (timeExceeded != null) {
+    	// Estimate total hits.
     	results.totalHits = (int)(results.totalHits * (searcher.maxDoc()/(float)timeExceeded.maxDoc));
     }
-    return results;              
+    return results;
+    
+    /*
+    } 
+    else {
+    	return searcher.search(query, filter, numHits,
+                             new Sort(sortField, reverse));
+    }
+    */            
   }
   
 
   /** 
    * @param numHits number of top results
-   * @param maxFulltextMatchesRanked number of matched documents for ranking
+   * @param searcherMaxHits number of matched documents for ranking
    */
-  public TopDocs optimize(BooleanQuery original, Searcher searcher, int numHits, int maxFulltextMatchesRanked, String sortField, boolean reverse) throws IOException {
-	  if (maxFulltextMatchesRanked!=NutchBean.MATCHED_DOCS_CONST_IGNORE) {
-		  this.maxFulltextMatchesRanked=maxFulltextMatchesRanked;
+  public TopDocs optimize(BooleanQuery original, Searcher searcher, int numHits, int searcherMaxHits, String sortField, boolean reverse) throws IOException {
+	  if (searcherMaxHits!=NutchBean.MATCHED_DOCS_CONST_IGNORE) {
+		  this.searcherMaxHits=searcherMaxHits;
 	  }
 	  return optimize(original, searcher, numHits, sortField, reverse);
   }

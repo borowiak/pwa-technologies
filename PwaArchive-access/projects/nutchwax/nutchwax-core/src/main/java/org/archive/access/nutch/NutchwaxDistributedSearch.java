@@ -30,8 +30,6 @@ import org.apache.hadoop.ipc.RPC;
 import org.apache.nutch.searcher.NutchBean;
 import org.apache.nutch.global.Global;
 
-import java.io.File;
-
 
 /** 
  * Script to start up a Nutchwax Distributed Searcher.
@@ -55,22 +53,19 @@ public class NutchwaxDistributedSearch
 		public static void main(String[] args) throws Exception
 		{
 			String usage =
-				"NutchwaxDistributedSearch$Server <port> <index dir> <blacklist dir>";
+				"NutchwaxDistributedSearch$Server <port> <index dir>";
 
-			if (args.length == 0 || args.length > 3) {
+			if (args.length == 0 || args.length > 2)
+			{
 				System.err.println(usage);
 				System.exit(-1);
 			}
 
 			int port = Integer.parseInt(args[0]);
 			Path directory = new Path(args[1]);
-			File blacklistFile = null;
-			if (args.length==3 && args[2]!=null) {
-				blacklistFile = new File(args[2]);
-			}
 
 			Configuration conf = NutchwaxConfiguration.getConfiguration();
-			NutchBean bean = new NutchBean(conf, directory, blacklistFile);
+			NutchBean bean = new NutchBean(conf, directory);
 			int numHandlers=conf.getInt(Global.NUMBER_HANDLERS, -1);
 		    boolean ipcVerbose=conf.getBoolean(Global.IPC_VERBOSE, false);
 
