@@ -18,7 +18,6 @@
 package org.apache.nutch.searcher;
 
 import java.io.IOException;
-import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -57,25 +56,25 @@ public class IndexSearcher implements Searcher, HitDetailer {
   private PwaCacheManager cache;
 
   /** Construct given a number of indexes. */
-  public IndexSearcher(Path[] indexDirs, Configuration conf, File blacklistFile) throws IOException {
+  public IndexSearcher(Path[] indexDirs, Configuration conf) throws IOException {
     IndexReader[] readers = new IndexReader[indexDirs.length];
     this.conf = conf;
     this.fs = FileSystem.get(conf);
     for (int i = 0; i < indexDirs.length; i++) {
       readers[i] = IndexReader.open(getDirectory(indexDirs[i]));
     }
-    init(new MultiReader(readers), conf, blacklistFile);
+    init(new MultiReader(readers), conf);
   }
 
   /** Construct given a single merged index. */
-  public IndexSearcher(Path index,  Configuration conf, File blacklistFile)
+  public IndexSearcher(Path index,  Configuration conf)
     throws IOException {
     this.conf = conf;
     this.fs = FileSystem.get(conf);
-    init(IndexReader.open(getDirectory(index)), conf, blacklistFile);
+    init(IndexReader.open(getDirectory(index)), conf);
   }
 
-  private void init(IndexReader reader, Configuration conf, File blacklistFile) throws IOException {
+  private void init(IndexReader reader, Configuration conf) throws IOException {
     this.reader = reader;
     this.luceneSearcher = new org.apache.lucene.search.IndexSearcher(reader);
     this.luceneSearcher.setSimilarity(new NutchSimilarity());
@@ -83,7 +82,7 @@ public class IndexSearcher implements Searcher, HitDetailer {
     this.queryFilters = new QueryFilters(conf);
     
     // read all caches     		
-    cache=PwaCacheManager.getInstance(reader,blacklistFile);
+    cache=PwaCacheManager.getInstance(reader);
   }
 
   private Directory getDirectory(Path file) throws IOException {
