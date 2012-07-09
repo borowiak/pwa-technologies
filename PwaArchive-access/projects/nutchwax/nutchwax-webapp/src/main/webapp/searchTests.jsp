@@ -23,9 +23,10 @@
   import="org.apache.nutch.global.Global"
 
 %><%!
-  //private static Calendar DATE_START = new GregorianCalendar(1996, 1-1, 1);
-  private static final DateFormat FORMAT =  new SimpleDateFormat("yyyyMMddHHmmss");
-  private static final DateFormat DISPLAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  public static final DateFormat FORMAT =
+    new SimpleDateFormat("yyyyMMddHHmmss");
+  public static final DateFormat DISPLAY_FORMAT =
+    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private static final String COLLECTION_KEY = "collection";
   private static final String COLLECTION_QUERY_PARAM_KEY = COLLECTION_KEY + ":";
 %><%
@@ -36,14 +37,6 @@
   request.setCharacterEncoding("UTF-8");
 
   bean.LOG.info("query request from " + request.getRemoteAddr());
-
-
-  // get info if summary should be presented from request
-  String summaryString = request.getParameter("summary");  
-  boolean showSummary = true;
-  if (summaryString!=null && summaryString.equals("false")) {
-    showSummary=false;
-  }
 
   // get query from request
   String queryString = request.getParameter("query");
@@ -102,55 +95,6 @@
   String params = "&hitsPerPage=" + hitsPerPage +
     (sort == null ? "" : "&sort=" + sort + (reverse? "&reverse=true": "") +
     (dedupField == null ? "" : "&dedupField=" + dedupField));
-
-
-
-  /*** Start date ***/
-  Calendar dateStart = null;
-  SimpleDateFormat inputDateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-
-  if ( request.getParameter("dateStart") != null && !request.getParameter("dateStart").equals("") ) {
-        try {
-		dateStart=new GregorianCalendar();
-                dateStart.setTime( inputDateFormatter.parse(request.getParameter("dateStart")) );
-        } 
-        catch (NullPointerException e) {
-                bean.LOG.debug("Invalid Start Date:"+ request.getParameter("dateStart") +"|");
-        }
-  }
-
-  /*** End date ***/
-  Calendar dateEnd = null;
-
-  if ( request.getParameter("dateEnd") != null && !request.getParameter("dateEnd").equals("") ) {
-        try {
-		dateEnd=new GregorianCalendar();
-                dateEnd.setTime( inputDateFormatter.parse(request.getParameter("dateEnd")) );
-                // be sure to set the end date to the very last second of that day.
-                dateEnd.set( Calendar.HOUR_OF_DAY, 23 );
-                dateEnd.set( Calendar.MINUTE, 59 );
-                dateEnd.set( Calendar.SECOND, 59 );
-        } 
-        catch (NullPointerException e) {
-                bean.LOG.debug("Invalid End Date:"+ request.getParameter("dateEnd") +"|");
-        }
-  }
-
-
-  String dateStartString = "";
-  String dateEndString = "";
-
-  /*** Switch dates if start GT end ***/
-  // TODO - check if start date is GT end
-  /*** Add dates to nutch query ***/
-  if (queryString!=null && queryString!="" && dateStart!=null && dateEnd!=null) {
-        queryString += " date:"+ FORMAT.format( dateStart.getTime() );
-        queryString += "-";
-        queryString += FORMAT.format( dateEnd.getTime() );
-
-	dateStartString = inputDateFormatter.format( dateStart.getTime() );
-	dateEndString = inputDateFormatter.format( dateEnd.getTime() );
-  } 
     
   Query query = NutchwaxQuery.parse(queryString, nutchConf);
   bean.LOG.info("query: " + query.toString());
@@ -183,10 +127,13 @@
 <title>Internet Archive: <i18n:message key="title"/></title>
 <link rel="shortcut icon" href="img/logo-16.jpg" type="image/x-icon"/>
 <!-- <jsp:include page="/include/style.html"/> -->
-<!-- <link type="text/css" href="css/style.css" rel="stylesheet" /> -->
+<link type="text/css" href="css/style.css" rel="stylesheet" />
 </head>
 
 <body>
+<div id="header">
+<%@include file="header.jsp" %>
+</div>
 
  <form name="search" action="searchTests.jsp" method="get">
 
@@ -240,7 +187,7 @@ number of version returned: <%= hitsPerVersion %>
 -->
 number of matches from the same site returned: <%= hitsPerDup %>
 <input name="hitsPerDup" size=10 maxlength=10 value=<%= hitsPerDup %>>
-(0 shows all)
+(>0)
 <br>
 <br>
 
@@ -301,49 +248,47 @@ boosts: <%= sboosts %>
   27 AverageFieldLength : title <br>
   28 TF-IDF : title <br> 
   29 BM-25 : title <br>
-  30 TF-IDF : content + url + host + anchor + title <br>
-  31 BM-25 : content + url + host + anchor + title <br>
-  32 Lucene : content + url + host + anchor + title <br>
-  33 Lucene normalized : content + url + host + anchor + title <br>
-  34 Nutch : content + url + host + anchor + title <br>
-  35 Nutch normalized : content + url + host + anchor + title <br>
+  30 Lucene : content + url + host + anchor + title <br>
+  31 Lucene normalized : content + url + host + anchor + title <br>
+  32 Nutch : content + url + host + anchor + title <br>
+  33 Nutch normalized : content + url + host + anchor + title <br>
 <h3>Term-distance functions: </h3>
-  36 MinSpanCovOrd - content <br>
-  37 MinSpanCovUnord - content <br>
-  38 MinPairDist - content <br>
-  39 MinSpanCovOrd - url <br>
-  40 MinSpanCovUnord - url <br>
-  41 MinPairDist - url <br>
-  42 MinSpanCovOrd - host <br>
-  43 MinSpanCovUnord - host <br>
-  44 MinPairDist - host <br>
-  45 MinSpanCovOrd - anchor <br>
-  46 MinSpanCovUnord - anchor <br> 
-  47 MinPairDist - anchor <br>
-  48 MinSpanCovOrd - title <br>
-  49 MinSpanCovUnord - title <br>
-  50 MinPairDist - title <br>
+  34 MinSpanCovOrd - content <br>
+  35 MinSpanCovUnord - content <br>
+  36 MinPairDist - content <br>
+  37 MinSpanCovOrd - url <br>
+  38 MinSpanCovUnord - url <br>
+  39 MinPairDist - url <br>
+  40 MinSpanCovOrd - host <br>
+  41 MinSpanCovUnord - host <br>
+  42 MinPairDist - host <br>
+  43 MinSpanCovOrd - anchor <br>
+  44 MinSpanCovUnord - anchor <br> 
+  45 MinPairDist - anchor <br>
+  46 MinSpanCovOrd - title <br>
+  47 MinSpanCovUnord - title <br>
+  48 MinPairDist - title <br>
 <h2>Query-independent features: </h2>
 <h3>URL based Functions: </h3>
-  51 UrlDepth <br>
-  52 UrlSlashes <br>
-  53 UrlLength <br>
+  49 UrlDepth <br>
+  50 UrlSlashes <br>
+  51 UrlLength <br>
 <h3>Web-graph based functions: </h3>
-  54 Inlinks <br>
-  55 LinInlinks <br>
+  52 Inlinks <br>
+  53 LinInlinks <br>
 <h2>Temporal features: </h2>
-  56 QueryIssueTime (in days) <br>
-  57 Age - from query time (in days) <br>
-  58 TimestampVersion (in days) <br>
-  59 TimestampOldestVersion (in days) <br>
-  60 TimestampNewestVersion (in days) <br>
-  61 SpanVersions (in days) <br>
-  62 SpanVersions (normalized) <br>
-  63 NumberVersions <br>
-  64 NumberVersions (normalized) <br>
-  65 BoostNewer <br>
-  66 BoostOlder <br>
-  67 BoostNewerAndOlder <br>
+  54 QueryIssueTime (in days) <br>
+  55 Age - from query time (in days) <br>
+  56 TimestampVersion (in days) <br>
+  57 TimestampOldestVersion (in days) <br>
+  58 TimestampNewestVersion (in days) <br>
+  59 SpanVersions (in days) <br>
+  60 SpanVersions (normalized) <br>
+  61 NumberVersions <br>
+  62 NumberVersions (normalized) <br>
+  63 BoostNewer <br>
+  64 BoostOlder <br>
+  65 BoostNewerAndOlder <br>
 </p>
 </div>
 
@@ -395,10 +340,7 @@ Search took <%= searchTime/1000.0 %> seconds.
 
    Hit[] show = hits.getHits(start, realEnd-start);
    HitDetails[] details = bean.getDetails(show);
-   Summary[] summaries = null;
-   if (showSummary) {
-	summaries=bean.getSummary(details, query);
-   }
+   Summary[] summaries = bean.getSummary(details, query);
    bean.LOG.info("total hits: " + hits.getTotal());
 
    String collectionsHost = nutchConf.get("wax.host", "examples.com");
@@ -418,7 +360,8 @@ Search took <%= searchTime/1000.0 %> seconds.
     String id = "idx=" + hit.getIndexNo() + "&id=" + hit.getIndexDocNo();
 
     String caching = detail.getValue("cache");
-    if (caching!=null && showSummary==true) {
+    boolean showSummary = true;
+    if (caching != null) {
       showSummary = !caching.equals(Nutch.CACHING_FORBIDDEN_ALL);
     }
 
@@ -432,15 +375,10 @@ Search took <%= searchTime/1000.0 %> seconds.
     String target = "http://"+ collectionsHost +"/id"+ hit.getIndexDocNo() +"index"+ hit.getIndexNo();
     //pageContext.setAttribute("target", target);
 
-    int position = i; 
-    String allVersions = null;
-    if (dateStart!=null && dateEnd!=null) {    
-	allVersions = "search.jsp?query="+ URLEncoder.encode(url, "UTF-8") +"&dateStart="+ dateStartString + "&dateEnd="+ dateEndString +"&pos="+ String.valueOf(position);	    
-    }
-    else { 
-    	allVersions = "search.jsp?query="+ URLEncoder.encode(url, "UTF-8") +"&pos="+ String.valueOf(position);	    
-    }
-
+    String dateStartString = "";
+    String dateEndString = "";
+    int position=0;
+    String allVersions = "search.jsp?query="+ URLEncoder.encode(url, "UTF-8") +"&dateStart="+ dateStartString + "&dateEnd="+ dateEndString +"&pos="+ String.valueOf(position);	    
     if (!language.equals("pt")) {
 	allVersions += "&l="+ language;
     }
@@ -451,27 +389,22 @@ Search took <%= searchTime/1000.0 %> seconds.
     }
     
     // Build the summary
-    String summary = "";
-    if (showSummary) {
-	    StringBuffer sum = new StringBuffer();
-	    Fragment[] fragments = summaries[i].getFragments();
-	    for (int j=0; j<fragments.length; j++) {
-	      if (fragments[j].isHighlight()) {
-	        sum.append("<span class=\"highlight\">")
-	           .append(Entities.encode(fragments[j].getText()))
-	           .append("</span>");
-	      } 
-	      else if (fragments[j].isEllipsis()) {
-	        sum.append("<span class=\"ellipsis\"> ... </span>");
-	      } 
-	      else {
-	        sum.append(Entities.encode(fragments[j].getText()));
-	      }
-	    }
-	    summary = sum.toString();
-    }	
-    %>
+    StringBuffer sum = new StringBuffer();
+    Fragment[] fragments = summaries[i].getFragments();
+    for (int j=0; j<fragments.length; j++) {
+      if (fragments[j].isHighlight()) {
+        sum.append("<span class=\"highlight\">")
+           .append(Entities.encode(fragments[j].getText()))
+           .append("</span>");
+      } else if (fragments[j].isEllipsis()) {
+        sum.append("<span class=\"ellipsis\"> ... </span>");
+      } else {
+        sum.append(Entities.encode(fragments[j].getText()));
+      }
+    }
+    String summary = sum.toString();
 
+    %>
     <b><a href="<%=target%>"><%=Entities.encode(title)%></a></b>
     <% if (!"".equals(summary) && showSummary) { %>
     <br><%=summary%>

@@ -6,8 +6,7 @@ import org.apache.lucene.search.features.PwaIRankingFunction;
 
 
 /**
- * BM25 IR function (@see function description in http://en.wikipedia.org/wiki/Okapi_BM25 or book "The Probabilistic Relevance Framework"
-BM25 and Beyond"
+ * BM25 IR function (@see function description in http://en.wikipedia.org/wiki/Tf-idf or paper "Simple BM25 Extension to Multiple Weighted Fields"
  * @author Miguel Costa
  */
 public class PwaBM25 implements PwaIRankingFunction {
