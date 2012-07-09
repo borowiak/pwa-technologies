@@ -1,55 +1,65 @@
 #summary Release Notes for project
 #labels Featured
 
-=2011.7.29 (r151)=
+
+=2012.3.30 (r401)=
+
+===Changes:===
+  * A wrong configuration was presenting the result page as the intro page.
+
+
+<br>
+=2012.3.20 (r400)=
+
+===Changes:===
+  * Added information for testing
+
+
+<br>
+=2012.3.16 (r399)=
 
 ===New:===
-  * Import of the Portuguese Web Archive code
-  * Added resource files and management scripts
+  * "PwaLogsMiner" project added. This code is used for processing the access logs
+  * Apply TFxIDF and BM25 functions over all index fields.
+  * Added a new temporal feature for the ranking algorithm. It uses the number of versions and time span between changed versions.
 
-===Change:===
-  * Added info to the project configuration files
-  * Fix an overwrite with old configuration files and compiling the project.
+===Changes:===
+  * Changed the threshold for the minimum number of terms that occur only in the anchor field when matching a document.
+  * Adding dependencies no longer available on repositories.
+  * Updated the Portuguese texts to respect the new Portuguese Ortographic Agreement.
+  * Increased the number of matched documents returned by Nutch to 2K.
+  * Several bugfixes in the TFxIDF code.
+  * Uped the number of anchor terms used by the ranking algorithm.
+  * Fixed the project building that failed due to missing libs and classes.
+  * Created an in-project maven repository to handle deprecated/old dependencies.
+  * Index servers response timeout set to 60 seconds.
+  * The memcache timeout set to 5 seconds.
+  * Updated information and resources links for project resources in Maven file.
+  * Other fixes.
 
 ===Removed:===
-  * Deprecated classes and libraries
+  * Remove the WERA sub-project. We don't use it and seems deprecated.
+
 
 <br>
-=2011.10.11 (r191)=
+=2012.1.10 (r346)=
+
+===Changes:===
+  * Fixed a problem where queries with quotes returned zero results.
+
+
+<br>
+=2012.1.5 (r345)=
 
 ===New:===
-  * Added OpenSearch auto-discovery by browsers (issue 1).
-  * Added XML Schema for the PWA namespace.
+  * Added the code of the "PwaProcessor" project. This project facilitates the processing of archived files in the ARC format.
 
 ===Changes:===
-  * Updated OpenSearch code to spec 1.1.
-  * Added OpenSearch Time extension namespace.
-  * Added RFC3339 to opensearch time extension.
-  * Remove old and commented code of the opensearch service.
-  * OpenSearch bug fixes.
-  * Read global parameters for the ranking algorithms instead of those being hard-coded
-  * Update the OpenSearch description to allow the OpenSearch time extension for RSS+XML (issue 2).
+  * The grid of versions on the history page was incorrectly being filled.
+  * One of the i18n files wasn't being called.
+  * Remove old, uneeded UI files.
+  * One of the i18n files wasn't being called.
 
-<br>
-=2011.10.13 (r192)=
-
-===Changes:===
-  * Fix unescaped ampersand and wrong MIME-type for the OpenSearch RSS
-
-<br>
-=2011.10.20 (r199)=
-
-===Changes:===
-  * Switch old MCTES logo for the temporary logo of the MEC(Portuguese Ministry of
-Science, Technology and Higher Education).
-
-<br>
-=2011.12.06 (r207)=
-
-===Changes:===
-  * Fixed several problems in the opensearch response that were not respecting 
-the specification.
-  * PWA xsd, for opensearch, changed.
 
 <br>
 =2012.1.2 (r337)=
@@ -86,56 +96,65 @@ the specification.
   * Removed lucene cache. It has not been used.
   * Removed old parameter "search.max.hits" in favor of "max.fulltext.matches.ranked".
 
-<br>
-=2012.1.5 (r345)=
-
-===New:===
-  * Added the code of the "PwaProcessor" project. This project facilitates the processing of archived files in the ARC format.
-
-===Changes:===
-  * The grid of versions on the history page was incorrectly being filled.
-  * One of the i18n files wasn't being called.
-  * Remove old, uneeded UI files.
-  * One of the i18n files wasn't being called.
 
 <br>
-=2012.1.10 (r346)=
+=2011.12.06 (r207)=
 
 ===Changes:===
-  * Fixed a problem where queries with quotes returned zero results.
+  * Fixed several problems in the opensearch response that were not respecting 
+the specification.
+  * PWA xsd, for opensearch, changed.
 
-=2012.3.16 (r399)=
+
+<br>
+=2011.10.20 (r199)=
+
+===Changes:===
+  * Switch old MCTES logo for the temporary logo of the MEC(Portuguese Ministry of
+Science, Technology and Higher Education).
+
+
+<br>
+=2011.10.13 (r192)=
+
+===Changes:===
+  * Fix unescaped ampersand and wrong MIME-type for the OpenSearch RSS
+
+
+<br>
+=2011.10.11 (r191)=
 
 ===New:===
-  * "PwaLogsMiner" project added. This code is used for processing the access logs
-  * Apply TFxIDF and BM25 functions over all index fields.
-  * Added a new temporal feature for the ranking algorithm. It uses the number of versions and time span between changed versions.
+  * Added OpenSearch auto-discovery by browsers (issue 1).
+  * Added XML Schema for the PWA namespace.
 
 ===Changes:===
-  * Changed the threshold for the minimum number of terms that occur only in the anchor field when matching a document.
-  * Adding dependencies no longer available on repositories.
-  * Updated the Portuguese texts to respect the new Portuguese Ortographic Agreement.
-  * Increased the number of matched documents returned by Nutch to 2K.
-  * Several bugfixes in the TFxIDF code.
-  * Uped the number of anchor terms used by the ranking algorithm.
-  * Fixed the project building that failed due to missing libs and classes.
-  * Created an in-project maven repository to handle deprecated/old dependencies.
-  * Index servers response timeout set to 60 seconds.
-  * The memcache timeout set to 5 seconds.
-  * Updated information and resources links for project resources in Maven file.
-  * Other fixes.
+  * Updated OpenSearch code to spec 1.1.
+  * Added OpenSearch Time extension namespace.
+  * Added RFC3339 to opensearch time extension.
+  * Remove old and commented code of the opensearch service.
+  * OpenSearch bug fixes.
+  * Read global parameters for the ranking algorithms instead of those being hard-coded
+  * Update the OpenSearch description to allow the OpenSearch time extension for RSS+XML (issue 2).
+
+
+<br>
+=2011.7.29 (r151)=
+
+===New:===
+  * Import of the Portuguese Web Archive code
+  * Added resource files and management scripts
+
+===Change:===
+  * Added info to the project configuration files
+  * Fix an overwrite with old configuration files and compiling the project.
 
 ===Removed:===
-  * Remove the WERA sub-project. We don't use it and seems deprecated.
+  * Deprecated classes and libraries
 
-<br>
-=2012.3.20 (r400)=
 
-===Changes:===
-  * Added information for testing
 
-<br>
-=2012.3.30 (r401)=
 
-===Changes:===
-  * A wrong configuration was presenting the result page as the intro page.
+
+
+
