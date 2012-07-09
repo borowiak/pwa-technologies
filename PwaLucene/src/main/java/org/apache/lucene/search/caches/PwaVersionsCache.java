@@ -19,9 +19,8 @@ import java.util.Enumeration;
 /**
  * Caches digest difference and url radical id, indicating if it is a new version
  * @author Miguel Costa
- * @deprecated  this data is not used anymore. The Broker filters the excess of versions.  
  */
-public abstract class PwaVersionsCache implements PwaICache {
+public abstract class PwaVersionsCache implements PwaCache {
 
 	public final static String CACHE_FILENAME="versions.cache";
 	
@@ -114,9 +113,11 @@ public abstract class PwaVersionsCache implements PwaICache {
 	public static void writeCache(IndexReader reader) throws IOException {
 		String fileDir=reader.directory().toString().substring(reader.directory().toString().indexOf('@')+1);
 		PrintWriter pw=new PrintWriter(new File(fileDir,CACHE_FILENAME));
+		File f=null;
 		Document doc=null;
 		
-		for (int i=0;i<reader.maxDoc();i++) {																								
+		for (int i=0;i<reader.maxDoc();i++) {
+																								
 			// add new document with field values
 			doc = reader.document(i, new MapFieldSelector(new String[]{"date","digest","url"}));																																																				
 			long date=-1;
@@ -157,16 +158,16 @@ public abstract class PwaVersionsCache implements PwaICache {
 			System.out.println(usage);
 			System.exit(0);
 		}
-				
-		if (args[0].equals("create")) {
-			Directory idx = FSDirectory.getDirectory(args[1], false);
-			org.apache.lucene.index.IndexReader reader=IndexReader.open(idx);
-			writeCache(reader);
-			reader.close();			
+		
+		Directory idx = FSDirectory.getDirectory(args[1], false);
+		org.apache.lucene.index.IndexReader reader=IndexReader.open(idx);
+		if (args[0].equals("create")) {						
+			writeCache(reader);			
 		}
 		else {
 			System.out.println(usage);
-		}		
+		}
+		reader.close();			
 	}
 
 }

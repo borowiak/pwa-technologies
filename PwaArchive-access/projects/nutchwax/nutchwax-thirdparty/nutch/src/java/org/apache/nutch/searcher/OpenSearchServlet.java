@@ -59,13 +59,12 @@ public class OpenSearchServlet extends HttpServlet {
   private static final Map NS_MAP = new HashMap();  
   private static PwaFunctionsWritable functions = null;
   private static int nQueryMatches = 0;
-  private static String collectionsHost=null;
     
   static {
     NS_MAP.put("opensearch", "http://a9.com/-/spec/opensearch/1.1/");
     NS_MAP.put("time","http://a9.com/-/opensearch/extensions/time/1.0/");
 //    NS_MAP.put("nutch", "http://www.nutch.org/opensearchrss/1.0/");
-    NS_MAP.put("pwa","http://arquivo.pt/opensearchrss/1.0/");
+    NS_MAP.put("pwa","http://archive.pt/opensearchrss/1.0/");
   }  
 
   private static final Set SKIP_DETAILS = new HashSet(); // skip these fields always
@@ -76,7 +75,6 @@ public class OpenSearchServlet extends HttpServlet {
     SKIP_DETAILS.add("pagerank");
     SKIP_DETAILS.add("inlinks");
     SKIP_DETAILS.add("outlinks");      
-    SKIP_DETAILS.add("domain");    
   }
   
   private static final Set SKIP_DETAILS_USER = new HashSet(); // skip these fields when the request is not made by wayback
@@ -99,8 +97,6 @@ public class OpenSearchServlet extends HttpServlet {
 
       functions=PwaFunctionsWritable.parse(this.conf.get(Global.RANKING_FUNCTIONS));            
       nQueryMatches=Integer.parseInt(this.conf.get(Global.MAX_FULLTEXT_MATCHES_RANKED));
-      
-      collectionsHost = this.conf.get("wax.host", "examples.com");
     } 
     catch (IOException e) {
       throw new ServletException(e);
@@ -267,10 +263,9 @@ public class OpenSearchServlet extends HttpServlet {
 
       Element channel = addNode(doc, rss, "channel");
     
-      addNode(doc, channel, "title", "PWA Search Engine");
-      addNode(doc, channel, "description", "PWA search results for query: " + queryString);
-      addNode(doc, channel, "link", "http://archive.pt");
-      
+      addNode(doc, channel, "title", "PWA Search Engine: " + queryString);
+      addNode(doc, channel, "description", "PWA search results for query: "
+              + queryString);
       /*
       addNode(doc, channel, "link",
               base+"/search.jsp"
@@ -312,21 +307,19 @@ public class OpenSearchServlet extends HttpServlet {
         HitDetails detail = details[i];
         String title = detail.getValue("title");
         String url = detail.getValue("url");
+        String id = "idx=" + hit.getIndexNo() + "&id=" + hit.getIndexDocNo();
       
-        Element item = addNode(doc, channel, "item");
-        
         if (title == null || title.equals("")) {   // use url for docs w/o title
-        	title = url;
+          title = url;
         }
-        addNode(doc, item, "title", title);
-                                     
+        
+        Element item = addNode(doc, channel, "item");
+
+        if (title!=null)
+        	addNode(doc, item, "pwa", "title", title);        
         //addNode(doc, item, "description", /*summaries[i].toHtml(false)*/""); // BUG wayback 0000155 - this is unnecessary
-        if (url!=null) {
-        	String target = "http://"+ collectionsHost +"/id"+ hit.getIndexDocNo() +"index"+ hit.getIndexNo();
-        	addNode(doc, item, "link", target);
-        	queryElem=addNode(doc, item, "source", "Original URL of "+title);     	        
-            addAttribute(doc, queryElem, "url", url);                     	
-        }
+        if (url!=null)
+        	addNode(doc, item, "pwa", "link", url);
 
         /*
         addNode(doc, item, "nutch", "site", hit.getDedupValue());        
@@ -365,8 +358,8 @@ public class OpenSearchServlet extends HttpServlet {
       TransformerFactory transFactory = TransformerFactory.newInstance();
       Transformer transformer = transFactory.newTransformer();
       transformer.setOutputProperty("indent", "yes");
-      StreamResult result = new StreamResult(response.getOutputStream());      
-      response.setContentType("application/rss+xml; charset=UTF-8");      
+      StreamResult result = new StreamResult(response.getOutputStream());
+      response.setContentType("text/xml");
       transformer.transform(source, result);
 
     } catch (javax.xml.parsers.ParserConfigurationException e) {
@@ -383,12 +376,11 @@ public class OpenSearchServlet extends HttpServlet {
     return child;
   }
 
-  private static Element addNode(Document doc, Node parent,
+  private static void addNode(Document doc, Node parent,
                               String name, String text) {
     Element child = doc.createElement(name);
     child.appendChild(doc.createTextNode(getLegalXml(text)));
     parent.appendChild(child);
-    return child;
   }
 
   private static Element addNode(Document doc, Node parent,
