@@ -369,27 +369,27 @@ public interface WaybackConstants {
 	
 	
 	/**
-	 * Request to expand exacturl query with possible aliases 
+	 * Request to expand exacturl query with possible aliases TODO MC
 	 */
 	public static final String REQUEST_ALIASES = "aliases";
 
 	/**
-	 * Flag that indicates if it is a new version 
+	 * Flag that indicates if it is a new version TODO MC
 	 */
 	public static final String RESULT_DIGEST_DIFF = "digestDiff";
 	
 	/**
-	 * Request to present a page given the doc id 
+	 * Request to present a page given the doc id TODO MC
 	 */
 	public static final String REQUEST_DOC_ID = "id";
 	
 	/**
-	 * Request to present a page given the index id 
+	 * Request to present a page given the index id TODO MC
 	 */
 	public static final String REQUEST_INDEX_ID = "index";
 		
 	/**
-	 * Request multiple details instead one at a time 
+	 * Request multiple details instead one at a time TODO MC
 	 */
 	public static final String REQUEST_MULT_DETAILS = "multDet";
 

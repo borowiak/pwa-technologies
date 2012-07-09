@@ -19,13 +19,14 @@
   import="org.archive.access.nutch.NutchwaxConfiguration"
   import="org.archive.access.nutch.NutchwaxQuery"
   import="org.archive.access.nutch.NutchwaxBean"
-  import="org.apache.lucene.search.PwaFunctionsWritable"
-  import="org.apache.nutch.global.Global"
+  import="org.archive.util.ArchiveUtils"
+  import="org.apache.lucene.search.ArquivoWebFunctionsWritable"
 
 %><%!
-  //private static Calendar DATE_START = new GregorianCalendar(1996, 1-1, 1);
-  private static final DateFormat FORMAT =  new SimpleDateFormat("yyyyMMddHHmmss");
-  private static final DateFormat DISPLAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  public static final DateFormat FORMAT =
+    new SimpleDateFormat("yyyyMMddHHmmss");
+  public static final DateFormat DISPLAY_FORMAT =
+    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private static final String COLLECTION_KEY = "collection";
   private static final String COLLECTION_QUERY_PARAM_KEY = COLLECTION_KEY + ":";
 %><%
@@ -36,14 +37,6 @@
   request.setCharacterEncoding("UTF-8");
 
   bean.LOG.info("query request from " + request.getRemoteAddr());
-
-
-  // get info if summary should be presented from request
-  String summaryString = request.getParameter("summary");  
-  boolean showSummary = true;
-  if (summaryString!=null && summaryString.equals("false")) {
-    showSummary=false;
-  }
 
   // get query from request
   String queryString = request.getParameter("query");
@@ -102,55 +95,6 @@
   String params = "&hitsPerPage=" + hitsPerPage +
     (sort == null ? "" : "&sort=" + sort + (reverse? "&reverse=true": "") +
     (dedupField == null ? "" : "&dedupField=" + dedupField));
-
-
-
-  /*** Start date ***/
-  Calendar dateStart = null;
-  SimpleDateFormat inputDateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-
-  if ( request.getParameter("dateStart") != null && !request.getParameter("dateStart").equals("") ) {
-        try {
-		dateStart=new GregorianCalendar();
-                dateStart.setTime( inputDateFormatter.parse(request.getParameter("dateStart")) );
-        } 
-        catch (NullPointerException e) {
-                bean.LOG.debug("Invalid Start Date:"+ request.getParameter("dateStart") +"|");
-        }
-  }
-
-  /*** End date ***/
-  Calendar dateEnd = null;
-
-  if ( request.getParameter("dateEnd") != null && !request.getParameter("dateEnd").equals("") ) {
-        try {
-		dateEnd=new GregorianCalendar();
-                dateEnd.setTime( inputDateFormatter.parse(request.getParameter("dateEnd")) );
-                // be sure to set the end date to the very last second of that day.
-                dateEnd.set( Calendar.HOUR_OF_DAY, 23 );
-                dateEnd.set( Calendar.MINUTE, 59 );
-                dateEnd.set( Calendar.SECOND, 59 );
-        } 
-        catch (NullPointerException e) {
-                bean.LOG.debug("Invalid End Date:"+ request.getParameter("dateEnd") +"|");
-        }
-  }
-
-
-  String dateStartString = "";
-  String dateEndString = "";
-
-  /*** Switch dates if start GT end ***/
-  // TODO - check if start date is GT end
-  /*** Add dates to nutch query ***/
-  if (queryString!=null && queryString!="" && dateStart!=null && dateEnd!=null) {
-        queryString += " date:"+ FORMAT.format( dateStart.getTime() );
-        queryString += "-";
-        queryString += FORMAT.format( dateEnd.getTime() );
-
-	dateStartString = inputDateFormatter.format( dateStart.getTime() );
-	dateEndString = inputDateFormatter.format( dateEnd.getTime() );
-  } 
     
   Query query = NutchwaxQuery.parse(queryString, nutchConf);
   bean.LOG.info("query: " + query.toString());
@@ -182,11 +126,11 @@
 <head>
 <title>Internet Archive: <i18n:message key="title"/></title>
 <link rel="shortcut icon" href="img/logo-16.jpg" type="image/x-icon"/>
-<!-- <jsp:include page="/include/style.html"/> -->
-<!-- <link type="text/css" href="css/style.css" rel="stylesheet" /> -->
+<jsp:include page="/include/style.html"/>
 </head>
 
 <body>
+<jsp:include page="/header.html"/>
 
  <form name="search" action="searchTests.jsp" method="get">
 
@@ -198,7 +142,12 @@ if (queryMatches==null || queryMatches.trim().equals("")) {
 	queryMatches="-2"; // use default
 }
 
-int hitsPerVersion = 1; // this parameter is ignored
+int hitsPerVersion = 1;
+String hitsPerVersionString = request.getParameter("hitsPerVersion");
+if (hitsPerVersionString!=null && hitsPerVersionString.length() > 0) {
+    hitsPerVersion = Integer.parseInt(hitsPerVersionString);
+}
+
 
 String sfunctions =  request.getParameter("sfunctions");
 if (sfunctions==null) {
@@ -212,7 +161,7 @@ if (sboosts==null) {
 }
 String boostsArray[]=sboosts.split(" ");
 
-PwaFunctionsWritable functions=new PwaFunctionsWritable();
+ArquivoWebFunctionsWritable functions=new ArquivoWebFunctionsWritable();
 for (int i=0; i<functionsArray.length; i++) {
 	if (!functionsArray[i].equals("")) {
 		functions.addFunction(Integer.parseInt(functionsArray[i]), Float.parseFloat(boostsArray[i]));
@@ -223,24 +172,22 @@ for (int i=0; i<functionsArray.length; i++) {
 
 <div style="background: LightGrey">
 <p>
-<h1>BOOSTS:</h1>
-number of query matches: <%= nutchConf.getInt(Global.MAX_FULLTEXT_MATCHES_RANKED, -1) %> 
+BOOSTS: <br>
+number of query matches: <%= nutchConf.getInt("searcher.max.hits", -1) %> 
 <input name="queryMatches" size=10 maxlength=10 value=<%= queryMatches %>>
-(-1=all; -2=default)
+(-1=all;-2=default)
 <br>
 number of matches returned: <%= hitsPerPage %>
 <input name="hitsPerPage" size=10 maxlength=10 value=<%= hitsPerPage %>>
-(<=100)
+(<1000)
 <br>
-<!--
 number of version returned: <%= hitsPerVersion %>
 <input name="hitsPerVersion" size=10 maxlength=10 value=<%= hitsPerVersion %>>
 (>0)
 <br>
--->
 number of matches from the same site returned: <%= hitsPerDup %>
 <input name="hitsPerDup" size=10 maxlength=10 value=<%= hitsPerDup %>>
-(0 shows all)
+(>0)
 <br>
 <br>
 
@@ -258,92 +205,58 @@ boosts: <%= sboosts %>
 <!- TODO ranking tests -->
 
  <input name="query" size=44 value="<%=htmlQueryString%>">
+ <input type="hidden" name="hitsPerPage" value="<%=hitsPerPage%>">
+ <% if (collection != null) { %>
+    <input type="hidden" name="collection" value="<%=collection%>">
+ <% } %>
  <input type="submit" value="<i18n:message key="search"/>">
- <% if (sort != null) { %>
+ <small><a href="http://archive-access.sourceforge.net/projects/nutch/help-queries.html">Help</a></small>
+<% if (sort != null) { %>
     <input type="hidden" name="sort" value="<%=sort%>">
     <input type="hidden" name="reverse" value="<%=reverse%>">
 <% } %>
 
  </form>
 
-
 <div style="background: LightGrey">
 <p>
-<h2>Query-dependent features: </h2>
-<h3>Term-weighting functions: </h3>
-  0 TermFrequency (sum of all terms) : content <br> 
-  1 InverseDocumentFrequency (sum of all terms) : content <br> 
-  2 FieldLength : content <br>
-  3 AverageFieldLength : content <br>
-  4 TF-IDF : content <br> 
-  5 BM-25 : content <br>
-  6 TermFrequency (sum of all terms) : url <br> 
-  7 InverseDocumentFrequency (sum of all terms) : url <br> 
-  8 FieldLength : url <br>
-  9 AverageFieldLength : url <br>
-  10 TF-IDF : url <br> 
-  11 BM-25 : url <br>
-  12 TermFrequency (sum of all terms) : host <br> 
-  13 InverseDocumentFrequency (sum of all terms) : host <br> 
-  14 FieldLength : host <br>
-  15 AverageFieldLength : host <br>
-  16 TF-IDF : host <br> 
-  17 BM-25 : host <br>
-  18 TermFrequency (sum of all terms) : anchor <br> 
-  19 InverseDocumentFrequency (sum of all terms) : anchor <br> 
-  20 FieldLength : anchor <br>
-  21 AverageFieldLength : anchor <br>
-  22 TF-IDF : anchor <br> 
-  23 BM-25 : anchor <br>
-  24 TermFrequency (sum of all terms) : title <br> 
-  25 InverseDocumentFrequency (sum of all terms) : title <br> 
-  26 FieldLength : title <br>
-  27 AverageFieldLength : title <br>
-  28 TF-IDF : title <br> 
-  29 BM-25 : title <br>
-  30 TF-IDF : content + url + host + anchor + title <br>
-  31 BM-25 : content + url + host + anchor + title <br>
-  32 Lucene : content + url + host + anchor + title <br>
-  33 Lucene normalized : content + url + host + anchor + title <br>
-  34 Nutch : content + url + host + anchor + title <br>
-  35 Nutch normalized : content + url + host + anchor + title <br>
-<h3>Term-distance functions: </h3>
-  36 MinSpanCovOrd - content <br>
-  37 MinSpanCovUnord - content <br>
-  38 MinPairDist - content <br>
-  39 MinSpanCovOrd - url <br>
-  40 MinSpanCovUnord - url <br>
-  41 MinPairDist - url <br>
-  42 MinSpanCovOrd - host <br>
-  43 MinSpanCovUnord - host <br>
-  44 MinPairDist - host <br>
-  45 MinSpanCovOrd - anchor <br>
-  46 MinSpanCovUnord - anchor <br> 
-  47 MinPairDist - anchor <br>
-  48 MinSpanCovOrd - title <br>
-  49 MinSpanCovUnord - title <br>
-  50 MinPairDist - title <br>
-<h2>Query-independent features: </h2>
-<h3>URL based Functions: </h3>
-  51 UrlDepth <br>
-  52 UrlSlashes <br>
-  53 UrlLength <br>
-<h3>Web-graph based functions: </h3>
-  54 Inlinks <br>
-  55 LinInlinks <br>
-<h2>Temporal features: </h2>
-  56 QueryIssueTime (in days) <br>
-  57 Age - from query time (in days) <br>
-  58 TimestampVersion (in days) <br>
-  59 TimestampOldestVersion (in days) <br>
-  60 TimestampNewestVersion (in days) <br>
-  61 SpanVersions (in days) <br>
-  62 SpanVersions (normalized) <br>
-  63 NumberVersions <br>
-  64 NumberVersions (normalized) <br>
-  65 BoostNewer <br>
-  66 BoostOlder <br>
-  67 BoostNewerAndOlder <br>
+Term-based Functions: <br>
+ 0  TF-IDF : content <br> 
+ 1  BM-25 : content <br>
+ 2  TF-IDF : url <br>
+ 3  BM-25 : url <br>
+ 4  TF-IDF : host <br>
+ 5  BM-25 : host <br>
+ 6  TF-IDF : anchor <br>
+ 7  BM-25 : anchor <br>
+ 8  TF-IDF : title <br>
+ 9  BM-25 : title <br>
+ 10 Lucene : content + url + host + anchor + title <br>
+<br>
+Term distance Functions: <br>
+ 11 MinSpanCovOrd - content <br>
+ 12 MinSpanCovUnord - content <br>
+ 13 MinPairDist - content <br>
+ 14 MinSpanCovOrd - url <br>
+ 15 MinSpanCovUnord - url <br>
+ 16 MinPairDist - url <br>
+ 17 MinSpanCovOrd - host <br>
+ 18 MinSpanCovUnord - host <br>
+ 19 MinPairDist - host <br>
+ 20 MinSpanCovOrd - anchor <br>
+ 21 MinSpanCovUnord - anchor <br> 
+ 22 MinPairDist - anchor <br>
+ 23 MinSpanCovOrd - title <br>
+ 24 MinSpanCovUnord - title <br>
+ 25 MinPairDist - title <br>
+<br>
+URL division Functions: <br>
+ 26 - UrlDepth <br>
+<br>
+Web graph Functions: <br>
+ 27 - LinPagerank <br>
+ 28 - LinInlinks <br>
+ 29 - OPIC <br>
 </p>
 </div>
 
@@ -395,10 +308,7 @@ Search took <%= searchTime/1000.0 %> seconds.
 
    Hit[] show = hits.getHits(start, realEnd-start);
    HitDetails[] details = bean.getDetails(show);
-   Summary[] summaries = null;
-   if (showSummary) {
-	summaries=bean.getSummary(details, query);
-   }
+   Summary[] summaries = bean.getSummary(details, query);
    bean.LOG.info("total hits: " + hits.getTotal());
 
    String collectionsHost = nutchConf.get("wax.host", "examples.com");
@@ -406,19 +316,17 @@ Search took <%= searchTime/1000.0 %> seconds.
 
 
 <br><br>
-<ol>
+
 <%
   for (int i = 0; i < length; i++) {      // display the hits
-%>
-   <li>
-<%  
     Hit hit = show[i];
     HitDetails detail = details[i];
     String title = detail.getValue("title");
     String id = "idx=" + hit.getIndexNo() + "&id=" + hit.getIndexDocNo();
 
     String caching = detail.getValue("cache");
-    if (caching!=null && showSummary==true) {
+    boolean showSummary = true;
+    if (caching != null) {
       showSummary = !caching.equals(Nutch.CACHING_FORBIDDEN_ALL);
     }
 
@@ -428,50 +336,39 @@ Search took <%= searchTime/1000.0 %> seconds.
     String archiveCollection =  "wayback"; //detail.getValue("collection");
     String url = detail.getValue("url");
     // If the collectionsHost includes a path do not add archiveCollection.
-    // See http://sourceforge.net/tracker/index.php?func=detail&aid=1288990&group_id=118427&atid=681140.    
-    String target = "http://"+ collectionsHost +"/id"+ hit.getIndexDocNo() +"index"+ hit.getIndexNo();
-    //pageContext.setAttribute("target", target);
-
-    int position = i; 
+    // See http://sourceforge.net/tracker/index.php?func=detail&aid=1288990&group_id=118427&atid=681140.
+    String target = null;
     String allVersions = null;
-    if (dateStart!=null && dateEnd!=null) {    
-	allVersions = "search.jsp?query="+ URLEncoder.encode(url, "UTF-8") +"&dateStart="+ dateStartString + "&dateEnd="+ dateEndString +"&pos="+ String.valueOf(position);	    
+    if (collectionsHost.indexOf('/') > 0) {
+        target = "http://" + collectionsHost + "/" + archiveDate + "/" + url;
+        allVersions = "http://" + collectionsHost + "/*/" + url;
+    } else {
+        target = "http://" + collectionsHost + "/" + archiveCollection + "/"
+            + archiveDate + "/" + url;
+        allVersions = "http://" + collectionsHost + "/" + archiveCollection
+            + "/*/" + url;
     }
-    else { 
-    	allVersions = "search.jsp?query="+ URLEncoder.encode(url, "UTF-8") +"&pos="+ String.valueOf(position);	    
-    }
-
-    if (!language.equals("pt")) {
-	allVersions += "&l="+ language;
-    }
-
-    // use url for docs w/o title
-    if (title == null || title.equals("")) {
+    if (title == null || title.trim().equals("")) {      // use url for docs w/o title   // TODO BUG MC - missing trim()
       title = url;
     }
     
     // Build the summary
-    String summary = "";
-    if (showSummary) {
-	    StringBuffer sum = new StringBuffer();
-	    Fragment[] fragments = summaries[i].getFragments();
-	    for (int j=0; j<fragments.length; j++) {
-	      if (fragments[j].isHighlight()) {
-	        sum.append("<span class=\"highlight\">")
-	           .append(Entities.encode(fragments[j].getText()))
-	           .append("</span>");
-	      } 
-	      else if (fragments[j].isEllipsis()) {
-	        sum.append("<span class=\"ellipsis\"> ... </span>");
-	      } 
-	      else {
-	        sum.append(Entities.encode(fragments[j].getText()));
-	      }
-	    }
-	    summary = sum.toString();
-    }	
-    %>
+    StringBuffer sum = new StringBuffer();
+    Fragment[] fragments = summaries[i].getFragments();
+    for (int j=0; j<fragments.length; j++) {
+      if (fragments[j].isHighlight()) {
+        sum.append("<span class=\"highlight\">")
+           .append(Entities.encode(fragments[j].getText()))
+           .append("</span>");
+      } else if (fragments[j].isEllipsis()) {
+        sum.append("<span class=\"ellipsis\"> ... </span>");
+      } else {
+        sum.append(Entities.encode(fragments[j].getText()));
+      }
+    }
+    String summary = sum.toString();
 
+    %>
     <b><a href="<%=target%>"><%=Entities.encode(title)%></a></b>
     <% if (!"".equals(summary) && showSummary) { %>
     <br><%=summary%>
@@ -481,10 +378,9 @@ Search took <%= searchTime/1000.0 %> seconds.
     <span class="url"><%=Entities.encode(url)%></span>
     <%@ include file="./more.jsp" %>
     -
-    <span class="date"><%=archiveDisplayDate%></span>
+    <%=archiveDisplayDate%>
     -
     <a href="<%=allVersions%>">other versions</a>
-    <!--
     <% if (hit.moreFromDupExcluded()) {
     String more =
     "query="+URLEncoder.encode("site:"+hit.getDedupValue()+" "+queryString, "UTF-8")
@@ -493,15 +389,11 @@ Search took <%= searchTime/1000.0 %> seconds.
     <a href="searchTests.jsp?<%=more%>"><i18n:message key="moreFrom"/>
      <%=hit.getDedupValue()%></a>
     <% } %>
-    -->
     -
-    <a href="explain.jsp?<%=id%>&query=<%=URLEncoder.encode(queryString, "UTF-8")%>&sfunctions=<%=sfunctions.replace(" ","+")%>&sboosts=<%=sboosts.replace(" ","+")%>">explain</a>
+    <a href="explain.jsp?<%=id%>&query=<%=URLEncoder.encode(queryString, "UTF-8")%>">explain</a>
     </small>
-
-   </li>
-<% } 
-%>
-</ol>
+    <br><br>
+<% } %>
 <!--
    Debugging info
 <table border="1">

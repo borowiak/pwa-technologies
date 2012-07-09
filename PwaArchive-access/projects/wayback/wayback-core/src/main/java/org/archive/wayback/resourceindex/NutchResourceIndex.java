@@ -66,20 +66,21 @@ public class NutchResourceIndex implements ResourceIndex {
 	
    public final static int MAX_RECORDS = 10000; // TODO should be parameterized with the same value of entry maxRRecords in webapps/wayback/WEB-INF/wayback.xml      	 
    private int maxRecords = MAX_RECORDS;  
-     
+
+	
+   private static final String NUTCH_NS =
+       "http://www.nutch.org/opensearchrss/1.0/";
    private String searchUrlBase;
   
-   private static final String NUTCH_ARCNAME = "pwa:arcname";
-   private static final String NUTCH_ARCOFFSET = "pwa:arcoffset";
-   private static final String NUTCH_ARCDATE = "pwa:tstamp";
-   private static final String NUTCH_ARCDATE_ALT = "pwa:arcdate";
-   private static final String NUTCH_DIGEST = "pwa:digest";
-   private static final String NUTCH_PRIMARY_TYPE = "pwa:primaryType";
-   private static final String NUTCH_SUB_TYPE = "pwa:subType";
-   private static final String NUTCH_CAPTURE_HOST = "pwa:site";
-   private static final String NUTCH_CAPTURE_URL = "source";   
-   private static final String NUTCH_DOC_ID = "pwa:id";
-   private static final String NUTCH_INDEX_ID = "pwa:index";    
+   private static final String NUTCH_ARCNAME = "arcname";
+   private static final String NUTCH_ARCOFFSET = "arcoffset";
+   private static final String NUTCH_ARCDATE = "tstamp";
+   private static final String NUTCH_ARCDATE_ALT = "arcdate";
+   private static final String NUTCH_DIGEST = "digest";
+   private static final String NUTCH_PRIMARY_TYPE = "primaryType";
+   private static final String NUTCH_SUB_TYPE = "subType";
+   private static final String NUTCH_CAPTURE_HOST = "site";
+   private static final String NUTCH_CAPTURE_URL = "link";
 
    private static final String NUTCH_SEARCH_RESULT_TAG = "item";
    private static final String NUTCH_SEARCH_RESULTS_TAG = "channel";
@@ -232,9 +233,10 @@ public class NutchResourceIndex implements ResourceIndex {
 		if (host!=null) {
 			result.put(WaybackConstants.RESULT_ORIG_HOST, host);
 		}
-
-		result.put(WaybackConstants.RESULT_REDIRECT_URL,NUTCH_DEFAULT_REDIRECT_URL);
-		String url = getAttributeContent(e,NUTCH_CAPTURE_URL,"url");
+//		result.put(WaybackConstants.RESULT_REDIRECT_URL,getNodeContent(e,""));
+		result.put(WaybackConstants.RESULT_REDIRECT_URL,
+				NUTCH_DEFAULT_REDIRECT_URL);
+		String url = getNodeContent(e,NUTCH_CAPTURE_URL);
 		if (url!=null) {
 			result.put(WaybackConstants.RESULT_URL, url);
 		}
@@ -245,12 +247,12 @@ public class NutchResourceIndex implements ResourceIndex {
 			result.put(WaybackConstants.RESULT_DIGEST_DIFF, digestDiff);
 		}
 		
-		String docId=getNodeNutchContent(e,NUTCH_DOC_ID);
+		String docId=getNodeNutchContent(e,WaybackConstants.REQUEST_DOC_ID);
 		if (docId!=null) {
 			result.put(WaybackConstants.REQUEST_DOC_ID, docId);
 		}
 		
-		String indexId=getNodeNutchContent(e,NUTCH_INDEX_ID);
+		String indexId=getNodeNutchContent(e,WaybackConstants.REQUEST_INDEX_ID);
 		if (indexId!=null) {
 			result.put(WaybackConstants.REQUEST_INDEX_ID, indexId);
 		}
@@ -313,8 +315,8 @@ public class NutchResourceIndex implements ResourceIndex {
    	   String multDet = wbRequest.get(WaybackConstants.REQUEST_MULT_DETAILS);
 	   String docId = wbRequest.get(WaybackConstants.REQUEST_DOC_ID);
 	   String indexId = wbRequest.get(WaybackConstants.REQUEST_INDEX_ID);
-	   /* BUG 0000155 */	   		   		   	 	   
-	   
+	   /* BUG 0000155 */
+	   		   	
        if ((urlStr==null || urlStr.length()<=0) && (docId==null || indexId==null)) {
            throw new BadQueryException("Url is empty.");
        }
@@ -373,8 +375,7 @@ public class NutchResourceIndex implements ResourceIndex {
        // As we are always searching agains an url, a
        // higher perDup/Site will return just more versions
        ms.append("&hitsPerDup=").append(hitsPerPage);
-       ms.append("&hitsPerSite=").append(hitsPerPage);       
-       ms.append("&waybackQuery=true"); // indicates that this OpenSearch request came from wayback       
+       ms.append("&hitsPerSite=").append(hitsPerPage);
                  	   
        /* BUG 0000155 */   	   
    	   if (multDet!=null) {
@@ -394,8 +395,7 @@ public class NutchResourceIndex implements ResourceIndex {
 	
 	// extract the text content of a single nutch: tag under a node
    protected String getNodeNutchContent(Element e, String key) {
-       //NodeList nodes = e.getElementsByTagNameNS(NUTCH_NS, key); TODO remove
-	   NodeList nodes = e.getElementsByTagName(key); 
+       NodeList nodes = e.getElementsByTagNameNS(NUTCH_NS, key);
        String result = null;
        if (nodes != null && nodes.getLength() > 0) {
            result = nodes.item(0).getTextContent();
@@ -411,21 +411,6 @@ public class NutchResourceIndex implements ResourceIndex {
            result = nodes.item(0).getTextContent();
        }
        return (result == null || result.length() == 0)? null: result;
-   }
-   
-   /**
-    * Get attribute from element
-    * @param e parent element
-    * @param elemKey element name   
-    * @param attrKey attribute name
-    */
-   protected String getAttributeContent(Element e, String elemKey, String attrKey) {
-       NodeList nodes = e.getElementsByTagName(elemKey);
-       String result = null;
-       if (nodes != null && nodes.getLength() > 0) {
-           result = ((Element)nodes.item(0)).getAttribute(attrKey);
-       }
-       return (result == null || result.length() == 0) ? null: result;
    }
 
    // do an HTTP request, plus parse the result into an XML DOM

@@ -66,12 +66,11 @@
                         <include name="lucene-misc*jar" />
                         <include name="log4j*jar" />
                         <include name="taglibs-i18n*jar" />
-            			<include name="taglibs-log*jar" />
+			<include name="taglibs-log*jar" />
                         <include name="commons-lang*jar" />
                         <include name="commons-logging*jar" />
                         <include name="hadoop*jar" />
                         <include name="dom4j*jar" />
-                        <include name="commons-*jar" />
                     </fileset>
                     <fileset dir="${nutch}/build" >
                         <include name="nutch*jar" />
@@ -100,7 +99,7 @@
                     <fileset dir="../nutchwax-plugins/target/wax-plugins" />
                 </copy>
                 <copy todir="target/${artifactId}-${project.version}/WEB-INF/classes" 
-                        overwrite="false">
+                        overwrite="true">
                     <fileset dir="${nutch}/conf" >
                         <exclude name="**/*.template"/>
                         <exclude name="**/log4j.properties"/>
