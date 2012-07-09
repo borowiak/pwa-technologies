@@ -63,31 +63,27 @@ public class DistributedSearch {
 
     /** Runs a search server. */
     public static void main(String[] args) throws Exception {
-      String usage = "DistributedSearch$Server <port> <index dir> <blacklist dir>";
+      String usage = "DistributedSearch$Server <port> <index dir>";
 
-      if (args.length == 0 || args.length > 3) {
+      if (args.length == 0 || args.length > 2) {
         System.err.println(usage);
         System.exit(-1);
       }
 
       int port = Integer.parseInt(args[0]);
       Path directory = new Path(args[1]);
-      File blacklistFile = null;
-      if (args.length==3 && args[2]!=null) {
-    	  blacklistFile = new File(args[2]);
-	  }
 
       Configuration conf = NutchConfiguration.create();
-      org.apache.hadoop.ipc.Server server = getServer(conf, directory, port, blacklistFile);           
-      
+
+      org.apache.hadoop.ipc.Server server = getServer(conf, directory, port);
       server.start();
       server.join();
     }
     
-    static org.apache.hadoop.ipc.Server getServer(Configuration conf, Path directory, int port, File blacklistFile) throws IOException{      
+    static org.apache.hadoop.ipc.Server getServer(Configuration conf, Path directory, int port) throws IOException{      
       int numHandlers=conf.getInt(Global.NUMBER_HANDLERS, -1);
       boolean ipcVerbose=conf.getBoolean(Global.IPC_VERBOSE, false);
-      NutchBean bean = new NutchBean(conf, directory, blacklistFile);
+      NutchBean bean = new NutchBean(conf, directory);
       return RPC.getServer(bean, "0.0.0.0", port, numHandlers, ipcVerbose, conf);
     }
 
@@ -333,7 +329,8 @@ public class DistributedSearch {
               ((reverse || sortField == null)
                ? h.getSortValue().compareTo(maxValue) >= 0
                : h.getSortValue().compareTo(maxValue) <= 0)) {        	         	 
-            queue.add(new Hit(liveIndexNos[i], h.getIndexDocNo(), h.getSortValue(), h.getDedupValue()));
+            queue.add(new Hit(liveIndexNos[i], h.getIndexDocNo(),
+                              h.getSortValue(), h.getDedupValue(), h.getRadicalId()));
             if (queue.size() > numHits) {         // if hit queue overfull
               queue.remove(queue.last());         // remove lowest in hit queue
               maxValue = ((Hit)queue.last()).getSortValue(); // reset maxValue

@@ -4,30 +4,23 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.MapFieldSelector;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 
-import java.io.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
- * Cache documents' timestamps
+ * Cache document timestamps
  * @author Miguel Costa
  */
-public class PwaDateCache implements PwaICache {
+public class PwaDateCache implements PwaCache {
 
 	protected static long timestamps[]; // timestamp per document cached
 	private static Object lockObj=new Object();
 	private static String fieldName="date";
 	private static SimpleDateFormat dformat=null;
-	private static long minTimestamp=Long.MAX_VALUE;
-	private static long maxTimestamp=0;
 	
 	
 	/**
@@ -73,12 +66,6 @@ public class PwaDateCache implements PwaICache {
 								}
 								
 								timestamps[termDocs.doc()]=Long.parseLong(enumerator.term().text());
-								if (timestamps[termDocs.doc()]<minTimestamp) {
-									minTimestamp=timestamps[termDocs.doc()];
-								}
-								if (timestamps[termDocs.doc()]>maxTimestamp) {
-									maxTimestamp=timestamps[termDocs.doc()];
-								}
 							}                        
 						} 
 						else {
@@ -102,7 +89,7 @@ public class PwaDateCache implements PwaICache {
 				}
 			}			
 			
-			// initialize date format - millisec granularity
+			// initialize date format
 			dformat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 			dformat.setTimeZone(TimeZone.getTimeZone("GMT"));
 		}	
@@ -119,7 +106,7 @@ public class PwaDateCache implements PwaICache {
 	}	
 	
 	/**
-	 * Get timestamp from document (in millisec)
+	 * Get timestamp from document
 	 * @param doc document id
 	 * @return timestamp from document
 	 */
@@ -129,108 +116,12 @@ public class PwaDateCache implements PwaICache {
 	}
 
 	/**
-	 * Get timestamp from document (in millisec)
+	 * Get timestamp from document
 	 * @param doc document id
 	 * @return timestamp from document
 	 */
 	public long getTimestamp(int doc) {
-		return timestamps[doc]*1000;
+		return timestamps[doc];
 	}
 	
-	/**
-	 * Get minimum timestamp (in millisec)
-	 * @return minimum timestamp from collection
-	 */
-	public long getMinTimestamp() {
-		return minTimestamp*1000;
-	}
-	
-	/**
-	 * Get maximum timestamp (in millisec)
-	 * @return maximum timestamp from collection
-	 */
-	public long getMaxTimestamp() {
-		return maxTimestamp*1000;
-	}
-	
-	
-	
-	/**
-	 * Write a file with all documents' timestamps from index and the frequency they occur
-	 * @param reader index reader
-	 * @param output filename
-	 * @throws IOException
-	 */
-	public static void writeCache(IndexReader reader, String outFilename) throws IOException {		
-		Document doc=null;
-		Date d=null;
-		String day=null;
-		Integer times=null;
-		HashMap<String,Integer> daysMap=new HashMap<String,Integer>();
-		
-		// initialize date format - day granularity
-		dformat = new SimpleDateFormat("yyyyMMdd");
-		dformat.setTimeZone(TimeZone.getTimeZone("GMT"));
-		
-		for (int i=0;i<reader.maxDoc();i++) {																							
-			// add new document with field values
-			doc = reader.document(i, new MapFieldSelector(new String[]{"date"}));																																																				
-			long date=-1;
-							
-			Enumeration e = doc.fields();
-			while (e.hasMoreElements()) {
-			   Field field = (Field)e.nextElement();
-			   if (field.name().equals("date")) {
-				   date=Long.parseLong(field.stringValue());		
-			   }
-			   else {
-				   throw new IOException("Wrong field read.");
-			   }
-			}
-			
-			d=new Date(date*1000);	
-			day=dformat.format(d);
-			times=daysMap.get(day);
-			if (times==null) {
-				times=new Integer(1);
-			}
-			else {
-				times++;
-			}
-			daysMap.put(day,times);
-		} 		
-		
-		TreeMap<String,Integer> treeMap = new TreeMap<String,Integer>(daysMap); // sort entries by key
-		PrintWriter pw=new PrintWriter(new File(outFilename));					
-		for(Map.Entry<String,Integer> entry : treeMap.entrySet()) {
-			pw.println(entry.getKey()+" "+entry.getValue());			
-		}
-		pw.close();		
-	}
-
-	
-	
-	/**
-	 * Main
-	 * @param args arguments
-	 */
-	public static void main(String[] args) throws Exception {	
-						
-		String usage="usage: create [index path] [output filename] (to show all documents' timestamps)";
-		
-		if (args.length!=3) {
-			System.out.println(usage);
-			System.exit(0);
-		}
-		
-		if (args[0].equals("create")) {
-			Directory idx = FSDirectory.getDirectory(args[1], false);
-			org.apache.lucene.index.IndexReader reader=IndexReader.open(idx);
-			writeCache(reader,args[2]);
-			reader.close();			
-		}
-		else {
-			System.out.println(usage);
-		}		
-	}
 }

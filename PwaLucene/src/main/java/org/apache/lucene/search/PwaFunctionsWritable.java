@@ -105,20 +105,4 @@ public class PwaFunctionsWritable implements Writable {
         }
         return newFunctions;
     }
-    
-    /**
-     * Return keys
-     * @return
-     */
-    public Enumeration<Integer> keys() {
-    	return functions.keys();
-    }
-    
-    /**
-     * Return key set
-     * @return
-     */
-    public Set<Integer> keySet() {
-    	return functions.keySet();
-    }
   }
