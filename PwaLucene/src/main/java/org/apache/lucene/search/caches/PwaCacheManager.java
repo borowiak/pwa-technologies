@@ -1,7 +1,6 @@
 package org.apache.lucene.search.caches;
 
 import java.io.IOException;
-import java.io.File;
 import java.util.Hashtable;
 
 import org.apache.lucene.index.IndexReader;
@@ -14,32 +13,28 @@ import org.apache.lucene.index.IndexReader;
 public class PwaCacheManager {
 	
 	/** multiple caches */
-	private static Hashtable<String,PwaICache> caches=null;
+	private static Hashtable<String,PwaCache> caches=null;
 	private static Object lockObj=new Object();
 	private static PwaCacheManager instance=null; // singleton class
 	
 	
 	/**
-	 * Constructor	 
-	 * @param reader index reader
-	 * @param blacklistDir blacklist directory
+	 * Constructor
 	 */
-	private PwaCacheManager(IndexReader reader, File blacklistFile) throws IOException {
+	private PwaCacheManager(IndexReader reader) throws IOException {
 		System.out.println("Initializing caches at "+this.getClass().getSimpleName()+" class.");
-		caches=new Hashtable<String,PwaICache>();
+		caches=new Hashtable<String,PwaCache>();
 		
 		// blacklist of documents
-		PwaICache cache=new PwaBlacklistCache(reader,blacklistFile); 		
-		caches.put(cache.getFieldName(),cache);
-		/* TODO remove - this data is not used anymore
+		PwaCache cache=new PwaBlacklistCache(reader); 		
+		caches.put(cache.getFieldName(),cache);		
 		// indicates if it is a new version
 		cache=new PwaDigestDiffCache(reader); 
 		caches.put(cache.getFieldName(),cache);		
 		// version group
 		cache=new PwaUrlRadicalIdCache(reader); 	
-		caches.put(cache.getFieldName(),cache);
-		*/				
-		// documents' timestamps
+		caches.put(cache.getFieldName(),cache);				
+		// timestamp ranges
 		cache=new PwaDateCache(reader);
 		caches.put(cache.getFieldName(),cache);	
 		
@@ -58,17 +53,6 @@ public class PwaCacheManager {
 	 * @throws IOException
 	 */
 	public static PwaCacheManager getInstance(IndexReader reader) throws IOException {
-		return getInstance(reader,null);
-	}
-	
-	/**
-	 * Get instance
-	 * @param reader index reader
-	 * @param blacklistDir blacklist directory
-	 * @return
-	 * @throws IOException
-	 */
-	public static PwaCacheManager getInstance(IndexReader reader, File blacklistFile) throws IOException {
 		if (instance!=null) {
 			return instance;
 		}
@@ -77,7 +61,7 @@ public class PwaCacheManager {
 			if (instance!=null) {
 				return instance;
 			}
-			instance=new PwaCacheManager(reader,blacklistFile);			
+			instance=new PwaCacheManager(reader);			
 		}
 		return instance;
 	}

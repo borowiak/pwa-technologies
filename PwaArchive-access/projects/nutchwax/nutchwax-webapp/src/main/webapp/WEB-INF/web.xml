@@ -15,7 +15,7 @@
 </servlet-mapping>
 
 <welcome-file-list>
-  <welcome-file>index.jsp</welcome-file>
+  <welcome-file>search.jsp</welcome-file>
 </welcome-file-list>
 
 <taglib>
@@ -39,17 +39,17 @@
 
 <error-page>
   <error-code>404</error-code>
-  <location>/not-found-404.jsp</location>
+  <location>/errors/error404.jsp</location>
 </error-page>
 
 <error-page>
   <error-code>500</error-code>
-  <location>/internal-error-500.jsp</location>
+  <location>/errors/error500.jsp</location>
 </error-page>
 
 <context-param>
 	<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
-	<param-value>pt.arquivo.i18n.Default</param-value>
+	<param-value>org.nutch.jsp.help</param-value>
 </context-param>
 <context-param>
 	<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>

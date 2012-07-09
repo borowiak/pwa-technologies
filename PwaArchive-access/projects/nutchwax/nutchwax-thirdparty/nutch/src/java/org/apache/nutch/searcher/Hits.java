@@ -76,7 +76,8 @@ public final class Hits implements Writable {
       Hit h = top[i];
       out.writeInt(h.getIndexDocNo());            // write indexDocNo
       h.getSortValue().write(out);                // write sortValue
-      Text.writeString(out, h.getDedupValue());   // write dedupValue         
+      Text.writeString(out, h.getDedupValue());   // write dedupValue
+      out.writeLong(h.getRadicalId());            // write radicalId      
     }
   }
 
@@ -103,8 +104,9 @@ public final class Hits implements Writable {
       }
       sortValue.readFields(in);                   // read sortValue
       String dedupValue = Text.readString(in);    // read dedupValue
+      long radicalId = in.readLong();             // read radicalId
       
-      top[i] = new Hit(indexDocNo, sortValue, dedupValue);
+      top[i] = new Hit(indexDocNo, sortValue, dedupValue, radicalId);
     }
   }
 

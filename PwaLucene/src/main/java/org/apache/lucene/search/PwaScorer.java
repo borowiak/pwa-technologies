@@ -14,17 +14,15 @@ import org.apache.lucene.search.filters.PwaFilterChain;
 import org.apache.lucene.search.filters.PwaBlacklistFilter;
 import org.apache.lucene.search.queries.PwaClosestQuery;
 import org.apache.lucene.search.queries.PwaSortQuery;
-import org.apache.lucene.search.features.PwaLinearRankingModel;
-import org.apache.lucene.search.features.PwaScores;
 
 
 /**
- * Matches and scores documents according to the query
+ * Matches and scores documents according to query
  * @author Miguel Costa
  */
 public class PwaScorer extends Scorer {
 	
-	private final static int MIN_TF_ANCHORS=4; // minimum number of terms that occur only in the anchor field when matching a document	
+	private final static int MIN_TF_ANCHORS=4; // minimum number of terms just in anchors to match a document
 	private static enum ScoreType {NORMAL, FLAT, ONLY_ONE, DATE_SORTED, DATE_SORTED_REVERSE};
 	private BooleanQuery query; 
 	private Searcher searcher;   
@@ -36,7 +34,6 @@ public class PwaScorer extends Scorer {
 	private PwaIndexStats indexstats;
 	private boolean empty;
 	private ScoreType scoreType;
-	private long queryTimestamp;
 	
 	/**
 	 * Constructor
@@ -58,7 +55,6 @@ public class PwaScorer extends Scorer {
 	    this.filters=new Vector<PwaFilter>(); 
 	    this.joiner=null;
 	    this.empty=false;
-	    this.queryTimestamp=System.currentTimeMillis();
 	    init();
 	}	
 	
@@ -248,7 +244,7 @@ public class PwaScorer extends Scorer {
 	 * Prepares joiner, mergers and filters for matching documents
 	 * @param isOnlyPhrasesForRank indicates if query has only phrases or not 
 	 * @param htableMergers
-	 * @param htableMergersExtradouble score=0;
+	 * @param htableMergersExtra
 	 * @param htableMergersExclude
 	 * @param htableMergersExtraExclude
 	 * @param htablePositions
@@ -406,12 +402,11 @@ public class PwaScorer extends Scorer {
 		if (scoreType==ScoreType.NORMAL) {		  
 			PwaRawFeatureCollector collector=new PwaRawFeatureCollector(reader);
 			joiner.collectFeatures(doc(),collector);		
-			PwaScores scores=PwaScorerFeatures.score(doc(),queryTimestamp,collector,joiner.getPositionsManager(),searcher,functions);
-			return (new PwaLinearRankingModel()).score(functions, scores); // TODO parameterize the ranking model in the future
+			return PwaRanker.score(doc(),collector,joiner.getPositionsManager(),searcher,functions);
 		}
 		else if (scoreType==ScoreType.DATE_SORTED || scoreType==ScoreType.DATE_SORTED_REVERSE) { // results are sorted in TopDocCollector
 			PwaDateCache sortCache=new PwaDateCache(reader);
-			return sortCache.getTimestamp(doc());			
+			return sortCache.getTimestamp(doc());
 		}
 		else { // flat ranking
 			return 1;
@@ -434,8 +429,8 @@ public class PwaScorer extends Scorer {
 		}	
 		  		  		 
 		PwaRawFeatureCollector collector=new PwaRawFeatureCollector(reader);
-		joiner.collectFeatures(doc(),collector);					
-		return PwaScorerFeatures.explain(doc(),queryTimestamp,collector,joiner.getPositionsManager(),searcher,functions);		       	
+		joiner.collectFeatures(doc(),collector);		
+		return PwaRanker.explain(doc(),collector,joiner.getPositionsManager(),searcher,functions);		
 	}
 	  	  
 	/**

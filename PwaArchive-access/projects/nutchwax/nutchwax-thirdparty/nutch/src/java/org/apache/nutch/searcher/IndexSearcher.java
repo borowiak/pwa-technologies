@@ -18,7 +18,6 @@
 package org.apache.nutch.searcher;
 
 import java.io.IOException;
-import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -34,20 +33,24 @@ import org.apache.lucene.search.FieldCache;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.MapFieldSelector;
 import org.apache.lucene.search.PwaFunctionsWritable;
 import org.apache.lucene.search.caches.PwaCacheManager;
+import org.apache.lucene.search.caches.PwaUrlRadicalIdCache;
 
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.conf.*;
 import org.apache.nutch.indexer.*;
 
+import org.apache.lucene.document.MapFieldSelector;
+
 
 /** Implements {@link Searcher} and {@link HitDetailer} for either a single
  * merged index, or a set of indexes. */
 public class IndexSearcher implements Searcher, HitDetailer {
 
+  public final static String INCLUDE_EXTENSIONS_KEY="arquivo.include.types";
+	
   private org.apache.lucene.search.Searcher luceneSearcher;
   private org.apache.lucene.index.IndexReader reader;
   private LuceneQueryOptimizer optimizer;
@@ -57,25 +60,25 @@ public class IndexSearcher implements Searcher, HitDetailer {
   private PwaCacheManager cache;
 
   /** Construct given a number of indexes. */
-  public IndexSearcher(Path[] indexDirs, Configuration conf, File blacklistFile) throws IOException {
+  public IndexSearcher(Path[] indexDirs, Configuration conf) throws IOException {
     IndexReader[] readers = new IndexReader[indexDirs.length];
     this.conf = conf;
     this.fs = FileSystem.get(conf);
     for (int i = 0; i < indexDirs.length; i++) {
       readers[i] = IndexReader.open(getDirectory(indexDirs[i]));
     }
-    init(new MultiReader(readers), conf, blacklistFile);
+    init(new MultiReader(readers), conf);
   }
 
   /** Construct given a single merged index. */
-  public IndexSearcher(Path index,  Configuration conf, File blacklistFile)
+  public IndexSearcher(Path index,  Configuration conf)
     throws IOException {
     this.conf = conf;
     this.fs = FileSystem.get(conf);
-    init(IndexReader.open(getDirectory(index)), conf, blacklistFile);
+    init(IndexReader.open(getDirectory(index)), conf);
   }
 
-  private void init(IndexReader reader, Configuration conf, File blacklistFile) throws IOException {
+  private void init(IndexReader reader, Configuration conf) throws IOException {
     this.reader = reader;
     this.luceneSearcher = new org.apache.lucene.search.IndexSearcher(reader);
     this.luceneSearcher.setSimilarity(new NutchSimilarity());
@@ -83,7 +86,7 @@ public class IndexSearcher implements Searcher, HitDetailer {
     this.queryFilters = new QueryFilters(conf);
     
     // read all caches     		
-    cache=PwaCacheManager.getInstance(reader,blacklistFile);
+    cache=PwaCacheManager.getInstance(reader);
   }
 
   private Directory getDirectory(Path file) throws IOException {
@@ -94,9 +97,16 @@ public class IndexSearcher implements Searcher, HitDetailer {
     }
   }
 
-  public Hits search(Query query, int numHits, String dedupField, String sortField, boolean reverse) throws IOException {
-	  org.apache.lucene.search.BooleanQuery luceneQuery = this.queryFilters.filter(query);
-	  return translateHits(optimizer.optimize(luceneQuery, luceneSearcher, numHits, sortField, reverse), dedupField, sortField);
+  public Hits search(Query query, int numHits,
+                     String dedupField, String sortField, boolean reverse)
+
+    throws IOException {
+    org.apache.lucene.search.BooleanQuery luceneQuery =
+      this.queryFilters.filter(query);
+    return translateHits
+      (optimizer.optimize(luceneQuery, luceneSearcher, numHits,
+                          sortField, reverse),
+       dedupField, sortField);
   }
   
 
@@ -168,9 +178,10 @@ public class IndexSearcher implements Searcher, HitDetailer {
 		 }	 		
 		 fieldNames=remainingFields.toArray(new String[remainingFields.size()]); // else read from index the remaining fields
 	 }
-
-	 //Document doc = luceneSearcher.doc(hit.getIndexDocNo(), new MapFieldSelector(sfields));
+	 
+	  //Document doc = luceneSearcher.doc(hit.getIndexDocNo(), new MapFieldSelector(sfields));
 	 Document doc = reader.document(hit.getIndexDocNo(), (fieldNames==null) ? null : new MapFieldSelector(fieldNames));
+
 	 Enumeration e = doc.fields();
 	 while (e.hasMoreElements()) {
 	   Field field = (Field)e.nextElement();
@@ -183,21 +194,48 @@ public class IndexSearcher implements Searcher, HitDetailer {
   }    
 
   
-  private Hits translateHits(TopDocs topDocs, String dedupField, String sortField)
+  private Hits translateHits(TopDocs topDocs,
+                             String dedupField, String sortField)
     throws IOException {
 
 	String[] dedupValues = null;	
-    if (dedupField != null) { 
+    if (dedupField != null)   
       dedupValues = FieldCache.DEFAULT.getStrings(reader, dedupField);
-    }
     
     ScoreDoc[] scoreDocs = topDocs.scoreDocs;
     int length = scoreDocs.length;
     Hit[] hits = new Hit[length];
-    for (int i = 0; i < length; i++) {                
-      WritableComparable sortValue = new FloatWritable(scoreDocs[i].score);        
-      String dedupValue = (dedupValues == null) ? null : dedupValues[scoreDocs[i].doc];
-      hits[i] = new Hit(scoreDocs[i].doc, sortValue, dedupValue);
+    for (int i = 0; i < length; i++) {
+      
+      int doc = scoreDocs[i].doc;
+      
+      WritableComparable sortValue;               // convert value to writable
+      if (sortField == null) {
+        sortValue = new FloatWritable(scoreDocs[i].score);
+      } 
+      else {
+    	/*
+        Object raw = ((FieldDoc)scoreDocs[i]).fields[0];
+        if (raw instanceof Integer) {
+          sortValue = new IntWritable(((Integer)raw).intValue());
+        } else if (raw instanceof Float) {
+          sortValue = new FloatWritable(((Float)raw).floatValue());
+        } else if (raw instanceof String) {
+          sortValue = new Text((String)raw);
+        } else {
+          throw new RuntimeException("Unknown sort value type!");
+        }
+        */
+    	sortValue = new FloatWritable(scoreDocs[i].score);
+      }
+
+      /* TODO MC - BUG 0000187 */
+      String dedupValue = dedupValues == null ? null : dedupValues[doc];
+      PwaUrlRadicalIdCache radicalIdCache = new PwaUrlRadicalIdCache(reader);      
+      long radicalId = ((Long)radicalIdCache.getValue(doc)).longValue();    	      	       
+      hits[i] = new Hit(doc, sortValue, dedupValue, radicalId);
+      /* TODO MC - BUG 0000187 */
+      // hits[i] = new Hit(doc, sortValue, dedupValue); TODO MC
     }
     return new Hits(topDocs.totalHits, hits);
   }
