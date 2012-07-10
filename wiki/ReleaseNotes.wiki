@@ -2,6 +2,19 @@
 #labels Featured
 
 
+
+=2012.07.10 (r411)=
+===New:===
+
+* Path to blacklist file is configurable. To allow adding new documents to blacklist, we added possibility of changing the path to the blacklist.
+
+===Change:===
+
+* Added web analytics tracking when displaying archived pages
+* Only translate the datepicker to PT when browsing in that language.
+
+<br>
+
 =2012.3.30 (r401)=
 
 ===Changes:===
