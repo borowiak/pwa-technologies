@@ -3,6 +3,16 @@
 
 
 
+=2012.07.16 (r433)=
+===Change:===
+
+  * Changed information of the number of documents available for searching
+  * Added link to see more highlights
+
+
+<br>
+
+
 =2012.07.10 (r411)=
 ===New:===
 
