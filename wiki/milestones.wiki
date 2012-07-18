@@ -1,0 +1,26 @@
+#summary Details the future development milestones of the project.
+
+This page details the future development milestone of the project.
+
+= Next milestone =
+
+  * Issue 11: Months on calendar box appear written in Portuguese on the English version of the interface
+  * Issue 25: Update nr. of searchable contents
+  * Issue 27: Add new examples of archived pages
+  * Issue 35: Add Google Analytics tracking code to archived pages 
+
+
+= Milestone +1 =
+  * Issue 14: Several different versions of an URL point to the same archived version.
+  * Issue 8: change thumbnail of Figo highlight 
+
+= Milestone +2 =
+  * Issue 15: Implement the new interface for viewing archived pages
+  * Issue 22: changing language on SERP loses state
+  * Issue 36: Create an XML or JSON API for the wayback result list
+
+= Milestone +3 =
+  * Issue 6: Date restriction OpenSearchServlet only if both start and end date specified
+  * Issue 23: Hardcoded file references on test of spellchecker
+  * Issue 20: Rephrase the title and description of URL's history page
+  * Issue 32: Errors in wayback present the old wayback error page 
