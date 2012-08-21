@@ -28,9 +28,9 @@ IR tasks with different goals in mind.
 
 === Obtaining a Copy of the PWA9609 test collection ===
 
-The PWA9609 test collection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. The collection may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computation and paying a fee that covers the distribution cost.
+The PWA9609 test collection is distributed by the [http://www.fccn.pt/en/ Portuguese Foundation for National Scientific Computation] strictly for research purposes only. The collection may be obtained by signing a data license agreement with the Portuguese Foundation for National Scientific Computing.
 
-Please contact miguel.costa@fccn.pt for further information.
+Please contact miguel.costa (at) fccn.pt for further information.
 
 
 = Topics =
