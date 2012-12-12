@@ -4,8 +4,8 @@
 This page details the future development milestone of the project.
 
 == Next milestone ==
-  * Issue 8: change thumbnail of Figo highlight
   * Issue 14: Several different versions of an URL point to the same archived version.
+  * Issue 24: change thumbnail of Figo highlight
   * Issue 37: No rewrite of the URL of `<base>` tags
 
 == Milestone +1 ==
