@@ -57,4 +57,4 @@ Results can be computed with the [http://trec.nist.gov/trec_eval/ trec_eval] too
 
 = Other Issues =
 
-Information about the methodology used to create the PWA9609 collection will be published soon.
+Information about the methodology used to create the PWA9609 collection was published at the 13th [http://www.wise2012.cs.ucy.ac.cy/ International Conference on Web Information System Engineering] in a paper named [http://xldb.fc.ul.pt/xldb/publications/Costa.etal:EvaluatingWebArchive:2012_document.pdf Evaluating Web Archive Search Systems].
