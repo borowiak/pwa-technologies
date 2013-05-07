@@ -50,6 +50,11 @@ Please contact miguel.costa (at) fccn.pt for further information.
  * [http://code.google.com/p/pwa-technologies/downloads/detail?name=qrels.automatic&can=2&q= Automatically assessed qrels.]
 
 
+= Metadata =
+
+A list of mappings between each version id and the corresponding URL, timestamp pair, can be download at [http://code.google.com/p/pwa-technologies/downloads/detail?name=vid-url-timestamp.csv&can=2&q= here].
+
+
 = Evaluation =
 
 Results can be computed with the [http://trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community, since the test collection follows the TREC file formats. 
