@@ -41,9 +41,9 @@ We followed LETOR and partitioned each dataset into five parts with the same num
 The files of the dataset can be download at [http://code.google.com/p/pwa-technologies/downloads/detail?name=l2rDataset.zip&can=2&q= here].
 This zip file contains the following files:
 
-* fold1 to fold5 : all folders of the dataset with the raw scores of features.
-* fold1.normalized to fold5.normalized : all folders of the dataset with the normalized scores of features.
-* qrels.fold1 to qrels.fold5: all qrels of the dataset partitioned by folder.
+ * fold1 to fold5 : all folders of the dataset with the raw scores of features.
+ * fold1.normalized to fold5.normalized : all folders of the dataset with the normalized scores of features.
+ * qrels.fold1 to qrels.fold5: all qrels of the dataset partitioned by folder.
 
 
 = Other Issues =
