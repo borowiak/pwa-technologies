@@ -34,3 +34,8 @@ We followed LETOR and partitioned each dataset into five parts with the same num
 || Fold3 || {S3,S4,S5} || S1 || S2 ||
 || Fold4 || {S4,S5,S1} || S2 || S3 ||
 || Fold5 ||	{S5,S1,S2} || S3 || S4 ||
+
+
+= Other Issues =
+
+If you have any questions or suggestions, please kindly contact miguel.costa (at) fccn.pt.  
