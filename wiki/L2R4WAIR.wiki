@@ -22,3 +22,15 @@ We followed the file format used in LETOR datasets. Each of the following lines 
 }}}
 
 The first column is the relevance label. The second column is the query id, and the following 68 columns are the feature ids with their values. The last column, after the # symbol, is the version identifier.
+
+
+= Dataset Partition =
+
+We followed LETOR and partitioned each dataset into five parts with the same number of queries, denoted as S1, S2, S3, S4, and S5. The idea is to evaluate results using a five-fold cross validation, where three parts are for training, one part for validation, and the remaining part for testing. The training set is used to learn ranking models. The validation set is used to tune the parameters of learning algorithms. The test set is used to evaluate the performance of the learned ranking models. The final results are the average over the five different folds described in the following table:
+
+|| *Folds* || *Training set* || *Validation set* || *Test set* ||
+|| Fold1 || {S1,S2,S3} || S4 || S5 ||
+|| Fold2 || {S2,S3,S4} || S5 || S1 ||
+|| Fold3 || {S3,S4,S5} || S1 || S2 ||
+|| Fold4 || {S4,S5,S1} || S2 || S3 ||
+|| Fold5 ||	{S5,S1,S2} || S3 || S4 ||
