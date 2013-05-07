@@ -2,7 +2,7 @@
 
 = Introduction =
 
-Many of the information that was published on the web is no longer available online. It can only be found in web archives. Web archive information retrieval (WAIR) is a new and challenging research area that addresses the retrieval of document versions from web archives, according to a topical and temporal criteria of relevance. We release this dataset to facilitate research in Learning to Rank for WAIR (L2R4WAIR).
+Many of the information that was published on the web is no longer available online. It can only be found in web archives. Web archive information retrieval (WAIR) is a new and challenging research area that addresses the retrieval of document versions from web archives, according to a topical and temporal criteria of relevance. We publicly release this dataset to facilitate research in Learning to Rank for WAIR (L2R4WAIR).
 
 
 = Description =
