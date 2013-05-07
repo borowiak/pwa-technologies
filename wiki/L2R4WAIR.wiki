@@ -13,10 +13,12 @@ The quadruples were obtained from the PWA9609 test collection available at http:
 
 We followed the file format used in LETOR datasets. Each of the following lines corresponds to a quadruple and represents one training example:
 
+{{{
 =============================================================
 0 qid:21 1:0.10 2:0.233 3:0.611 ... 68:0.643 # id21968747index0
 2 qid:21 1:0.70 2:0.344 3:0.221 ... 68:0.869 # id114746079index0
 0 qid:22 1:0.05 2:0.112 3:0.118 ... 68:0.434 # id172346033index3
 =============================================================
+}}}
 
 The first column is the relevance label. The second column is the query id, and the following 68 columns are the feature ids with their values. The last column, after the # symbol, is the version identifier.
