@@ -51,6 +51,9 @@ This zip file contains the following files:
 
 A [http://code.google.com/p/pwa-technologies/downloads/detail?name=vid-url-timestamp.csv&can=2&q= list of mappings] between each version id and the corresponding <URL, timestamp> pair can be used to create more features.
 
+= Evaluation =
+
+Results can be computed with the [http://trec.nist.gov/trec_eval/ trec_eval] tool used by the TREC community. 
 
 = Other Issues =
 
