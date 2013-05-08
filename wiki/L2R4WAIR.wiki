@@ -11,7 +11,7 @@ The dataset is composed by a set of quadruples <query, version, grade, features>
 
 The quadruples were obtained from the PWA9609 test collection available at http://code.google.com/p/pwa-technologies/wiki/TestCollection. 
 
-We followed the file format used in LETOR datasets. Each of the following lines corresponds to a quadruple and represents one training example:
+We followed the file format used in [http://research.microsoft.com/en-us/um/beijing/projects/letor/ LETOR] datasets. Each of the following lines corresponds to a quadruple and represents one training example:
 
 {{{
 =============================================================
@@ -26,7 +26,7 @@ The first column is the relevance label. The second column is the query id, and 
 
 = Dataset Partition =
 
-We followed LETOR and partitioned each dataset into five parts with the same number of queries, denoted as S1, S2, S3, S4, and S5. The idea is to evaluate results using a five-fold cross validation, where three parts are for training, one part for validation, and the remaining part for testing. The training set is used to learn ranking models. The validation set is used to tune the parameters of learning algorithms. The test set is used to evaluate the performance of the learned ranking models. The final results are the average over the five different folds described in the following table:
+We followed [http://research.microsoft.com/en-us/um/beijing/projects/letor/ LETOR] and partitioned each dataset into five parts with the same number of queries, denoted as S1, S2, S3, S4, and S5. The idea is to evaluate results using a five-fold cross validation, where three parts are for training, one part for validation, and the remaining part for testing. The training set is used to learn ranking models. The validation set is used to tune the parameters of learning algorithms. The test set is used to evaluate the performance of the learned ranking models. The final results are the average over the five different folds described in the following table:
 
 || *Folds* || *Training set* || *Validation set* || *Test set* ||
 || Fold1 || {S1,S2,S3} || S4 || S5 ||
