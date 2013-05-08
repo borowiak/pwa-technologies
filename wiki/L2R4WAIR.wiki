@@ -38,6 +38,7 @@ We followed LETOR and partitioned each dataset into five parts with the same num
 
 = Features =
 
+The complete list of features can be consulted [http://code.google.com/p/pwa-technologies/downloads/detail?name=l2r4wairFeatureList.pdf&can=2&q= here].
 
 = Files =
 
