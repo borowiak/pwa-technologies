@@ -52,7 +52,7 @@ Please contact miguel.costa (at) fccn.pt for further information.
 
 = Metadata =
 
-A list of mappings between each version id and the corresponding URL, timestamp pair, can be download at [http://code.google.com/p/pwa-technologies/downloads/detail?name=vid-url-timestamp.csv&can=2&q= here].
+A [http://code.google.com/p/pwa-technologies/downloads/detail?name=vid-url-timestamp.csv&can=2&q= list of mappings] between each version id and the corresponding <URL, timestamp> pair can be downloaded.
 
 
 = Evaluation =
