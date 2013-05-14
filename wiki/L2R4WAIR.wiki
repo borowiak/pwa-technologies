@@ -38,7 +38,7 @@ We followed [http://research.microsoft.com/en-us/um/beijing/projects/letor/ LETO
 
 = Features =
 
-Consult the complete [http://code.google.com/p/pwa-technologies/downloads/detail?name=l2r4wairFeatureList.pdf&can=2&q= list of features].
+Consult the complete [http://code.google.com/p/pwa-technologies/downloads/detail?name=featureList.pdf&can=2&q= list of features].
 
 = Files =
 
