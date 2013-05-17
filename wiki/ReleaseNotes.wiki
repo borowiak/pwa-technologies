@@ -3,6 +3,21 @@
 
 
 
+=2013.05.17 (r475)=
+===New:===
+
+  * Added `inspector` utility for debugging purposes
+
+===Change:===
+
+  * Corrected jar files dependencies
+  * Fixed XSS vulnerability in spell checker project
+  * Minor fixes from code quality platform
+  * Changed the location of hunspell
+
+<br>
+
+
 =2012.07.16 (r433)=
 ===Change:===
 
