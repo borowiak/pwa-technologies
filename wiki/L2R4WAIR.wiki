@@ -1,4 +1,4 @@
-#summary Dataset to facilitate research in Learning to Rank for WAIR.
+#summary Dataset to facilitate research in Learning to Rank for Web Archive Information Retrieval.
 
 = Introduction =
 
