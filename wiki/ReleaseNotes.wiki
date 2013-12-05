@@ -9,11 +9,7 @@ A full dump of release 480 is available at:
  * https://drive.google.com/folderview?id=0B9fSuJY2vxOESmltSmlIUTJoWDA&usp=sharing
  * https://www.dropbox.com/sh/qtdfrw4xu3qxiqn/Whva8XSvfB
  * http://visibilidade.net/awp/PWA-TechnologiesSourceCodeDump22-11-2013/
- * FCCN address (DVDs and Tape backups, check www.fccn.pt): 
-Campus do Laboratório Nacional de Engenharia Civil, LNEC
-Av. do Brasil n.º 101
-1700-066 LISBOA 
-Portugal
+ * FCCN address (DVDs and Tape backups, check www.fccn.pt): Campus do Laboratório Nacional de Engenharia Civil, LNEC, Av. do Brasil n.º 101, 1700-066 LISBOA, Portugal
  * FCCN data center: backup at server t1.tomba.fccn.pt:/home/nutchwax/pwa/PWA-TechnologiesSourceCodeDump22-11-2013
 
 
@@ -210,6 +206,4 @@ Science, Technology and Higher Education).
 
 ===Removed:===
   * Deprecated classes and libraries
-
-
 
