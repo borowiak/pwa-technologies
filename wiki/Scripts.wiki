@@ -1,2 +1,2 @@
-#labels Phase-Implementation
+#labels Featured
 Scripts to manage and maintain the service PWA.
