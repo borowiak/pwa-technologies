@@ -1,2 +1,3 @@
+#summary OpenSearch API.
 #labels Featured,ScriptstomanageandmaintaintheservicePWA.
 Scripts to manage and maintain the service PWA.
