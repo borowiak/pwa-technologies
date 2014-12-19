@@ -16,9 +16,10 @@ The `OpenSearch Description Document` at http://arquivo.pt/opensearch.jsp descri
 = Query =
 
 The `OpenSearch URL` must contain the query and search parameters. 
+The Query only supports full-text search. 
 
 Parameters:
- * query={search terms} : query terms URL-encoded. (required)
+ * query={search terms} : query terms. (required)
  * hitsPerPage={1 to 100} : maximum number of results requested. (optional)
  * dtstart={} & dtend={}: start and end dates to restrict search. It follows the [http://www.ietf.org/rfc/rfc3339.txt RFC-3339 - Date and Time on the Internet: Timestamps]. Both dates must be set. (optional)
 
