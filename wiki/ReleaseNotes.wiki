@@ -2,8 +2,9 @@
 #labels Featured
 
 =2015.0?.?? (r4??)=
-* Consistency between PWA and Opensearch.
-* Change URL search results page to provide version dates with links to archived pages using URLs following the Wayback syntax.
+
+ * Consistency between PWA and Opensearch.
+ * Change URL search results page to provide version dates with links to archived pages using URLs following the Wayback syntax.
 
 
 
