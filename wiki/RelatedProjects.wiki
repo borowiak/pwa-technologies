@@ -12,4 +12,4 @@ This page list several projects and software developed by or relevant to the Por
 
 == Other relevant projects and software ==
   * [http://archive-access.sourceforge.net/index.html Archive-Access ]
-  * [https://github.com/ZeynepP/Working-with-PWA-Collection]
+  * [https://github.com/ZeynepP/Working-with-PWA-Collection Software to use the Portuguese Web Archive WAIR test collection (by Zeynep Pehlivan)]
