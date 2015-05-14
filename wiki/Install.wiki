@@ -227,6 +227,8 @@ Update `${CATALINA_HOME}/webapps/wayback/WEB-INF/wayback.xml` file:
 }}}
 
 ===Configure arcproxy Web application===
+There are two manner of setting up a arcproxy:
+====Isolated arcpoxy====
 Copy the file wayback.war to `${CATALINA_HOME}/webapps/` and rename it to arcproxy, `mv wayback.xml arcproxy.xml`
 
 Replace ${CATALINA_HOME}/webapps/arcproxy/WEB-INF/wayback.xml file:
@@ -258,6 +260,9 @@ Replace ${CATALINA_HOME}/webapps/arcproxy/WEB-INF/wayback.xml file:
 
 </beans>
 }}}
+
+====Wayback====
+Append the configuration of the bean above to the file wayback.xml.
 
 ===Configure browser Web application===
 The browser application has the objective of making the arc files available through http. By creating a repository of files arc files. The creation of the application is made creating a folder for the application inside webapps directory of tomcat.
