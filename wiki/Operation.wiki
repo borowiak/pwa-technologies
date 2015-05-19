@@ -107,3 +107,26 @@ echo -e "Blacklist\n$(date)" >>time;java -classpath ${SCRIPTS_DIR}/pwalucene-1.0
 }}}
 
 Indexing Finished. 
+
+
+= Blacklist = 
+
+The PWA Blacklist feature removes a list of documents from the search
+results identified by their unique document identifiers (DocID). 
+
+ # Create a file for each collection in directory
+{{{
+$ROOT/searcher/collections/blacklists
+}}}
+  # The file could be called AWP5.txt for the $Collection_Blacklist.txt  and id47544055index0 for the DocID;
+  # Set the blacklist AWP5.txt that PWA will look for in 
+{{{
+$ROOT/searcher/collections/search-servers.txt
+}}}
+Example:
+{{{
+Server_Name 21114 $ROOT/indexes/outputs_Collection_Name 15000
+$ROOT/searcher/collections/blacklists/AWP5.txt
+}}}
+Now, it is necessary to restart each machine, the binary codes for doing
+that are in $ROOT/searcher/collections/;
