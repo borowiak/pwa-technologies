@@ -1,0 +1,128 @@
+Following the same logic of Nutchwax, the configuration files will be inside the JAR files, which requires that after changing configuration you must compile again.
+
+
+## Step-by-step ##
+
+Edit file `pwa-technologies/PwaArchive-access/projects/nutchwax/conf/wax-default.xml`:
+
+  * Change property _collection.type_ according to the type of collection for indexing. This has implications mostly during the Linkdb and Index phases. There are three types of collections:
+    * normal - collection from one crawl. It will be handled as one snapshot, where a version is identified by a URL.
+    * multiple - collection from multiple crawls. It will be handled as multiple snapshots, where a version is identified by a URL and a day.
+    * trec - collection from TREC (Text REtrieval Conference)
+
+  * If _normal_ or _trec_ are selected then **exit this page**.
+> NOTE: you can change the values of the other properties if necessary.
+
+  * If _multiple_ is selected then the database parameters must be configured to create virtual snapshots:
+    * Change property _database.conection_ (e.g. //t2.tomba.fccn.pt/nutchwax)
+    * Change property _database.username_ (e.g. nutchwax)
+    * Change property _database.password_ (e.g. xxxxx)
+> Virtual snapshots guarantee that versions of documents link only to versions of other documents with the closeness timestamp. This is a requirement for link-based algorithms, such as Pagerank, to work well.
+
+Prepare a PostgreSQL database if _multiple_  is selected in the _collection.type_ property:
+
+  * Create database for the first time using it:
+    * createdb nutchwax
+    * ALTER USER nutchwax WITH PASSWORD 'xxxxxx';
+
+  * Login in database:
+    * psql
+
+  * Create table and trigger:
+```
+  DROP table files cascade;
+  SET client_encoding TO 'LATIN1';
+
+  CREATE LANGUAGE plpgsql;
+  CREATE OR REPLACE FUNCTION before_insert() RETURNS trigger AS '
+  DECLARE
+   n integer;
+  BEGIN
+   IF tg_op = ''INSERT'' THEN
+     select count(*) into n
+      from files
+      where date=new.date and url=new.url;  
+      IF n > 0 THEN
+        RETURN NULL;
+      ELSE
+        RETURN new;	
+      END IF;   
+   END IF;
+  END
+  ' LANGUAGE plpgsql;
+
+  create table files
+      (date TIMESTAMP, 
+       url VARCHAR(4000),
+       type VARCHAR(100),
+       status INTEGER,
+       size INTEGER NOT NULL,
+       arcname VARCHAR(100) NOT NULL,
+       PRIMARY KEY (url,date));
+
+   CREATE TRIGGER before_insert_trigger BEFORE INSERT ON files
+    FOR EACH ROW EXECUTE PROCEDURE before_insert();
+```
+
+  * Install heritrix-1.12.1 because of libraries to extract meta-data:
+    * download [heritrix-1.12.1.zip](https://pwa-technologies.googlecode.com/files/heritrix-1.12.1.zip)
+    * unzip it to a _heritrixDirectory_ directory
+    * export HERITRIX\_HOME=_heritrixDirectory_ (e.g. `/opt/searcher/heritrix-1.12.1`)
+    * export WAYBACK\_HOME=_waybackDirectory_ (e.g. `/opt/searcher/pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib/`)
+
+  * Extract metadata from ARC files:
+    * `${HERITRIX_HOME}/src/scripts/arcreader.sh /_directoryArcs_ /_directoryArcs_/stats.csv`
+    * `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.access.nutch.utils.UrlNormalizer /_directoryArcs_/stats.csv /_directoryArcs_/statsNormalized.csv 6 1`
+
+  * Load metadata into database:
+    * psql
+```
+  \COPY files FROM '/_directoryArcs_/statsNormalized.csv' DELIMITER ',' NULL AS '-' CSV
+```
+
+  * Create indexes:
+```
+  CREATE INDEX type_index ON files(type);
+  CREATE INDEX status_index ON files(status);
+  CREATE INDEX url_index ON files USING hash(url);
+```
+
+
+## Errors and debugging ##
+
+  * Check _collection.type_ configured:
+    * `${HADOOP_HOME}/bin/hadoop jar pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar version`
+
+  * Test database:
+    * test postmaster:
+> > > psql -h t7.tomba.fccn.pt -d nutchwax
+    * run postmaster:
+> > > su
+> > > service postgresql stop
+> > > service postgresql start
+    * accessing remotly to postgresql - add to file /data/postgres:/data/pg\_hba.conf
+```
+   host all all 0.0.0.0/0 md5
+```
+    * set /usr/local/pgsql/data/postgresql.conf:
+```
+   listen_addresses = '*'
+   port = 5432
+```
+
+> > See http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html for more info.
+
+  * Query database just for debugging:
+```
+   java -classpath pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar:~/.m2/repository/postgresql/postgresql/8.3-604.jdbc4/postgresql-8.3-604.jdbc4.jar org.archive.access.nutch.jobs.sql.SqlSearcher [database.connection] [database.user] [database.password] [URL] [timestamp]
+   e.g. org.archive.access.nutch.jobs.sql.SqlSearcher //t7.tomba.fccn.pt/nutchwax nutchwax xxxxx http://jn.sapo.pt/robots.txt "20070831100222"
+```
+
+  * If postgres requires a superuser to create the before\_insert() function, then you should:
+    * su
+    * su postgres
+    * psql
+```
+   ALTER USER nutchwax WITH CREATEUSER CREATEDB;
+   \du
+```

@@ -1,0 +1,59 @@
+# Introduction #
+
+Many of the information that was published on the web is no longer available online. It can only be found in web archives. Web archive information retrieval (WAIR) is a new and challenging research area that addresses the retrieval of document versions from web archives, according to a topical and temporal criteria of relevance. We publicly release this dataset to facilitate research in Learning to Rank for WAIR (L2R4WAIR).
+
+
+# Description #
+
+The dataset is composed by a set of quadruples <query, version, grade, features>, where the grade indicates the degree of relevance of the version for the query. We use a three-level scale of relevance (not relevant, relevant and very relevant) converted to an integer scale ranging from 0 to 2. The document version is identified by URL and timestamp. The features represent a vector of feature values, each describing an estimate of relevance for the <query, version> pair.
+
+The quadruples were obtained from the PWA9609 test collection available at http://code.google.com/p/pwa-technologies/wiki/TestCollection.
+
+We followed the file format used in [LETOR](http://research.microsoft.com/en-us/um/beijing/projects/letor/) datasets. Each of the following lines corresponds to a quadruple and represents one training example:
+
+```
+=============================================================
+0 qid:21 1:0.10 2:0.233 3:0.611 ... 68:0.643 # id21968747index0
+2 qid:21 1:0.70 2:0.344 3:0.221 ... 68:0.869 # id114746079index0
+0 qid:22 1:0.05 2:0.112 3:0.118 ... 68:0.434 # id172346033index3
+=============================================================
+```
+
+The first column is the relevance label. The second column is the query id, and the following 68 columns are the feature ids with their values. The last column, after the # symbol, is the version identifier.
+
+
+# Dataset Partition #
+
+We followed [LETOR](http://research.microsoft.com/en-us/um/beijing/projects/letor/) and partitioned each dataset into five parts with the same number of queries, denoted as S1, S2, S3, S4, and S5. The idea is to evaluate results using a five-fold cross validation, where three parts are for training, one part for validation, and the remaining part for testing. The training set is used to learn ranking models. The validation set is used to tune the parameters of learning algorithms. The test set is used to evaluate the performance of the learned ranking models. The final results are the average over the five different folds described in the following table:
+
+| **Folds** | **Training set** | **Validation set** | **Test set** |
+|:----------|:-----------------|:-------------------|:-------------|
+| Fold1     | {S1,S2,S3}       | S4                 | S5           |
+| Fold2     | {S2,S3,S4}       | S5                 | S1           |
+| Fold3     | {S3,S4,S5}       | S1                 | S2           |
+| Fold4     | {S4,S5,S1}       | S2                 | S3           |
+| Fold5     |	{S5,S1,S2}       | S3                 | S4           |
+
+
+# Features #
+
+Consult the complete [list of features](http://code.google.com/p/pwa-technologies/downloads/detail?name=featureList.pdf&can=2&q=).
+
+# Files #
+
+Get the [files of the dataset](http://code.google.com/p/pwa-technologies/downloads/detail?name=l2rDataset.zip&can=2&q=) to research in Learning to Rank for WAIR.
+This zip file contains the following files:
+
+  * fold1 to fold5 : all folders of the dataset with the raw scores of features.
+  * fold1.normalized to fold5.normalized : all folders of the dataset with the normalized scores of features.
+  * qrels.fold1 to qrels.fold5: all qrels of the dataset partitioned by folder.
+
+A [list of mappings](http://code.google.com/p/pwa-technologies/downloads/detail?name=vid-url-timestamp.csv&can=2&q=) between each version id and the corresponding <URL, timestamp> pair can be used to create more features.
+
+# Evaluation #
+
+Results can be computed with the [trec\_eval](http://trec.nist.gov/trec_eval/) tool used by the TREC community.
+
+# Other Issues #
+
+If you have any questions or suggestions, please kindly contact miguel.costa (at) fccn.pt.

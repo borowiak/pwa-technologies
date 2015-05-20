@@ -1,0 +1,19 @@
+# Introduction #
+
+During the developing of the PWA IR (information retrieval) system we faced limitations in searching speed, quality of results and scalability. To cope with this, we modified Lucene as one of our core components to support the web archive IR requirements.
+
+This gave us the freedom to redesign and tune searching operators. For instance, several optimizations were applied, such as the creation of caches. We also extended Lucene as a framework for evaluating ranking algorithms and models aimed to improve the quality of results. L2R (learning to rank) algorithms can work over this framework, which enables selecting a ranking model at runtime according to the users' query type or information need.
+
+This extension developed in the Java Programming Language can be used as a search engine or a framework for research purposes.
+
+
+
+# Details #
+
+Lucene classes were changed as little as possible to enable migration of new code to future versions of Lucene. All new classes that we created were named with the prefix Pwa. The other classes in this svn repository were only changed to enable Pwa prefixed classes to work.
+
+Several ranking functions were added, such as query-dependent, query-independent and time-aware. To support these additional ranking functions the index structure was changed, such as including fields' size, and caches were built to store new statistics and metadata. Thus, the users can select a set of functions and their relative weights to produce a combined score that will reflect their documents' relevance.
+
+The original version of Lucene that we extended is lucene-2.1.0.
+
+This version is being used at http://arquivo.pt.

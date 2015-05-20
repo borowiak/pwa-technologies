@@ -1,0 +1,14 @@
+# Introduction #
+
+During the developing of the PWA IR (information retrieval) system we faced limitations in searching speed, quality of results and scalability. To cope with this, we modified the archive-access project (http://archive-access.sourceforge.net/) to support the web archive IR requirements.
+
+Nutchwax, Nutch and Wayback’s code were adapted to the web archive IR requirements. Several optimizations were added, such as simplifications in the way document versions are searched and several bottlenecks were resolved. All interactions of the users with the system are now registered for search log mining. These data can be used to detect problems and envision more efficient searching solutions for the users. The following two papers address these issues:
+  * Miguel Costa, Mário J. Silva, [Characterizing Search Behavior in Web Archives](http://sobre.arquivo.pt/about-the-archive/characterizing-search-behavior-in-web-archives), Temporal Web Analytics Workshop, 2011.
+  * Miguel Costa, Mário J. Silva, [Understanding the Information Needs of Web Archive Users](http://sobre.arquivo.pt/sobre-o-arquivo/understanding-the-information-needs-of-web-archive), 10th International Web Archiving Workshop, 2010.
+
+
+# Details #
+
+This code is integrated with our Lucene extension, PwaLucene.
+
+This version is being used at http://arquivo.pt.

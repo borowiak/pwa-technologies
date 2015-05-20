@@ -1,0 +1,129 @@
+The indexing process is where you turn a number of different arc files with a number of pages into a searchable index.
+
+# Procedure #
+For this procedures the hadoop cluster should be [installed](Install.md) and started (${HADOOP\_HOME}/bin/start-all.sh).
+Steps for indexing a data collection:
+  1. Copy the file created in [Compile](Compile.md) `pwa-technologies/PwaArchive-access/projects/nutchwax/nutchwax-job/target/nutchwax-job-0.11.0-SNAPSHOT.jar` to the directory `SCRIPTS_DIR`. And copy the pwalucene-1.0.0-SNAPSHOT.jar is in `pwa-technologies/PwaLucene/target/pwalucene-1.0.0-SNAPSHOT.jar` to directory `SCRIPTS_DIR`, defined in [Install](Install.md).
+  1. Make the arc files to index available to all servers in the cluster, in pwa we use the web application browser, adding the arcs to the directory `${CATALINA_HOME}/webapps/browser/files`.
+  1. Create arc list:
+```
+find [FOLDER_WITH_ARC_FILES] -type f -name '*.arc.gz' -printf "http://master.example.com:8080/browser/files/[COLLECTION]/%P\n" > [DESTINATION_FILE.txt]
+```
+  1. copy arc list to HDFS:
+```
+${HADOOP_HOME}/bin/hadoop fs -mkdir inputs
+${HADOOP_HOME}/bin/hadoop fs -put [DESTINATION_FILE.txt] inputs/
+```
+  1. Parse arcs files to create segments, change the `COLLECTION_NAME` to a name to be contained in the index, it is used has identification only. This process creates the `segments` directory on the HDFS, erase it if you need to repeat the process:
+```
+echo -e "Import\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar import inputs outputs COLLECTION_NAME; date >>time
+```
+  1. **Note:** Some verifications that can be done using hadoop logs from all machines, and the total of Exceptions should be less than 1% of the total number of documents:
+```
+grep -r 'IllegalCharsetNameException' ${HADOOP_HOME}/logs/* | awk {'print $6'} | sort -u
+grep -r 'parser not found for' ${HADOOP_HOME}/logs/* | awk {'print $15'} | sort -u
+grep -r 'Error parsing' ${HADOOP_HOME}/logs/* | awk {'print $7'} | sort | uniq -c | sort -n -r
+```
+  1. Update dbs with recent imports. This process creates the `crawldb` directory on the HDFS, erase it if you need to repeat the process:
+```
+echo -e "Update\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar update outputs ; date >>time 
+```
+  1. Invert links (create structure outlink->inlinks). This process creates the `linkdb` directory on the HDFS, erase it if you need to repeat the process:
+```
+echo -e "Invert\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar invert outputs ; date >>time 
+```
+  1. Create indexes. This process creates the `indexes` directory on the HDFS, erase it if you need to repeat the process:
+```
+echo -e "Index\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar index outputs; date >>time 
+```
+  1. Merge indexes partitions into one. This process creates the `index` directory on the HDFS, erase it if you need to repeat the process:
+```
+echo -e "Merge Indexes\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar merge outputs; date >>time 
+```
+  1. Get indexes from HDFS:
+```
+echo -e "copyFromHDFS\n$(date)" >>time;${HADOOP_HOME}/bin/hadoop fs -get outputs /data/outputs; date >>time 
+```
+  1. After getting the index to a particular machnie, sort indexes with IndexSorter:
+```
+echo -e "IndexSorter\n$(date)" >>time; ${HADOOP_HOME}/bin/hadoop jar ${SCRIPTS_DIR}/nutchwax-job-0.11.0-SNAPSHOT.jar class org.apache.nutch.indexer.IndexSorterArquivoWeb /data/outputs; date >>time 
+cd /data/outputs
+mv index index-ORIGINAL
+mv index-sorted index
+```
+  1. Pruning Indexes, the posting lists of the five fields (content, title, anchor, url and host) are pruned. All documents on the posting lists of mime types not searchable are discarded. Fields stored not on index can also be discarded using the "-del" option followed by the field names. Execute the command without parameters to see the help description. Execute the following command to prune the index on directory $INDEX\_DIR, that will be stored on directory $INDEX\_DIR\_OUT.
+```
+export INDEX_DIR=/data/outputs/index
+export INDEX_DIR_OUT=/data/outputs/index-PRUNNING
+echo -e "PruningIndexes\n$(date)" >>time;java -Xmx5000m -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.pruning.PruningTool -impl arquivo -in $INDEX_DIR -out $INDEX_DIR_OUT -del pagerank:pPsv,outlinks:pPsv -t 1;date >>time;
+mv $INDEX_DIR /data/outputs/index-SORTED
+mv $INDEX_DIR_OUT $INDEX_DIR
+```
+  1. Stopwords, the searching system ignores all stopwords in queries. Stopwords are defined in the stopwords.cache file inside the index directory. The format of the file is a stopword per line, e.g. There is a file in the `SCRIPTS_DIR` with the pwa stopwords file:
+```
+a
+in
+de
+...
+```
+  1. Create file /data/outputs/index/blacklist.cache:
+```
+touch /data/outputs/index/blacklist.cache
+```
+  1. Tuning memory for Index, the quantity of memory RAM for the Hadoop search servers, define the environment variable `HADOOP_HEAPSIZE` sets the memory of the JVM (Xmx parameter). The entry `export HADOOP_HEAPSIZE=12000` (Xmx=12 000 MB) should be set in file `${COLLECTIONS_DIR}/test_collection_hadoop/hadoop-env.sh`. The `HADOOP_HEAPSIZE` should be proportional to the size of the collection:
+```
+HADOOP_HEAPSIZE (in GB) = DOCS/7
+Example:
+  * For a collection of 130 Million documents the RAM memory whould be 19 GB, ´HADOOP_HEAPSIZE=19000´
+```
+  1. Run in the machine with arcproxy or change arcproxy locationdb, the directory `pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib` has to be available to the command.
+```
+cat [DESTINATION_FILE.txt] | awk -F"/" '{print $NF" "$0}' > tmp_arcs | WAYBACK_HOME=pwa-technologies/PwaArchive-access/projects/wayback/wayback-webapp/target/wayback-1.2.1/WEB-INF/lib ${SCRIPTS_DIR}/location-client add-stream http://127.0.0.1:8080/arcproxy/locationdb < tmp_arcs ; rm -f tmp_arcs 
+```
+  1. Update the file search-servers.txt with the correct hostname, server, the directory for hadoop server(`/opt/searcher/collections/test_collection_hadoop`)  and the directory for the index `/data/outputs`.
+  1. Start search servers as indicated in [Install](Install.md) (start-slave-searchers.sh).
+  1. Create a list of errors from a crawl log of Heritrix crawler.
+```
+cat crawl.log | sed 's/  */ /g' | cut -d ' ' -f2,4 | egrep -v "^2" | egrep -v "^\-" | egrep -v "^1 " | egrep -v "^0 " > errors.urls
+```
+  1. Process to create a blacklist of documents not redirecting properly. It uses a log file from the crawler software, the file is a text file with URLs that did not return HTTP OK. The format is:
+```
+ 404 http://614.pt/robots.txt
+ 404 http://8mm.weblog.com.pt/robots.txt
+```
+the parameters for the utility are: `[index path] [url base] [number threads] [startDoc or 0(first)] [lastDoc exclusively or -1(all)] [errorsFile or nothing]`
+If the errorsFile parameter is not added, then all documents from the index will be tested.
+`Note:` the program will test the URLs http://hostname/wayback/wayback/id?index?, where index must be 0.
+
+Documents can be excluded manually by adding their ids to the blacklist of the specific index.
+
+Command:
+```
+echo -e "Blacklist\n$(date)" >>time;java -classpath ${SCRIPTS_DIR}/pwalucene-1.0.0-SNAPSHOT.jar org.apache.lucene.search.caches.PwaBlacklistCache /data/outputs/index 
+ http://hostname:8080/wayback/wayback 30 0 -1 errors.urls >lixo1 2>lixo2 ;date>>time 
+```
+
+Indexing Finished.
+
+
+# Blacklist #
+
+The PWA Blacklist feature removes a list of documents from the search
+results identified by their unique document identifiers (DocID).
+
+  1. Create a file for each collection in directory
+```
+$ROOT/searcher/collections/blacklists
+```
+    1. The file could be called AWP5.txt for the $Collection\_Blacklist.txt  and id47544055index0 for the DocID;
+    1. Set the blacklist AWP5.txt that PWA will look for in
+```
+$ROOT/searcher/collections/search-servers.txt
+```
+Example:
+```
+Server_Name 21114 $ROOT/indexes/outputs_Collection_Name 15000
+$ROOT/searcher/collections/blacklists/AWP5.txt
+```
+Now, it is necessary to restart each machine, the binary codes for doing
+that are in $ROOT/searcher/collections/;

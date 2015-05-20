@@ -1,0 +1,79 @@
+# Introduction #
+
+The Portuguese Web Archive provides an interface for users and tools to easily query the system. The response is a XML-based file (RSS 2.0).
+
+# Details #
+
+The PWA interface follows the `OpenSearch 1.1 (Draft 5) namespace` defined at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5.
+
+It also follows the `OpenSearch Time extension (Draft 1) namespace` at http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1 that describes how to set temporal search parameters.
+
+The `OpenSearch Description Document` at http://arquivo.pt/opensearch.jsp describes the public interface and how the search client should make search requests.
+
+
+# Query #
+
+The `OpenSearch URL` must contain the query and search parameters.
+The Query only supports full-text search.
+
+Parameters:
+  * query={search terms} : query terms. (required)
+  * hitsPerPage={1 to 100} : maximum number of results requested. (optional)
+  * dtstart={} & dtend={}: start and end dates to restrict search. It follows the [RFC-3339 - Date and Time on the Internet: Timestamps](http://www.ietf.org/rfc/rfc3339.txt). Both dates must be set. (optional)
+
+Examples of queries:
+
+  * http://arquivo.pt/opensearch?query=test
+  * http://arquivo.pt/opensearch?query=test&hitsPerPage=100
+  * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57-00:00&dtend=2003-01-03T23:39:57-00:00
+  * http://arquivo.pt/opensearch?query=test&hitsPerPage=10&dtstart=2000-01-01T16:39:57Z&dtend=2003-01-03T23:39:57Z
+
+See the URL syntax at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#OpenSearch_URL_template_syntax for more information.
+
+
+# Response #
+
+The `OpenSearch` response fields are described at http://www.opensearch.org/Specifications/OpenSearch/1.1/Draft_5#Elements.
+
+The `PWA` response fields are described at
+http://arquivo.pt/pwa.xsd.
+
+Example of a response:
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rss xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:pwa="http://arquivo.pt/opensearchrss/1.0/" xmlns:time="http://a9.com/-/opensearch/extensions/time/1.0/" version="2.0">
+<channel>
+ <title>PWA Search Engine</title>
+ <description>PWA search results for query: test</description>
+ <link>http://archive.pt</link>
+ <opensearch:totalResults>464</opensearch:totalResults>
+ <opensearch:startIndex>0</opensearch:startIndex>
+ <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+ <opensearch:Query role="request" searchTerms="test" startPage="1"/>
+ <item>
+  <title>Test</title>
+  <link>http://arquivo.pt/wayback/id73835index0</link>
+  <source url="http://www.wea.mankato.mn.us/index.html">Original URL of Test</source>
+  <pwa:id>73835</pwa:id>
+  <pwa:index>0</pwa:index>
+  <pwa:digest>8c3378cc3abd6a750b44243f0f767ce0</pwa:digest>
+  <pwa:tstamp>19961013152110000</pwa:tstamp>
+  <pwa:contentLength>564</pwa:contentLength>
+  <pwa:primaryType>text</pwa:primaryType>
+  <pwa:subType>html</pwa:subType>
+ </item>
+ <item>
+  <title>Imagiware Test Page</title>
+  <link>http://arquivo.pt/wayback/id10644index0</link>
+  <source url="http://www.airworld.com/index.html">Original URL of Imagiware Test Page</source>
+  <pwa:id>10644</pwa:id>
+  <pwa:index>0</pwa:index>
+  <pwa:digest>62887122d99a780280b38ec2abf79ee3</pwa:digest>
+  <pwa:tstamp>19961013151426000</pwa:tstamp>
+  <pwa:contentLength>358</pwa:contentLength>
+  <pwa:primaryType>text</pwa:primaryType>
+  <pwa:subType>html</pwa:subType>
+ </item>
+</channel>
+</rss>
+```
